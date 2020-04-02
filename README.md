@@ -1,6 +1,3 @@
-<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath:[['$','$']]}});</script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=default' async></script>
-
 
 # biros\_group\_proj
 The group project for Biros
@@ -13,6 +10,6 @@ Current proposal is at the [link  (read only)][1]. The simulation process will b
 
 The original continuous equation is:
 
-$$\frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0,$$
+<p align="center"><img src="/tex/c83032e3696a0cdea9bff801e9295c41.svg?invert_in_darkmode&sanitize=true" align=middle width=145.5763914pt height=34.7253258pt/></p>
 
 [1]:	https://www.overleaf.com/read/hzzczmvjnnht
