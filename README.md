@@ -6,6 +6,11 @@ The group project for Biros
 
 Current proposal is at the [link  (read only)][1]. The simulation process will be carried out in the rectangular region representing a 2-dimensional axis-symmetric region. Although finite volume method is the method in the proposal, possible finite difference method can be used if possible.
 
+## Governing Equations
+The governing equations that will allow us to solve for the semi-steady state 2D velocity distribution in the cylindrical domain include the continuity equation and two momentum equations. Refering to the proposal, the non-dimensional continuity equation is
+
+<p align="center"><img src="/tex/e2e95aab0f3a4d4dc1b1e52881b5d1cf.svg?invert_in_darkmode&sanitize=true" align=middle width=63.115903949999996pt height=14.0378568pt/></p>
+
 ## Finite difference method equation discretization 
 
 The original continuous equation is:
