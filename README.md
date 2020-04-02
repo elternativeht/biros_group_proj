@@ -17,25 +17,10 @@ and the two continuity equations for the <img src="/tex/89f2e0d2d24bcf44db73aab8
 
 and
 
-<p align="center"><img src="/tex/ff2d7368280dbe931bfbda9914b58a77.svg?invert_in_darkmode&sanitize=true" align=middle width=448.8929642999999pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/3647032c548ef0c54997ed14680b8d34.svg?invert_in_darkmode&sanitize=true" align=middle width=436.44889034999994pt height=40.11819404999999pt/></p>
 
-## Finite difference method equation discretization 
-
-The original continuous equation is:
-
-<p align="center"><img src="/tex/c83032e3696a0cdea9bff801e9295c41.svg?invert_in_darkmode&sanitize=true" align=middle width=145.5763914pt height=34.7253258pt/></p>
-
-
-
-Different discretization schemes can be used for both radial direction (<img src="/tex/89f2e0d2d24bcf44db73aab8fc03252c.svg?invert_in_darkmode&sanitize=true" align=middle width=7.87295519999999pt height=14.15524440000002pt/> direction) and axial direction (<img src="/tex/f93ce33e511096ed626b4719d50f17d2.svg?invert_in_darkmode&sanitize=true" align=middle width=8.367621899999993pt height=14.15524440000002pt/> direction). For simplificity, the z direction is aligned with the gravity direction, i.e. the increase in z coordinate corresponds to the decrease in actual height.
-
-
-
-The solid flows inward and downward, so a possible discretization upwind scheme would be:
-
-<p align="center"><img src="/tex/2fdee062a0651d5d58918344d18945db.svg?invert_in_darkmode&sanitize=true" align=middle width=359.63558894999994pt height=37.1910528pt/></p>
-
-The equation is based on the first order upwind discretization at the location <img src="/tex/f9c4988898e7f532b9f826a75014ed3c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.99998994999999pt height=22.465723500000017pt/>.
+where the non-dimensional terms are defined as
+<p align="center"><img src="/tex/9bf1f33046d67b327b90ba87b66b1dc0.svg?invert_in_darkmode&sanitize=true" align=middle width=457.66730954999997pt height=79.38279195pt/></p>\frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0<p align="center"><img src="/tex/cd7a4bcbe57a7012a6ab9afdece38133.svg?invert_in_darkmode&sanitize=true" align=middle width=700.2746371499999pt height=74.70320054999999pt/></p>\frac{1}{\overline{r}_N}\frac{(\overline{r}_{N+1}\:\overline{u}_{r,N+1}-\overline{r}_{N}\:\overline{u}_{r,N})}{\Delta \overline{r}} + \frac{\overline{u}_{z,N}-\overline{u}_{z,N-1}}{\Delta \overline{z}} = 0$<img src="/tex/88d8d0b2ed7239e247ee5dfe0633ee79.svg?invert_in_darkmode&sanitize=true" align=middle width=544.3849834499999pt height=45.84475499999998pt/>N$.
 
 
 
