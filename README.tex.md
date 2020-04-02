@@ -9,7 +9,15 @@ Current proposal is at the [link  (read only)][1]. The simulation process will b
 ## Governing Equations
 The governing equations that will allow us to solve for the semi-steady state 2D velocity distribution in the cylindrical domain include the continuity equation and two momentum equations. Refering to the proposal, the non-dimensional continuity equation is
 
-$$ equation $$
+$$ \frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0 $$
+
+and the two continuity equations for the $r$ and $z$ components of velocity, respectively, are
+
+$$ \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right) - \frac{\overline{u}_r}{\overline{r}} + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2}\right] $$
+
+and
+
+$$\overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] + \frac{Ga}{Re^2} - \frac{1}{\rho}\frac{\partial p}{\partial \overline{z}}.$$
 
 ## Finite difference method equation discretization 
 
