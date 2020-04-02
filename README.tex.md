@@ -20,7 +20,7 @@ and
 $$\overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] + \frac{Ga}{Re^2} - \frac{\partial \overline{p}}{\partial \overline{z}}.$$
 
 where the non-dimensional terms are defined as
-$$\overline{u}_r \coloneqq \frac{u_r}{U_\infty}, \;\; \overline{u}_z \coloneqq \frac{u_z}{U_\infty}, \;\; \overline{r} \coloneqq \frac{r}{H}, \;\; \overline{z} \coloneqq \frac{z}{H}, \;\; \overline{p} = \frac{p}{\rhoU_\infty^2}.
+$$\overline{u}_r := \frac{u_r}{U_\infty}, \;\; \overline{u}_z := \frac{u_z}{U_\infty}, \;\; \overline{r} := \frac{r}{H}, \;\; \overline{z} := \frac{z}{H}, \;\; \overline{p} := \frac{p}{\rhoU_\infty^2}.
 
 ## Finite difference method equation discretization 
 
