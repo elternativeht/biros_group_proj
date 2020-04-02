@@ -20,6 +20,7 @@ and
 <p align="center"><img src="/tex/3647032c548ef0c54997ed14680b8d34.svg?invert_in_darkmode&sanitize=true" align=middle width=436.44889034999994pt height=40.11819404999999pt/></p>
 
 where the non-dimensional terms are defined as
+
 <p align="center"><img src="/tex/2311a25815cac661f12b38a3c700ee3d.svg?invert_in_darkmode&sanitize=true" align=middle width=522.77943795pt height=79.38279195pt/></p>\frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0<p align="center"><img src="/tex/cd7a4bcbe57a7012a6ab9afdece38133.svg?invert_in_darkmode&sanitize=true" align=middle width=700.2746371499999pt height=74.70320054999999pt/></p>\frac{1}{\overline{r}_N}\frac{(\overline{r}_{N+1}\:\overline{u}_{r,N+1}-\overline{r}_{N}\:\overline{u}_{r,N})}{\Delta \overline{r}} + \frac{\overline{u}_{z,N}-\overline{u}_{z,N-1}}{\Delta \overline{z}} = 0$<img src="/tex/88d8d0b2ed7239e247ee5dfe0633ee79.svg?invert_in_darkmode&sanitize=true" align=middle width=544.3849834499999pt height=45.84475499999998pt/>N$.
 
 
