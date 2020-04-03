@@ -13,15 +13,15 @@ The governing equations that will allow us to solve for the semi-steady state 2D
 
 and the two continuity equations for the <img src="/tex/89f2e0d2d24bcf44db73aab8fc03252c.svg?invert_in_darkmode&sanitize=true" align=middle width=7.87295519999999pt height=14.15524440000002pt/> and <img src="/tex/f93ce33e511096ed626b4719d50f17d2.svg?invert_in_darkmode&sanitize=true" align=middle width=8.367621899999993pt height=14.15524440000002pt/> components of velocity, respectively, are
 
-<p align="center"><img src="/tex/f8daaed4e9eb2fcf3e5617c88d8bd851.svg?invert_in_darkmode&sanitize=true" align=middle width=377.71099574999994pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/d4fecc678009b0151e270cda2a2bdeec.svg?invert_in_darkmode&sanitize=true" align=middle width=454.673241pt height=40.11819404999999pt/></p>
 
 and
 
-<p align="center"><img src="/tex/6f42966613d94cdd9111d9ecb6fcb98b.svg?invert_in_darkmode&sanitize=true" align=middle width=436.44889034999994pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/66b2ce8d0178306244e2c799d6b1d858.svg?invert_in_darkmode&sanitize=true" align=middle width=513.4111356pt height=40.11819404999999pt/></p>
 
 where the non-dimensional terms are defined as
 
-<p align="center"><img src="/tex/20e07acdbd3459dcc24bb25526b230ca.svg?invert_in_darkmode&sanitize=true" align=middle width=394.59994199999994pt height=33.538017149999995pt/></p>
+<p align="center"><img src="/tex/5a3f6e46b91c5d8fe520b10c3c78ca87.svg?invert_in_darkmode&sanitize=true" align=middle width=708.6747392999999pt height=39.84127125pt/></p>
 
 ## Finite difference method equation discretization 
 
