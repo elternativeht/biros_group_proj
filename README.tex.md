@@ -13,7 +13,7 @@ $$ \frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial 
 
 and the two continuity equations for the $r$ and $z$ components of velocity, respectively, are
 
-$$\frac{1}{Pe}\frac{\partial\overline{u}_r}{\partial Fo} + \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right) - \frac{\overline{u}_r}{\overline{r}} + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2}\right] $$
+$$\frac{1}{Pe}\frac{\partial\overline{u}_r}{\partial Fo} + \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right) - \frac{\overline{u}_r}{\overline{r}} + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2}\right] - \frac{\partial \overline{p}}{\partial \overline{r}} $$
 
 and
 
