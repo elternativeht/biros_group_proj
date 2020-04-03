@@ -13,7 +13,7 @@ The governing equations that will allow us to solve for the semi-steady state 2D
 
 and the two continuity equations for the <img src="/tex/89f2e0d2d24bcf44db73aab8fc03252c.svg?invert_in_darkmode&sanitize=true" align=middle width=7.87295519999999pt height=14.15524440000002pt/> and <img src="/tex/f93ce33e511096ed626b4719d50f17d2.svg?invert_in_darkmode&sanitize=true" align=middle width=8.367621899999993pt height=14.15524440000002pt/> components of velocity, respectively, are
 
-<p align="center"><img src="/tex/d4fecc678009b0151e270cda2a2bdeec.svg?invert_in_darkmode&sanitize=true" align=middle width=454.673241pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/09c0d1dd7ca84874dafaa93357c35213.svg?invert_in_darkmode&sanitize=true" align=middle width=494.6479824pt height=40.11819404999999pt/></p>
 
 and
 
