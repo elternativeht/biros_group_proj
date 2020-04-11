@@ -23,6 +23,50 @@ where the non-dimensional terms are defined as
 
 $$\overline{u}_r := \frac{u_r}{U_\infty}, \;\; \overline{u}_z := \frac{u_z}{U_\infty}, \;\; \overline{r} := \frac{r}{H}, \;\; \overline{z} := \frac{z}{H}, \;\; \overline{p} := \frac{p}{\rho U_\infty^2}, \;\; Re := \frac{HU_\infty}{\nu}, \;\; Pe := \frac{HU_\infty}{\alpha}, \;\; Ga := \frac{gH^3}{\nu^2}.$$
 
+---
+
+Updated on Apr 11 13:57 by Jinghu, to compare with the original dimensionless equations.
+
+
+
+Original continuous equation at the cylindrical coordinates (here $u_\theta$ and $\partial/\partial\theta$ is cancelled out):
+$$
+\frac{1}{r} \frac{\partial\left(r u_{r}\right)}{\partial r}+\frac{\partial u_{z}}{\partial z}=0
+$$
+Original momentum equations:
+$$
+\begin{eqnarray}
+\begin{array}{2}
+\rho\left(\frac{\partial u_{r}}{\partial t}+u_{r} \frac{\partial u_{r}}{\partial r}+u_{z} \frac{\partial u_{r}}{\partial z}\right) = -\frac{\partial P}{\partial r}+\mu\left[\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial u_{r}}{\partial r}\right)-\frac{u_{r}}{r^{2}}+\frac{\partial^{2} u_{r}}{\partial z^{2}}\right]\\
+\rho\left(\frac{\partial u_{z}}{\partial t}+u_{r} \frac{\partial u_{z}}{\partial r}+u_{z} \frac{\partial u_{z}}{\partial z}\right) = -\frac{\partial P}{\partial z}+\rho g_{z}+\mu\left[\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial u_{z}}{\partial r}\right)+\frac{\partial^{2} u_{z}}{\partial z^{2}}\right]\\
+\end{array}
+\end{eqnarray}
+$$
+
+
+The non-dimensionalization process takes the following conversions:
+$$
+\overline{u}_r := \frac{u_r}{U_\infty}, \;\; \overline{u}_z := \frac{u_z}{U_\infty}, \;\; \overline{r} := \frac{r}{H}, \;\; \overline{z} := \frac{z}{H}, \;\; \overline{p} := \frac{p}{\rho U_\infty^2}, \;\; Re := \frac{HU_\infty}{\nu}, \;\; \overline{t}=\frac{U_\infty t}{H},\;\;Fr := \frac{U_\infty}{\sqrt{gH}}.
+$$
+The dimensionless continuous equation then is:
+$$
+\frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0
+$$
+The dimensionless radial direction momentum equation is:
+$$
+\frac{\partial\overline{u}_r}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right) - \frac{\overline{u}_r}{\overline{r}^2} + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2}\right] - \frac{\partial \overline{p}}{\partial \overline{r}}
+$$
+
+
+And dimensionless axial direction momentum equation is:
+$$
+\frac{\partial\overline{u}_z}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] + \frac{1}{Fr^2} - \frac{\partial \overline{p}}{\partial \overline{z}},
+$$
+
+---
+
+
+
 ## Finite difference method equation discretization 
 
 The original continuous equation is:
