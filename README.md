@@ -23,6 +23,33 @@ where the non-dimensional terms are defined as
 
 <p align="center"><img src="/tex/5a3f6e46b91c5d8fe520b10c3c78ca87.svg?invert_in_darkmode&sanitize=true" align=middle width=708.6747392999999pt height=39.84127125pt/></p>
 
+---
+
+Updated on Apr 11 13:57 by Jinghu, to compare with the original dimensionless equations.
+
+
+
+Original continuous equation at the cylindrical coordinates (here <img src="/tex/0a5a0c3d35e8e061b4b7c57b0c7c6add.svg?invert_in_darkmode&sanitize=true" align=middle width=16.02556724999999pt height=14.15524440000002pt/> and <img src="/tex/5d3d08286c873e3706833a05670e23d7.svg?invert_in_darkmode&sanitize=true" align=middle width=35.67354779999999pt height=24.65753399999998pt/> is cancelled out):
+<p align="center"><img src="/tex/3a67de4e3043ba54fef558cb3b461de0.svg?invert_in_darkmode&sanitize=true" align=middle width=144.66317085pt height=34.7253258pt/></p>
+Original momentum equations:
+<p align="center"><img src="/tex/42bd284bf063cb92a04bb1fdcf8f4837.svg?invert_in_darkmode&sanitize=true" align=middle width=502.0140807pt height=59.1786591pt/></p>
+
+
+The non-dimensionalization process takes the following conversions:
+<p align="center"><img src="/tex/81b32feaf0fb5dc627be6b9e56f5029c.svg?invert_in_darkmode&sanitize=true" align=middle width=685.9271034pt height=37.693258349999994pt/></p>
+The dimensionless continuous equation then is:
+<p align="center"><img src="/tex/b059c5503a448993f80a667638aaf64d.svg?invert_in_darkmode&sanitize=true" align=middle width=145.5763914pt height=34.7253258pt/></p>
+The dimensionless radial direction momentum equation is:
+<p align="center"><img src="/tex/789eb34231ed01609a5f77aa34263bc0.svg?invert_in_darkmode&sanitize=true" align=middle width=466.07951610000003pt height=40.11819404999999pt/></p>
+
+
+And dimensionless axial direction momentum equation is:
+<p align="center"><img src="/tex/8a5672e369e2d17bd0726ef06747f8f9.svg?invert_in_darkmode&sanitize=true" align=middle width=485.60185409999997pt height=40.11819404999999pt/></p>
+
+---
+
+
+
 ## Finite difference method equation discretization 
 
 The original continuous equation is:
