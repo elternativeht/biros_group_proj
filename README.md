@@ -58,13 +58,11 @@ Current MAC schemes, along with suggestions by George, was tried to be summarize
 
 The original continuous equation is:
 <p align="center"><img src="/tex/7c80891cb1f06588c97bd489a481a22e.svg?invert_in_darkmode&sanitize=true" align=middle width=248.36120429999997pt height=34.7253258pt/></p>
-The staggered grids are to be used. Let's assume right now we have discretization methods <img src="/tex/8e423496dc713a5ecc5b76be73dead1d.svg?invert_in_darkmode&sanitize=true" align=middle width=13.652895299999988pt height=22.55708729999998pt/> for the continuous equation featuring unknown velocity properties <img src="/tex/27d932569045a2b5876d0a94af9d2b74.svg?invert_in_darkmode&sanitize=true" align=middle width=10.502226899999991pt height=19.871860799999983pt/>. 
-
-
+Let's assume right now we have discretization methods <img src="/tex/8e423496dc713a5ecc5b76be73dead1d.svg?invert_in_darkmode&sanitize=true" align=middle width=13.652895299999988pt height=22.55708729999998pt/> for the continuous equation featuring unknown velocity properties <img src="/tex/27d932569045a2b5876d0a94af9d2b74.svg?invert_in_darkmode&sanitize=true" align=middle width=10.502226899999991pt height=19.871860799999983pt/>
 
 The original momentum equation can be simplified to the following terms:
 <p align="center"><img src="/tex/e9dd68830097b7908ae8ff890a887045.svg?invert_in_darkmode&sanitize=true" align=middle width=219.26648205pt height=33.81208709999999pt/></p>
-Where <img src="/tex/43a06e2f32cf18ced46a8183ceacdb3e.svg?invert_in_darkmode&sanitize=true" align=middle width=61.51811984999999pt height=24.65753399999998pt/>.
+where <img src="/tex/43a06e2f32cf18ced46a8183ceacdb3e.svg?invert_in_darkmode&sanitize=true" align=middle width=61.51811984999999pt height=24.65753399999998pt/>
 
 Let's say we discretize the continuous equation to have matrix operator <img src="/tex/8e423496dc713a5ecc5b76be73dead1d.svg?invert_in_darkmode&sanitize=true" align=middle width=13.652895299999988pt height=22.55708729999998pt/> onto the <img src="/tex/5f95d6e24f7d43cd41f1bfe4d4dcec62.svg?invert_in_darkmode&sanitize=true" align=middle width=35.27217044999999pt height=27.89013150000002pt/> (we have info on the <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> timestep):
 <p align="center"><img src="/tex/918cd2429068351b33ca7f6df1d75697.svg?invert_in_darkmode&sanitize=true" align=middle width=92.66924535pt height=18.312383099999998pt/></p>
@@ -76,7 +74,7 @@ Taking momentum equation into account, let's say we use <img src="/tex/b2f745d6c
 <p align="center"><img src="/tex/ffa280aa7a2ad69e296a5a687ad32e57.svg?invert_in_darkmode&sanitize=true" align=middle width=430.22172434999993pt height=36.34162455pt/></p>
 Both continuous and momentum equations can be converted to a matrix type equations:
 <p align="center"><img src="/tex/1b192869e13171685d78330bf885b063.svg?invert_in_darkmode&sanitize=true" align=middle width=169.85411355pt height=39.520717499999996pt/></p>
-where <img src="/tex/1d86976b96ee0384870352131f454b7f.svg?invert_in_darkmode&sanitize=true" align=middle width=55.221135749999995pt height=22.55708729999998pt/> can be derived from the discretized momentum equations, and they are the function of the values at <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> time step.Solving this matrix equation could allow us to get the properties at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step.
+where <img src="/tex/1d86976b96ee0384870352131f454b7f.svg?invert_in_darkmode&sanitize=true" align=middle width=55.221135749999995pt height=22.55708729999998pt/>can be derived from the discretized momentum equations, and they are the function of the values at <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> time step.Solving this matrix equation could allow us to get the properties at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step.
 
 
 
