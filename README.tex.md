@@ -130,7 +130,11 @@ First the intermediate velocity is calculated:
 $$
 \frac{\mathbf{u}^{*}-\mathbf{u}^{n}}{\Delta t}=-\left(\mathbf{u}^{n} \cdot \nabla\right) \mathbf{u}^{n}+\nu \nabla^{2} \mathbf{u}^{n}
 $$
-Remember that $\Delta=\nabla^2$. The superscript indicates the time step, and we assume we know everything at $n$ timestep. In this step, we solve the intermediate velocity based on the real boundary conditions.
+Remember that $\Delta=\nabla^2$
+
+
+
+The superscript indicates the time step, and we assume we know everything at $n$ timestep. In this step, we solve the intermediate velocity based on the real boundary conditions.
 
 
 
@@ -138,6 +142,8 @@ In the following step, we want to correct the obtained velocity to satisfy the z
 $$
 \nabla^{2} \pi^{n+1}=\frac{1}{\Delta t} \nabla \cdot \mathbf{u}^{*}
 $$
+
+
 Remember we assume the density to be kept constant all the time.
 
 
