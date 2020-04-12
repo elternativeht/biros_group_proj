@@ -90,12 +90,18 @@ First the original momentum equation is the one to use:
 <p align="center"><img src="/tex/e8d6b30ca704507088ae1701de6e61f1.svg?invert_in_darkmode&sanitize=true" align=middle width=253.83263069999995pt height=33.81208709999999pt/></p>
 First the intermediate velocity is calculated:
 <p align="center"><img src="/tex/4fe61313acb4b338bcca4c3093c653d2.svg?invert_in_darkmode&sanitize=true" align=middle width=245.97131459999997pt height=33.715788149999995pt/></p>
-Remember that <img src="/tex/89b1bb306081ee6493af9931b0511665.svg?invert_in_darkmode&sanitize=true" align=middle width=55.86752159999999pt height=26.76175259999998pt/>. The superscript indicates the time step, and we assume we know everything at <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> timestep. In this step, we solve the intermediate velocity based on the real boundary conditions.
+Remember that <img src="/tex/89b1bb306081ee6493af9931b0511665.svg?invert_in_darkmode&sanitize=true" align=middle width=55.86752159999999pt height=26.76175259999998pt/>
+
+
+
+The superscript indicates the time step, and we assume we know everything at <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> timestep. In this step, we solve the intermediate velocity based on the real boundary conditions.
 
 
 
 In the following step, we want to correct the obtained velocity to satisfy the zero divergence condition. We first need to solve for the pressure at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step by solving the Possion equation:
 <p align="center"><img src="/tex/7fd490426be54f30979bad7c126b3048.svg?invert_in_darkmode&sanitize=true" align=middle width=144.93071999999998pt height=32.990165999999995pt/></p>
+
+
 Remember we assume the density to be kept constant all the time.
 
 
