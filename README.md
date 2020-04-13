@@ -44,7 +44,7 @@ The dimensionless radial direction momentum equation is:
 
 
 And dimensionless axial direction momentum equation is:
-<p align="center"><img src="/tex/8a5672e369e2d17bd0726ef06747f8f9.svg?invert_in_darkmode&sanitize=true" align=middle width=485.60185409999997pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/a1da397c75f34ceb78f6f505752659ba.svg?invert_in_darkmode&sanitize=true" align=middle width=485.60185409999997pt height=40.11819404999999pt/></p>
 
 ---
 
