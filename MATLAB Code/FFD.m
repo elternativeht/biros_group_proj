@@ -12,16 +12,19 @@ classdef FFD < handle
         tau             % non-dimensional time vector
         tauNow = 0      % current iteration non-dimensional time
         
+        % Updated by Jinghu on Apr 25 16:00
         rMaxIndex       % node num in r dir including two end points
         zMaxIndex       % node num in z dir including two end points
         Urbar           % r direction velocity storage 
         Uzbar           % z direction velocity storage 
         Pbar            % pressure storage 
         
-        % Note that pressure data is (rMaxIndex-1)-by-(zMaxIndex-1)
-        % while velocity data is (rMaxIndex)-by-(zMaxIndex)
+        % pressure data is (zMaxIndex-1)-by-(rMaxIndex-1)
+        % z velocity data is (zMaxIndex)-by-(rMaxIndex-1)
+        % r velocity data is (zMaxindex-1)-by-(rMaxIndex)
         % the difference is due to staggered grid
         
+        % Updated by Jinghu on Apr 25 16:00
         rbarOutlet = 0.3                % outlet radius
         UzInlet = 1.0                   % inlet z dir velocity
         
@@ -70,12 +73,13 @@ classdef FFD < handle
             % ran whenever a new class instantiation is performed.
             obj.ztop = obj.H;
             obj.rbar = 0:obj.drbar:obj.b;          
-            
+            obj.zbar = 0:obj.dzbar:1;
             obj.rMaxIndex = size(obj.rbar,2);
             obj.zMaxIndex = size(obj.zbar,2);
-            obj.zbar = 0:obj.dzbar:1;
-            obj.Urbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
-            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
+
+            % Updated by Jinghu on Apr 25 16:00
+            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
+            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             
@@ -95,9 +99,10 @@ classdef FFD < handle
             
             obj.rMaxIndex = size(obj.rbar,2);
             obj.zMaxIndex = size(obj.zbar,2);
-            obj.zbar = 0:obj.dzbar:1;
-            obj.Urbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
-            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
+            
+            % Updated by Jinghu on Apr 25 16:00
+            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
+            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
@@ -130,6 +135,13 @@ classdef FFD < handle
         % then it should instead be defined as a property.
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
+        % Updated by Jinghu on Apr 25 16:00
+        function grad_inside = InsideNodeGrd(obj,cur_zindex,cur_rindex)
+        % calculate the gradient values of the pressure nodes
+        % "pressure nodes" are the nodes at the finite volume center
+        % Messed up; need to think more
+        grad_inside = 0;
+        end
        
     end
              
