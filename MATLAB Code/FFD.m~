@@ -12,11 +12,18 @@ classdef FFD < handle
         tau             % non-dimensional time vector
         tauNow = 0      % current iteration non-dimensional time
         
-        rMaxIndex
-        zMaxIndex
-        Urbar
-        Uzbar
-        Pbar
+        rMaxIndex       % node num in r dir including two end points
+        zMaxIndex       % node num in z dir including two end points
+        Urbar           % r direction velocity storage 
+        Uzbar           % z direction velocity storage 
+        Pbar            % pressure storage 
+        
+        % Note that pressure data is (rMaxIndex-1)-by-(zMaxIndex-1)
+        % while velocity data is (rMaxIndex)-by-(zMaxIndex)
+        % the difference is due to staggered grid
+        
+        rbarOutlet = 0.3                % outlet radius
+        UzInlet = 1.0                   % inlet z dir velocity
         
         % static model parameters with default values
         H = 1                           % (m) initial height of particles
@@ -69,7 +76,8 @@ classdef FFD < handle
             obj.zbar = 0:obj.dzbar:1;
             obj.Urbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
-            obj.Pbar  = zeros(obj.zMaxIndex,obj.rMaxIndex);
+            obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
+            
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
             obj.dt = obj.dtau*obj.H/obj.Uinf;
@@ -90,7 +98,7 @@ classdef FFD < handle
             obj.zbar = 0:obj.dzbar:1;
             obj.Urbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex);
-            obj.Pbar  = zeros(obj.zMaxIndex,obj.rMaxIndex);
+            obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
             obj.dt = obj.dtau*obj.H/obj.Uinf;
