@@ -42,12 +42,12 @@ classdef FFD < handle
                                         % density
         rhoLoose = 1810                 % (kg/m3) particle loose bulk 
                                         % density
-        mu = 2.5*1.81e-5                % (kg/ms) viscosity of particles 
+        mu = 1 %2.5*1.81e-5                % (kg/ms) viscosity of particles 
                                         % moving in air(Bicerano, Douglas 
                                         % and Brune, 1999)
         nu                              % (m2/s) dynamic viscosity of 
                                         % particles moving in air  
-        Uinf = 1                        % normalization velocity
+        Uinf = 0.01                     % (m/s) normalization velocity
         
         % state matrices for discretized equations
         ArStar              % intermediate r-momentum state matrix (KP-04/25)
@@ -91,9 +91,11 @@ classdef FFD < handle
             obj.zMaxIndex = size(obj.zbar,2);
 
             % Updated by Jinghu on Apr 25 16:00
-            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
-            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
-            obj.Ubar = [obj.Urbar(:), obj.Uzbar(:)];          % (KP-04/25)
+            obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
+            obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
+%             obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
+%             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
+            obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             
@@ -108,16 +110,18 @@ classdef FFD < handle
             % system properties are changed externally to ensure that 
             % everything is consistent.
             obj.ztop = obj.H;
-            obj.rbar = 0:obj.drbar:obj.b;          
+            obj.rbar = 1e-6:obj.drbar:obj.b;          
             obj.zbar = 0:obj.dzbar:1;
             
             obj.rMaxIndex = size(obj.rbar,2);
             obj.zMaxIndex = size(obj.zbar,2);
             
             % Updated by Jinghu on Apr 25 16:00
-            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
-            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
-            obj.Ubar = [obj.Urbar(:), obj.Uzbar(:)];          % (KP-04/25)
+            obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
+            obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
+%             obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
+%             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
+            obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
@@ -140,8 +144,9 @@ classdef FFD < handle
         % and the general form for operations is
         function exampleOperation(obj, input1, input2)
             % updates meshed domain
-            obj.rbar = 0:obj.drbar:input1;
+            obj.rbar = 1e-6:obj.drbar:input1;
             obj.zbar = 0:obj.dzbar:input2;
+            reInitObj(obj);
         end
         % where the inputs are just arbitrary variables that aren't defined
         % as properties. it is typically a good practice to limit the usage
@@ -168,7 +173,7 @@ classdef FFD < handle
             % compute diagonal elements of state matrix
             Omega1 = 1/obj.dtau + 2/(obj.Re*obj.drbar^2) ...
                      + 1./(obj.Re*repmat(obj.rbar', n, 1)) ...
-                     + 2/(obj.Re*obj.zbar^2);
+                     + 2/(obj.Re*obj.dzbar^2);
             Omega2 = -1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
                     - 1/(obj.Re*obj.drbar^2);
             Omega3 = -1/(obj.Re*obj.dzbar^2);
@@ -177,11 +182,11 @@ classdef FFD < handle
             Omega5 = -1/(obj.Re*obj.dzbar^2);
             
             % compile sparse diagonal state matrix
-            obj.ArStar = sparse(diag(Omega1*ones(nm, 1)) ...
+            obj.ArStar = sparse(diag(Omega1) ...
                    + diag(Omega2(1:end-1), 1) ...
                    + diag(Omega3*ones(nm-m, 1), m) ...
                    + diag(Omega4(2:end), -1) ...
-                   + diag(Omega5*ones(nm-m, 1), -m));
+                   + diag(Omega5*ones(nm-m, 1), -m));               
                
             % compute intermediate r-momentum advection operator
             Nrhs = computeNrhs(obj);
@@ -201,15 +206,15 @@ classdef FFD < handle
             Pi1 = -1/(2*obj.dzbar); Pi2 = 1/(2*obj.dzbar); 
             
             % compile sparse diagonal state matrices
-            obj.ArN = sparse(diag(Lambda1(1:end-1), 1) ...
-                    + diag(Lambda2(2:end), -1));
+            obj.ArN = sparse(diag(Lambda1*ones(nm-1, 1), 1) ...
+                    + diag(Lambda2*ones(nm-1, 1), -1));
                
             obj.BrN = sparse(diag(Pi1*ones(nm-m, 1), m) ...
                     + diag(Pi2*ones(nm-m, 1), -m));
             
             % compute advection operator
             ur = obj.Ubar(1:nm);
-            uz = obj.Ubar(nm:end);
+            uz = obj.Ubar(nm+1:end);
             N = diag(ur)*(ones(nm, 1)./obj.dtau - obj.ArN*ur) ...
                 + diag(uz)*obj.BrN*ur;                                 
         end
