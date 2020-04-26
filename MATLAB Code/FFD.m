@@ -17,6 +17,8 @@ classdef FFD < handle
         zMaxIndex       % node num in z dir including two end points
         Urbar           % r direction velocity storage 
         Uzbar           % z direction velocity storage 
+        Ubar            % full velocity vector (KP-04/25)
+        Ustar           % intermediate velocity vector (KP-04/25)
         Pbar            % pressure storage 
         
         % pressure data is (zMaxIndex-1)-by-(rMaxIndex-1)
@@ -47,6 +49,17 @@ classdef FFD < handle
                                         % particles moving in air  
         Uinf = 1                        % normalization velocity
         
+        % state matrices for discretized equations
+        ArStar              % intermediate r-momentum state matrix (KP-04/25)
+        AzStar              % intermediate z-momentum state matrix (KP-04/25)
+        ArN                 % intermediate r-momentum advection operator 
+                            % state matrix (KP-04-25)
+        BrN                 % "" ""
+        AzN                 % intermediate z-momentum advection operator 
+                            % state matrix (KP-04-25)
+        BzN                 % "" ""
+        
+        
         % nondimensional terms
         Re                  % Reynolds number w.r.t. Uinf
         Fr                  % Freud number w.r.t Uinf
@@ -72,7 +85,7 @@ classdef FFD < handle
             % include any initializations for properties here. It will be
             % ran whenever a new class instantiation is performed.
             obj.ztop = obj.H;
-            obj.rbar = 0:obj.drbar:obj.b;          
+            obj.rbar = 1e-6:obj.drbar:obj.b;          
             obj.zbar = 0:obj.dzbar:1;
             obj.rMaxIndex = size(obj.rbar,2);
             obj.zMaxIndex = size(obj.zbar,2);
@@ -80,6 +93,7 @@ classdef FFD < handle
             % Updated by Jinghu on Apr 25 16:00
             obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
+            obj.Ubar = [obj.Urbar(:), obj.Uzbar(:)];          % (KP-04/25)
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             
@@ -103,6 +117,7 @@ classdef FFD < handle
             % Updated by Jinghu on Apr 25 16:00
             obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
+            obj.Ubar = [obj.Urbar(:), obj.Uzbar(:)];          % (KP-04/25)
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
@@ -141,6 +156,61 @@ classdef FFD < handle
         % "pressure nodes" are the nodes at the finite volume center
         % Messed up; need to think more
         grad_inside = 0;
+        end
+        
+        
+        function iterateUrStar(obj) % (KP-04/25)
+            % computes the intermediate non-divergence free r velocity
+            % component by solving the decoupled r-momentum equation with
+            % an implicit-explicit technique.
+            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            
+            % compute diagonal elements of state matrix
+            Omega1 = 1/obj.dtau + 2/(obj.Re*obj.drbar^2) ...
+                     + 1./(obj.Re*repmat(obj.rbar', n, 1)) ...
+                     + 2/(obj.Re*obj.zbar^2);
+            Omega2 = -1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
+                    - 1/(obj.Re*obj.drbar^2);
+            Omega3 = -1/(obj.Re*obj.dzbar^2);
+            Omega4 = 1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
+                    - 1/(obj.Re*obj.drbar^2);
+            Omega5 = -1/(obj.Re*obj.dzbar^2);
+            
+            % compile sparse diagonal state matrix
+            obj.ArStar = sparse(diag(Omega1*ones(nm, 1)) ...
+                   + diag(Omega2(1:end-1), 1) ...
+                   + diag(Omega3*ones(nm-m, 1), m) ...
+                   + diag(Omega4(2:end), -1) ...
+                   + diag(Omega5*ones(nm-m, 1), -m));
+               
+            % compute intermediate r-momentum advection operator
+            Nrhs = computeNrhs(obj);
+            
+            % compute intermediate r-velocity
+            obj.Ustar(1:nm) = obj.ArStar\Nrhs;
+                        
+        end
+        
+        function N = computeNrhs(obj) % (KP-04/25)
+            % computes advection operator for intermediate
+            % non-divergence-free r-momentum equation
+            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            
+            % compute diagonal elements of state matrices
+            Lambda1 = -1/(2*obj.drbar); Lambda2 = 1/(2*obj.drbar);
+            Pi1 = -1/(2*obj.dzbar); Pi2 = 1/(2*obj.dzbar); 
+            
+            % compile sparse diagonal state matrices
+            obj.ArN = sparse(diag(Lambda1(1:end-1), 1) ...
+                    + diag(Lambda2(2:end), -1));
+               
+            obj.BrN = sparse(diag(Pi1*ones(nm-m, 1), m) ...
+                    + diag(Pi2*ones(nm-m, 1), -m));
+            
+            % compute advection operator
+            N = diag(obj.Ubar(1:nm))*(ones(nm, 1)./obj.dtau ...
+                   - objm.ArN*obj.Ubar(1:nm)) ...
+                   + diag(obj.Ubar(nm:end))*obj.BrN*obj.Ubar(1:nm);                                 
         end
        
     end
