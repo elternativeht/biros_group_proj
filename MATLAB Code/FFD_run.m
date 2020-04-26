@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% example for how to instantiate FFD and run methods
+% script for testing FFD and methods
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear, clc
 
@@ -23,3 +23,11 @@ exampleOperation(FFD_test, var1, var2);
 rbar_new2 = FFD_test.rbar; zbar_new2 = FFD_test.zbar;
 % for operations. in an operation, all associated properties will be
 % updated. e.g. rbar and zbar in this case
+
+% testing iterateUrStar method in FFD
+UstarTest1 = FFD_test.Ustar;
+FFD_test.iterateUrStar;
+UstarTest2 = FFD_test.Ustar;
+ArStarTest = full(FFD_test.ArStar);
+ArNTest = full(FFD_test.ArN);
+BrNTest = full(FFD_test.BrN);
