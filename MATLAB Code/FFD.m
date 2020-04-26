@@ -208,9 +208,10 @@ classdef FFD < handle
                     + diag(Pi2*ones(nm-m, 1), -m));
             
             % compute advection operator
-            N = diag(obj.Ubar(1:nm))*(ones(nm, 1)./obj.dtau ...
-                   - obj.ArN*obj.Ubar(1:nm)) ...
-                   + diag(obj.Ubar(nm:end))*obj.BrN*obj.Ubar(1:nm);                                 
+            ur = obj.Ubar(1:nm);
+            uz = obj.Ubar(nm:end);
+            N = diag(ur)*(ones(nm, 1)./obj.dtau - obj.ArN*ur) ...
+                + diag(uz)*obj.BrN*ur;                                 
         end
        
     end
