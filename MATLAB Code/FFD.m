@@ -215,7 +215,7 @@ classdef FFD < handle
             % compute advection operator
             ur = obj.Ubar(1:nm);
             uz = obj.Ubar(nm+1:end);
-            N = diag(ur)*(ones(nm, 1)./obj.dtau - obj.ArN*ur) ...
+            N = diag(ur)*(ones(nm, 1)./obj.dtau + obj.ArN*ur) ...
                 + diag(uz)*obj.BrN*ur;                                 
         end
        
