@@ -116,7 +116,12 @@ The equation rewritten in 2D cylindrical coordinates (<img src="/tex/f93ce33e511
 
 
 Discretization of each term using a central differnce scheme:
-<p align="center"><img src="/tex/c96e606a6fbaaf94a07d9c8d40d26c4c.svg?invert_in_darkmode&sanitize=true" align=middle width=421.3320111pt height=255.96313545pt/></p>
+<p align="center"><img src="/tex/00eb1237493c031ef92030fdc8584780.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
+<p align="center"><img src="/tex/8209d8f166a40f29493d2e143180230c.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
+<p align="center"><img src="/tex/71ef133b5aa04b7b5d1a16fbec1673a7.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
+<p align="center"><img src="/tex/b983d84d21c39dc14007c313ab2d88a3.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
+<p align="center"><img src="/tex/74ae5ee5383c7cdcb51cc74a5074fc4f.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
+<p align="center"><img src="/tex/ad11c4803a7247a464924ea03e1224dc.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
 
 
 
