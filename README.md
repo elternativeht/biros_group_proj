@@ -107,6 +107,10 @@ Remember we assume the density to be kept constant all the time.
 After we obtain the pressure, the velocity at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step is calculated by the following equation:
 <p align="center"><img src="/tex/5ac251767d819596a328ca01755db3a1.svg?invert_in_darkmode&sanitize=true" align=middle width=307.30683884999996pt height=36.82577085pt/></p>
 
+## Steps 1 of the Projection Method
+#Discretization of the Terms
+<p align="center"><img src="/tex/f4344e2ea70549d0c6e82c157fe8fd18.svg?invert_in_darkmode&sanitize=true" align=middle width=192.44281815pt height=34.75500105pt/></p>
+
 
 
 
