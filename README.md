@@ -109,15 +109,14 @@ After we obtain the pressure, the velocity at <img src="/tex/3f18d8f60c110e86557
 
 ## Steps 1 of the Projection Method
 The starting equation for the <img src="/tex/6dbb78540bd76da3f1625782d42d6d16.svg?invert_in_darkmode&sanitize=true" align=middle width=9.41027339999999pt height=14.15524440000002pt/> velocity:
-<p align="center"><img src="/tex/5ee5d7aaa9155caf8da4feaa2da605ce.svg?invert_in_darkmode&sanitize=true" align=middle width=192.44281815pt height=34.75500105pt/></p>
+<p align="center"><img src="/tex/68f971431ab134929b6e7ff03b54ec5b.svg?invert_in_darkmode&sanitize=true" align=middle width=193.26470625pt height=35.1292854pt/></p>
 
 The equation rewritten in 2D cylindrical coordinates (<img src="/tex/f93ce33e511096ed626b4719d50f17d2.svg?invert_in_darkmode&sanitize=true" align=middle width=8.367621899999993pt height=14.15524440000002pt/> and <img src="/tex/89f2e0d2d24bcf44db73aab8fc03252c.svg?invert_in_darkmode&sanitize=true" align=middle width=7.87295519999999pt height=14.15524440000002pt/> used):
-<p align="center"><img src="/tex/ebe0cebe6b1fdd36b7f5b6d815a2f288.svg?invert_in_darkmode&sanitize=true" align=middle width=462.40435395000003pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/d46068a6c2652de6a896644115e7254c.svg?invert_in_darkmode&sanitize=true" align=middle width=462.40435395000003pt height=40.11819404999999pt/></p>
 
 
-Discretization of the Terms:
-
-
+Discretization of each term using a central differnce scheme:
+<p align="center"><img src="/tex/c96e606a6fbaaf94a07d9c8d40d26c4c.svg?invert_in_darkmode&sanitize=true" align=middle width=421.3320111pt height=255.96313545pt/></p>
 
 
 
