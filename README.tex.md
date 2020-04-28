@@ -166,16 +166,21 @@ $$
 
 Discretization of each term using a central differnce scheme:
 $$
-{\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}} \\
-
-{\partial\overline{u^*_r} \over \partial \overline{r}} \approx {\overline{u_r^*}_{,i(j+1)}-\overline{u_r^*}_{,i(j-1)} \over 2 \overline{\Delta r}} \\
-
-{\partial^2\overline{u^*_r} \over \partial \overline{r^2}} \approx {\overline{u_r^*}_{,i(j+1)}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,i(j-1)} \over (\overline{\Delta r})^2} \\
-
-{\partial\overline{u^n_r} \over \partial \overline{z}} \approx {\overline{u_r^n}_{,(i+1)j}-\overline{u_r^n}_{,(i-1)j} \over 2 \overline{\Delta z}} \\
-
-{\partial\overline{u^*_r} \over \partial \overline{z}} \approx {\overline{u_r^*}_{,(i+1)j}-\overline{u_r^*}_{,(i-1)j} \over 2 \overline{\Delta z}} \\
-
+{\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}} 
+$$
+$$
+{\partial\overline{u^*_r} \over \partial \overline{r}} \approx {\overline{u_r^*}_{,i(j+1)}-\overline{u_r^*}_{,i(j-1)} \over 2 \overline{\Delta r}} 
+$$
+$$
+{\partial^2\overline{u^*_r} \over \partial \overline{r^2}} \approx {\overline{u_r^*}_{,i(j+1)}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,i(j-1)} \over (\overline{\Delta r})^2} 
+$$
+$$
+{\partial\overline{u^n_r} \over \partial \overline{z}} \approx {\overline{u_r^n}_{,(i+1)j}-\overline{u_r^n}_{,(i-1)j} \over 2 \overline{\Delta z}} 
+$$
+$$
+{\partial\overline{u^*_r} \over \partial \overline{z}} \approx {\overline{u_r^*}_{,(i+1)j}-\overline{u_r^*}_{,(i-1)j} \over 2 \overline{\Delta z}} 
+$$
+$$
 {\partial^2\overline{u^*_r} \over \partial \overline{z^2}} \approx {\overline{u_r^*}_{,(i+1)j}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,(i-1)j} \over (\overline{\Delta z})^2} 
 $$
 
