@@ -153,11 +153,15 @@ $$
 $$
 
 ## Steps 1 of the Projection Method
-#Discretization of the Terms
+The starting equation for the $u$ velocity:
 $$
-{\bar{u^*}-\bar{u^n} \over \Delta t}+(\bar{u^n} \nabla) \bar{u^n} = \Delta \bar{u^*}
+{\bar{u^*}-\bar{u^n} \over \Delta t}+(\bar{u^n} \nabla) \bar{u^n} = \Delta \bar{u^*} 
 $$
-
+The equation rewritten in 2D cylindrical coordinates ($z$ and $r$ used):
+$$
+{\bar{u^*_r}-\bar{u^n_r} \over \Delta t} + \bar{u^n_r}{\partial\bar{u^n_r} \over \partial \bar{r}} +\bar{u^n_z}{\partial\bar{u^n_z} \over \partial \bar{z}} = {1 \over Re} \left[{1 \over \bar{r}}{\partial \over \partial \bar{r}} \left(\bar{r} {\partial\bar{u^*_r} \over \partial \bar{r}} \right)+{\partial^2\bar{u^*_r} \over \partial \bar{z^2}}-{\bar{u^*_r} \over \bar{r^2}}\right]
+$$
+Discretization of the Terms:
 
 
 
