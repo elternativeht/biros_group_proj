@@ -152,6 +152,12 @@ $$
 \cdot\nabla \pi^{n+1}
 $$
 
+## Steps 1 of the Projection Method
+#Discretization of the Terms
+$$
+{\bar{u^*}-\bar{u^n} \over \Delta t}+(\bar{u^n} \nabla) \bar{u^n} = \Delta \bar{u^*}
+$$
+
 
 
 
