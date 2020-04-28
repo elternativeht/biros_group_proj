@@ -155,18 +155,29 @@ $$
 ## Steps 1 of the Projection Method
 The starting equation for the $u$ velocity:
 $$
-{\bar{u^*}-\bar{u^n} \over \Delta t}+(\bar{u^n} \nabla) \bar{u^n} = \Delta \bar{u^*} 
+{\overline{u^*}-\overline{u^n} \over \Delta t}+(\overline{u^n} \nabla) \overline{u^n} = \Delta \overline{u^*} 
 $$
 
 The equation rewritten in 2D cylindrical coordinates ($z$ and $r$ used):
 $$
-{\bar{u^*_r}-\bar{u^n_r} \over \Delta t} + \bar{u^n_r}{\partial\bar{u^n_r} \over \partial \bar{r}} +\bar{u^n_z}{\partial\bar{u^n_z} \over \partial \bar{z}} = {1 \over Re} \left[{1 \over \bar{r}}{\partial \over \partial \bar{r}} \left(\bar{r} {\partial\bar{u^*_r} \over \partial \bar{r}} \right)+{\partial^2\bar{u^*_r} \over \partial \bar{z^2}}-{\bar{u^*_r} \over \bar{r^2}}\right]
+{\overline{u^*_r}-\overline{u^n_r} \over \Delta t} + \overline{u^n_r}{\partial\overline{u^n_r} \over \partial \overline{r}} +\overline{u^n_z}{\partial\overline{u^n_z} \over \partial \overline{z}} = {1 \over Re} \left[{1 \over \overline{r}}{\partial \over \partial \overline{r}} \left(\overline{r} {\partial\overline{u^*_r} \over \partial \overline{r}} \right)+{\partial^2\overline{u^*_r} \over \partial \overline{z^2}}-{\overline{u^*_r} \over \overline{r^2}}\right]
 $$
 
 
-Discretization of the Terms:
+Discretization of each term using a central differnce scheme:
+$$
+{\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}} \\
 
+{\partial\overline{u^*_r} \over \partial \overline{r}} \approx {\overline{u_r^*}_{,i(j+1)}-\overline{u_r^*}_{,i(j-1)} \over 2 \overline{\Delta r}} \\
 
+{\partial^2\overline{u^*_r} \over \partial \overline{r^2}} \approx {\overline{u_r^*}_{,i(j+1)}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,i(j-1)} \over (\overline{\Delta r})^2} \\
+
+{\partial\overline{u^n_r} \over \partial \overline{z}} \approx {\overline{u_r^n}_{,(i+1)j}-\overline{u_r^n}_{,(i-1)j} \over 2 \overline{\Delta z}} \\
+
+{\partial\overline{u^*_r} \over \partial \overline{z}} \approx {\overline{u_r^*}_{,(i+1)j}-\overline{u_r^*}_{,(i-1)j} \over 2 \overline{\Delta z}} \\
+
+{\partial^2\overline{u^*_r} \over \partial \overline{z^2}} \approx {\overline{u_r^*}_{,(i+1)j}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,(i-1)j} \over (\overline{\Delta z})^2} 
+$$
 
 
 
