@@ -50,35 +50,11 @@ And dimensionless axial direction momentum equation is:
 
 
 
-## MAC Schemes 
-
-Current MAC schemes, along with suggestions by George, was tried to be summarized here. (Updated at 14:02, Apr 12 by Jinghu)
-
-
-
-The original continuous equation is:
-<p align="center"><img src="/tex/7c80891cb1f06588c97bd489a481a22e.svg?invert_in_darkmode&sanitize=true" align=middle width=248.36120429999997pt height=34.7253258pt/></p>
-Let's assume right now we have discretization methods <img src="/tex/8e423496dc713a5ecc5b76be73dead1d.svg?invert_in_darkmode&sanitize=true" align=middle width=13.652895299999988pt height=22.55708729999998pt/> for the continuous equation featuring unknown velocity properties <img src="/tex/27d932569045a2b5876d0a94af9d2b74.svg?invert_in_darkmode&sanitize=true" align=middle width=10.502226899999991pt height=19.871860799999983pt/>
-
-The original momentum equation can be simplified to the following terms:
-<p align="center"><img src="/tex/e9dd68830097b7908ae8ff890a887045.svg?invert_in_darkmode&sanitize=true" align=middle width=219.26648205pt height=33.81208709999999pt/></p>
-where <img src="/tex/43a06e2f32cf18ced46a8183ceacdb3e.svg?invert_in_darkmode&sanitize=true" align=middle width=61.51811984999999pt height=24.65753399999998pt/>
-
-Let's say we discretize the continuous equation to have matrix operator <img src="/tex/8e423496dc713a5ecc5b76be73dead1d.svg?invert_in_darkmode&sanitize=true" align=middle width=13.652895299999988pt height=22.55708729999998pt/> onto the <img src="/tex/5f95d6e24f7d43cd41f1bfe4d4dcec62.svg?invert_in_darkmode&sanitize=true" align=middle width=35.27217044999999pt height=27.89013150000002pt/> (we have info on the <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> timestep):
-<p align="center"><img src="/tex/918cd2429068351b33ca7f6df1d75697.svg?invert_in_darkmode&sanitize=true" align=middle width=92.66924535pt height=18.312383099999998pt/></p>
-where <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> indicates the next time step.
-
-
-
-Taking momentum equation into account, let's say we use <img src="/tex/b2f745d6c8328e3502fbe96121a457b3.svg?invert_in_darkmode&sanitize=true" align=middle width=14.49764249999999pt height=22.55708729999998pt/> as discretization matrix for diffusion term, <img src="/tex/e1616d38ca198927a525c18fad3716cd.svg?invert_in_darkmode&sanitize=true" align=middle width=14.29216634999999pt height=22.55708729999998pt/> as discertization matrix for advection term, <img src="/tex/69c52b5b30089ca77e145e6352879529.svg?invert_in_darkmode&sanitize=true" align=middle width=17.94511949999999pt height=22.55708729999998pt/> as discretization matrix for pressure term:
-<p align="center"><img src="/tex/ffa280aa7a2ad69e296a5a687ad32e57.svg?invert_in_darkmode&sanitize=true" align=middle width=430.22172434999993pt height=36.34162455pt/></p>
-Both continuous and momentum equations can be converted to a matrix type equations:
-<p align="center"><img src="/tex/1b192869e13171685d78330bf885b063.svg?invert_in_darkmode&sanitize=true" align=middle width=169.85411355pt height=39.520717499999996pt/></p>
-where <img src="/tex/1d86976b96ee0384870352131f454b7f.svg?invert_in_darkmode&sanitize=true" align=middle width=55.221135749999995pt height=22.55708729999998pt/>can be derived from the discretized momentum equations, and they are the function of the values at <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> time step.Solving this matrix equation could allow us to get the properties at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step.
-
 
 
 ## Projection methods
+
+
 
 Another possible method is called projectio method. The basic algorithm is shown here.
 
@@ -87,16 +63,24 @@ Another possible method is called projectio method. The basic algorithm is shown
 First the original momentum equation is the one to use:
 <p align="center"><img src="/tex/e8d6b30ca704507088ae1701de6e61f1.svg?invert_in_darkmode&sanitize=true" align=middle width=253.83263069999995pt height=33.81208709999999pt/></p>
 First the intermediate velocity is calculated:
-<p align="center"><img src="/tex/4fe61313acb4b338bcca4c3093c653d2.svg?invert_in_darkmode&sanitize=true" align=middle width=245.97131459999997pt height=33.715788149999995pt/></p>
-Remember that <img src="/tex/89b1bb306081ee6493af9931b0511665.svg?invert_in_darkmode&sanitize=true" align=middle width=55.86752159999999pt height=26.76175259999998pt/>
+<p align="center"><img src="/tex/632a6f2cd5073754ecb284d1d3802314.svg?invert_in_darkmode&sanitize=true" align=middle width=252.2778489pt height=40.1768301pt/></p>
+Remember that <img src="/tex/89b1bb306081ee6493af9931b0511665.svg?invert_in_darkmode&sanitize=true" align=middle width=55.86752159999999pt height=26.76175259999998pt/>. Here we have <img src="/tex/63e77d3dfbf71950a9be1ae6519ad4dd.svg?invert_in_darkmode&sanitize=true" align=middle width=56.866378799999985pt height=24.65753399999998pt/>.
 
 
 
-The superscript indicates the time step, and we assume we know everything at <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> timestep. In this step, we solve the intermediate velocity based on the real boundary conditions.
+The superscript indicates the time step. We assume properties at timestep <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/> were known. Step one method allowed us to solve the intermediate velocity based on the real boundary conditions. It is an implicit equation, and after linearization it would become a linear matrix equation.
 
 
 
-In the following step, we want to correct the obtained velocity to satisfy the zero divergence condition. We first need to solve for the pressure at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step by solving the Possion equation:
+The intermediate velocity profile obtained in step one does not satisfy the continuous equation. In step two, we want to correct the obtained velocity to satisfy the zero divergence condition. We first need to solve for the pressure at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step by doing the correction:
+<p align="center"><img src="/tex/63346aef0a1b6a686943dee91328556f.svg?invert_in_darkmode&sanitize=true" align=middle width=165.6108168pt height=15.572667pt/></p>
+
+
+Taking the divergence of the equation above, the Possion equation can be obtained:
+<p align="center"><img src="/tex/846d362d70a47606c766a457353badb0.svg?invert_in_darkmode&sanitize=true" align=middle width=134.3036376pt height=14.202794099999998pt/></p>
+
+
+ solving the Possion equation:
 <p align="center"><img src="/tex/7fd490426be54f30979bad7c126b3048.svg?invert_in_darkmode&sanitize=true" align=middle width=144.93071999999998pt height=32.990165999999995pt/></p>
 
 
@@ -105,7 +89,7 @@ Remember we assume the density to be kept constant all the time.
 
 
 After we obtain the pressure, the velocity at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step is calculated by the following equation:
-<p align="center"><img src="/tex/5ac251767d819596a328ca01755db3a1.svg?invert_in_darkmode&sanitize=true" align=middle width=307.30683884999996pt height=36.82577085pt/></p>
+<p align="center"><img src="/tex/8e36ce664b32c0754eeb58f9370c348c.svg?invert_in_darkmode&sanitize=true" align=middle width=176.09766735pt height=15.572667pt/></p>
 
 ## Steps 1 of the Projection Method
 The starting equation for the <img src="/tex/6dbb78540bd76da3f1625782d42d6d16.svg?invert_in_darkmode&sanitize=true" align=middle width=9.41027339999999pt height=14.15524440000002pt/> velocity:
@@ -115,6 +99,33 @@ The equation rewritten in 2D cylindrical coordinates (<img src="/tex/f93ce33e511
 <p align="center"><img src="/tex/d46068a6c2652de6a896644115e7254c.svg?invert_in_darkmode&sanitize=true" align=middle width=462.40435395000003pt height=40.11819404999999pt/></p>
 
 
+<<<<<<< HEAD
+## Grid Naming and Notation
+
+
+
+The grid has following naming notations:
+
+<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+
+
+
+where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> is the grid number in axial direction, <img src="/tex/f9c4988898e7f532b9f826a75014ed3c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.99998994999999pt height=22.465723500000017pt/> the grid number in radial direction. The notation is using 1-index rule as Matlab is also 1-index (starting the index from 1). Each row is representing an axial coordinate and each column representing a radial coordinate. The data is using [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order). Note that we are using staggered grid and the properties are having different dimensions.
+
+
+
+## Boundary conditions
+
+
+
+<img src="./References/Document Sources/Boundary condition.jpg" style="zoom:50%;" />
+
+
+
+
+
+Boundary (1): set velocity (not pressure)
+=======
 Discretization of each term using a central differnce scheme:
 <p align="center"><img src="/tex/00eb1237493c031ef92030fdc8584780.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
 <p align="center"><img src="/tex/8209d8f166a40f29493d2e143180230c.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
@@ -122,9 +133,13 @@ Discretization of each term using a central differnce scheme:
 <p align="center"><img src="/tex/b983d84d21c39dc14007c313ab2d88a3.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
 <p align="center"><img src="/tex/74ae5ee5383c7cdcb51cc74a5074fc4f.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
 <p align="center"><img src="/tex/ad11c4803a7247a464924ea03e1224dc.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
+>>>>>>> c9ffb2f1df9368b4f2668cb0e42accdf0778a8f7
 
+Boundary (2): you need to set <img src="/tex/4aee50c7fe12fe3e346db76f22ffd69e.svg?invert_in_darkmode&sanitize=true" align=middle width=45.384226799999986pt height=21.18721440000001pt/> but also <img src="/tex/f6cdc5360d2d944d54ab5675731bb521.svg?invert_in_darkmode&sanitize=true" align=middle width=77.00521784999998pt height=21.18721440000001pt/>. The stress includes velocity and pressure terms. 
 
+Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
 
+Boundaries 4 and 5:  no slip.
 
 
 
