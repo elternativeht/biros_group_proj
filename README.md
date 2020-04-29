@@ -91,7 +91,7 @@ Remember we assume the density to be kept constant all the time.
 After we obtain the pressure, the velocity at <img src="/tex/3f18d8f60c110e865571bba5ba67dcc6.svg?invert_in_darkmode&sanitize=true" align=middle width=38.17727759999999pt height=21.18721440000001pt/> time step is calculated by the following equation:
 <p align="center"><img src="/tex/8e36ce664b32c0754eeb58f9370c348c.svg?invert_in_darkmode&sanitize=true" align=middle width=176.09766735pt height=15.572667pt/></p>
 
-## Steps 1 of the Projection Method
+## Step 1 of the Projection Method
 The starting equation for the <img src="/tex/6dbb78540bd76da3f1625782d42d6d16.svg?invert_in_darkmode&sanitize=true" align=middle width=9.41027339999999pt height=14.15524440000002pt/> velocity:
 <p align="center"><img src="/tex/68f971431ab134929b6e7ff03b54ec5b.svg?invert_in_darkmode&sanitize=true" align=middle width=193.26470625pt height=35.1292854pt/></p>
 
@@ -99,7 +99,24 @@ The equation rewritten in 2D cylindrical coordinates (<img src="/tex/f93ce33e511
 <p align="center"><img src="/tex/d46068a6c2652de6a896644115e7254c.svg?invert_in_darkmode&sanitize=true" align=middle width=462.40435395000003pt height=40.11819404999999pt/></p>
 
 
-<<<<<<< HEAD
+
+Discretization of each term using a central differnce scheme:
+<p align="center"><img src="/tex/00eb1237493c031ef92030fdc8584780.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
+
+<p align="center"><img src="/tex/8209d8f166a40f29493d2e143180230c.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
+
+<p align="center"><img src="/tex/71ef133b5aa04b7b5d1a16fbec1673a7.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
+
+<p align="center"><img src="/tex/e1ca1b5924d6177eff4293c8478975f5.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
+
+<p align="center"><img src="/tex/74ae5ee5383c7cdcb51cc74a5074fc4f.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
+
+<p align="center"><img src="/tex/7c5c5607a353042c445e4bfef8ab9faf.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
+
+
+
+
+
 ## Grid Naming and Notation
 
 
@@ -122,24 +139,25 @@ where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&san
 
 
 
-
-
 Boundary (1): set velocity (not pressure)
-=======
-Discretization of each term using a central differnce scheme:
-<p align="center"><img src="/tex/00eb1237493c031ef92030fdc8584780.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
-<p align="center"><img src="/tex/8209d8f166a40f29493d2e143180230c.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
-<p align="center"><img src="/tex/71ef133b5aa04b7b5d1a16fbec1673a7.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
-<p align="center"><img src="/tex/b983d84d21c39dc14007c313ab2d88a3.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
-<p align="center"><img src="/tex/74ae5ee5383c7cdcb51cc74a5074fc4f.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
-<p align="center"><img src="/tex/ad11c4803a7247a464924ea03e1224dc.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
->>>>>>> c9ffb2f1df9368b4f2668cb0e42accdf0778a8f7
+
+
 
 Boundary (2): you need to set <img src="/tex/4aee50c7fe12fe3e346db76f22ffd69e.svg?invert_in_darkmode&sanitize=true" align=middle width=45.384226799999986pt height=21.18721440000001pt/> but also <img src="/tex/f6cdc5360d2d944d54ab5675731bb521.svg?invert_in_darkmode&sanitize=true" align=middle width=77.00521784999998pt height=21.18721440000001pt/>. The stress includes velocity and pressure terms. 
 
+
+
 Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
 
+
+
 Boundaries 4 and 5:  no slip.
+
+
+
+
+
+
 
 
 
