@@ -124,7 +124,7 @@ $$
 \cdot\nabla \pi^{n+1}
 $$
 
-## Steps 1 of the Projection Method
+## Step 1 of the Projection Method
 The starting equation for the $u$ velocity:
 $$
 {\overline{u^*}-\overline{u^n} \over \Delta t}+(\overline{u^n} \nabla) \overline{u^n} = \Delta \overline{u^*} 
@@ -136,7 +136,36 @@ $$
 $$
 
 
-<<<<<<< HEAD
+
+Discretization of each term using a central differnce scheme:
+$$
+{\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}} 
+$$
+
+$$
+{\partial\overline{u^*_r} \over \partial \overline{r}} \approx {\overline{u_r^*}_{,i(j+1)}-\overline{u_r^*}_{,i(j-1)} \over 2 \overline{\Delta r}} 
+$$
+
+$$
+{\partial^2\overline{u^*_r} \over \partial \overline{r^2}} \approx {\overline{u_r^*}_{,i(j+1)}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,i(j-1)} \over (\overline{\Delta r})^2} 
+$$
+
+$$
+{\partial\overline{u^n_r} \over \partial \overline{z}} \approx {\overline{u_r^n}_{,(i+1)j}-\overline{u_r^n}_{,(i-1)j} \over 2 \overline{\Delta z}}
+$$
+
+$$
+{\partial\overline{u^*_r} \over \partial \overline{z}} \approx {\overline{u_r^*}_{,(i+1)j}-\overline{u_r^*}_{,(i-1)j} \over 2 \overline{\Delta z}} 
+$$
+
+$$
+{\partial^2\overline{u^*_r} \over \partial \overline{z^2}} \approx {\overline{u_r^*}_{,(i+1)j}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,(i-1)j} \over (\overline{\Delta z})^2}
+$$
+
+
+
+
+
 ## Grid Naming and Notation
 
 
@@ -159,36 +188,25 @@ where $M$ is the grid number in axial direction, $N$ the grid number in radial d
 
 
 
-
-
 Boundary (1): set velocity (not pressure)
-=======
-Discretization of each term using a central differnce scheme:
-$$
-{\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}} 
-$$
-$$
-{\partial\overline{u^*_r} \over \partial \overline{r}} \approx {\overline{u_r^*}_{,i(j+1)}-\overline{u_r^*}_{,i(j-1)} \over 2 \overline{\Delta r}} 
-$$
-$$
-{\partial^2\overline{u^*_r} \over \partial \overline{r^2}} \approx {\overline{u_r^*}_{,i(j+1)}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,i(j-1)} \over (\overline{\Delta r})^2} 
-$$
-$$
-{\partial\overline{u^n_r} \over \partial \overline{z}} \approx {\overline{u_r^n}_{,(i+1)j}-\overline{u_r^n}_{,(i-1)j} \over 2 \overline{\Delta z}} 
-$$
-$$
-{\partial\overline{u^*_r} \over \partial \overline{z}} \approx {\overline{u_r^*}_{,(i+1)j}-\overline{u_r^*}_{,(i-1)j} \over 2 \overline{\Delta z}} 
-$$
-$$
-{\partial^2\overline{u^*_r} \over \partial \overline{z^2}} \approx {\overline{u_r^*}_{,(i+1)j}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,(i-1)j} \over (\overline{\Delta z})^2} 
-$$
->>>>>>> c9ffb2f1df9368b4f2668cb0e42accdf0778a8f7
+
+
 
 Boundary (2): you need to set $v_r=0$ but also $\text{stress}_r =0$. The stress includes velocity and pressure terms. 
 
+
+
 Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
 
+
+
 Boundaries 4 and 5:  no slip.
+
+
+
+
+
+
 
 
 
