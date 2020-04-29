@@ -67,54 +67,11 @@ $$
 
 
 
-## MAC Schemes 
-
-Current MAC schemes, along with suggestions by George, was tried to be summarized here. (Updated at 14:02, Apr 12 by Jinghu)
-
-
-
-The original continuous equation is:
-$$
-\frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0,\;\;\text{or }\nabla\cdot\bold{\overline{u}}=0
-$$
-Let's assume right now we have discretization methods $\bold{C}$ for the continuous equation featuring unknown velocity properties $\overline{\bold{u}}$
-
-The original momentum equation can be simplified to the following terms:
-$$
-\frac{\partial \bold{u}}{\partial t}+\bold{A}(\bold{u})=-\nabla \bold{\pi}+\nu\Delta\bold{u}+\bold{f}
-$$
-where $\pi=\bold{P}/\rho$
-
-Let's say we discretize the continuous equation to have matrix operator $\bold{C}$ onto the $\bold{\overline{u}}^{n+1}$ (we have info on the $n$ timestep):
-$$
-\bold{C}(\bold{\overline{u}}^{n+1})=0
-$$
-where $n+1$ indicates the next time step.
-
-
-
-Taking momentum equation into account, let's say we use $\bold{D}$ as discretization matrix for diffusion term, $\bold{A}$ as discertization matrix for advection term, $\bold{M}$ as discretization matrix for pressure term:
-$$
-\frac{\bold{\overline{u}}^{n+1}-\bold{\overline{u}}^n}{\Delta t}=-\bold{M}\left(\pi^{n+1},\pi^n\right)+\bold{D}\left(\bold{\overline{u}}^{n+1},\bold{\overline{u}}^{n}\right)-\bold{A}\left(\bold{\overline{u}}^{n}\right)+\bold{f}^n
-$$
-Both continuous and momentum equations can be converted to a matrix type equations:
-$$
-\begin{bmatrix}
-\bold{C} & 0 \\
-\bold{X} & \bold{Y} 
-\end{bmatrix}\begin{bmatrix}
-\bold{\overline{u}}^{n+1} \\
-\pi^{n+1} 
-\end{bmatrix}=\begin{bmatrix}
-0 \\
-\bold{Z}
-\end{bmatrix}
-$$
-where $\bold{X}, \bold{Y}, \bold{Z}$can be derived from the discretized momentum equations, and they are the function of the values at $n$ time step.Solving this matrix equation could allow us to get the properties at $n+1$ time step.
-
 
 
 ## Projection methods
+
+
 
 Another possible method is called projectio method. The basic algorithm is shown here.
 
@@ -126,17 +83,32 @@ $$
 $$
 First the intermediate velocity is calculated:
 $$
-\frac{\mathbf{u}^{*}-\mathbf{u}^{n}}{\Delta t}=-\left(\mathbf{u}^{n} \cdot \nabla\right) \mathbf{u}^{n}+\nu \nabla^{2} \mathbf{u}^{n}
+\left\{\begin{array}{c}
+\frac{\boldsymbol{u}^{*}-\boldsymbol{u}^{n}}{\Delta t}+\left(\boldsymbol{u}^{n} \cdot \nabla\right) \boldsymbol{u}^{n}=\Delta \boldsymbol{u}^{*}+\bold{\it{f}} \\
+\text {Various B.C.       on } \partial \Omega
+\end{array}\right.
 $$
-Remember that $\Delta=\nabla^2$
+Remember that $\Delta=\nabla^2$. Here we have $\pi=p/\rho$.
 
 
 
-The superscript indicates the time step, and we assume we know everything at $n$ timestep. In this step, we solve the intermediate velocity based on the real boundary conditions.
+The superscript indicates the time step. We assume properties at timestep $n$ were known. Step one method allowed us to solve the intermediate velocity based on the real boundary conditions. It is an implicit equation, and after linearization it would become a linear matrix equation.
 
 
 
-In the following step, we want to correct the obtained velocity to satisfy the zero divergence condition. We first need to solve for the pressure at $n+1$ time step by solving the Possion equation:
+The intermediate velocity profile obtained in step one does not satisfy the continuous equation. In step two, we want to correct the obtained velocity to satisfy the zero divergence condition. We first need to solve for the pressure at $n+1$ time step by doing the correction:
+$$
+\boldsymbol{u}^{*}=\boldsymbol{u}^{n+1}+\Delta t \nabla \pi^{n+1}
+$$
+
+
+Taking the divergence of the equation above, the Possion equation can be obtained:
+$$
+\nabla\cdot\boldsymbol{u}^{*} = \Delta t \Delta \pi^{n+1}
+$$
+
+
+ solving the Possion equation:
 $$
 \nabla^{2} \pi^{n+1}=\frac{1}{\Delta t} \nabla \cdot \mathbf{u}^{*}
 $$
@@ -148,7 +120,7 @@ Remember we assume the density to be kept constant all the time.
 
 After we obtain the pressure, the velocity at $n+1$ time step is calculated by the following equation:
 $$
-\mathbf{u}^{n+1}=\mathbf{u}^{*}-\frac{\Delta t}{\rho} \nabla p^{n+1}=\mathbf{u}^{*}-\Delta t
+\mathbf{u}^{n+1}=\mathbf{u}^{*}-\Delta t
 \cdot\nabla \pi^{n+1}
 $$
 
@@ -164,6 +136,33 @@ $$
 $$
 
 
+<<<<<<< HEAD
+## Grid Naming and Notation
+
+
+
+The grid has following naming notations:
+
+<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+
+
+
+where $M$ is the grid number in axial direction, $N$ the grid number in radial direction. The notation is using 1-index rule as Matlab is also 1-index (starting the index from 1). Each row is representing an axial coordinate and each column representing a radial coordinate. The data is using [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order). Note that we are using staggered grid and the properties are having different dimensions.
+
+
+
+## Boundary conditions
+
+
+
+<img src="./References/Document Sources/Boundary condition.jpg" style="zoom:50%;" />
+
+
+
+
+
+Boundary (1): set velocity (not pressure)
+=======
 Discretization of each term using a central differnce scheme:
 $$
 {\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}} 
@@ -183,9 +182,13 @@ $$
 $$
 {\partial^2\overline{u^*_r} \over \partial \overline{z^2}} \approx {\overline{u_r^*}_{,(i+1)j}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,(i-1)j} \over (\overline{\Delta z})^2} 
 $$
+>>>>>>> c9ffb2f1df9368b4f2668cb0e42accdf0778a8f7
 
+Boundary (2): you need to set $v_r=0$ but also $\text{stress}_r =0$. The stress includes velocity and pressure terms. 
 
+Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
 
+Boundaries 4 and 5:  no slip.
 
 
 
