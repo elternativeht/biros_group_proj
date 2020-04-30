@@ -152,7 +152,14 @@ where
 
 
 
-<p align="center"><img src="/tex/9eba3025c3989cbff5826669e30fe533.svg?invert_in_darkmode&sanitize=true" align=middle width=1084.60536525pt height=39.452455349999994pt/></p>
+<p align="center"><img src="/tex/e5ec928a2d98e737cb178dd797073cac.svg?invert_in_darkmode&sanitize=true" align=middle width=423.5558959499999pt height=39.452455349999994pt/></p>
+
+<p align="center"><img src="/tex/87507769d376f439e182deb51cb145c9.svg?invert_in_darkmode&sanitize=true" align=middle width=725.4352346999999pt height=39.452455349999994pt/></p>
+
+
+
+
+
 
 
 where <img src="/tex/5bf3cf1ae2a463f03e1cffe5d95f8514.svg?invert_in_darkmode&sanitize=true" align=middle width=137.11557749999997pt height=24.65753399999998pt/>, where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> is the z-direction coordinate and <img src="/tex/f9c4988898e7f532b9f826a75014ed3c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.99998994999999pt height=22.465723500000017pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
