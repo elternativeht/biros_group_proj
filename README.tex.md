@@ -113,11 +113,11 @@ $$
 
 Discretization of each term using a central differnce scheme:
 $$
-{\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}} 
+{\partial\overline{u^n_r} \over \partial \overline{r}} \approx {\overline{u_r^n}_{,i(j+1)}-\overline{u_r^n}_{,i(j-1)} \over 2 \overline{\Delta r}}
 $$
 
 $$
-{\partial\overline{u^*_r} \over \partial \overline{r}} \approx {\overline{u_r^*}_{,i(j+1)}-\overline{u_r^*}_{,i(j-1)} \over 2 \overline{\Delta r}} 
+{\partial\overline{u^*_r} \over \partial \overline{r}} \approx {\overline{u_r^*}_{,i(j+1)}-\overline{u_r^*}_{,i(j-1)} \over 2 \overline{\Delta r}}
 $$
 
 $$
@@ -179,6 +179,14 @@ $$
 The diffusion term is:
 
 
+
+
+$$
+\begin{array}+\frac{1}{\text{Re}}\frac{1}{r(M,N)}\left[(r(M,N)+\frac{\Delta r}{2})(\frac{u^*_r(M,N+1)-u^*_r(M,N)}{\Delta r})\\-(r(M,N)-\frac{\Delta r}{2})(\frac{u^*_r(M,N)-u^*_r(M,N-1)}{\Delta r})\right]\frac{1}{\Delta r}-\frac{1}{\text{Re}}\frac{1}{r^2(M,N)}u^*_r(M,N)\\+\frac{1}{\text{Re}}\frac{u^*_r(M+1,N)-u^*_r(M-1,n)}{(\Delta z)^2}\end{array}
+$$
+
+
+The intermediate variable can be summarized by the following linearized equation:
 
 
 
