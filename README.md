@@ -75,9 +75,9 @@ The equation rewritten in 2D cylindrical coordinates (<img src="/tex/f93ce33e511
 
 
 Discretization of each term using a central differnce scheme:
-<p align="center"><img src="/tex/00eb1237493c031ef92030fdc8584780.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
+<p align="center"><img src="/tex/f77c67f9736a5e4ddd412484c37b0477.svg?invert_in_darkmode&sanitize=true" align=middle width=195.65030595pt height=39.2184573pt/></p>
 
-<p align="center"><img src="/tex/8209d8f166a40f29493d2e143180230c.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
+<p align="center"><img src="/tex/3a16e88dc0a48e57cc27d709956be675.svg?invert_in_darkmode&sanitize=true" align=middle width=191.47775955pt height=39.61800315pt/></p>
 
 <p align="center"><img src="/tex/71ef133b5aa04b7b5d1a16fbec1673a7.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
 
@@ -126,6 +126,12 @@ The advection term can be discretized as:
 The diffusion term is:
 
 
+
+
+<p align="center"><img src="/tex/329f05966b5fea41c18ca1f8c2ecbd4d.svg?invert_in_darkmode&sanitize=true" align=middle width=462.76179510000003pt height=81.016815pt/></p>
+
+
+The intermediate variable can be summarized by the following linearized equation:
 
 
 
