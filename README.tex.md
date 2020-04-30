@@ -146,7 +146,7 @@ $$
 
 The grid has following naming notations:
 
-<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
 
 
 
@@ -156,7 +156,7 @@ where $M$ is the grid number in axial direction, $N$ the grid number in radial d
 
 ## Step 1 in staggered grids
 
-<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Staggered grid.jpg" style="zoom:30%;" />
+<img src="./References/Document Sources/Staggered grid.jpg" style="zoom:50%;" />
 
 
 
