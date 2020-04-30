@@ -137,7 +137,7 @@ The diffusion term is:
 The intermediate variable can be summarized by the following linearized equation:
 
 
-<p align="center"><img src="/tex/8362812ab9b90ff58b84b37264ad8757.svg?invert_in_darkmode&sanitize=true" align=middle width=653.1106824pt height=16.438356pt/></p>
+<p align="center"><img src="/tex/63abbe84a18e005227f3fccb42117868.svg?invert_in_darkmode&sanitize=true" align=middle width=640.3252482pt height=16.438356pt/></p>
 
 
 where
@@ -157,7 +157,7 @@ where
 
 <p align="center"><img src="/tex/e5ec928a2d98e737cb178dd797073cac.svg?invert_in_darkmode&sanitize=true" align=middle width=423.5558959499999pt height=39.452455349999994pt/></p>
 
-<p align="center"><img src="/tex/87507769d376f439e182deb51cb145c9.svg?invert_in_darkmode&sanitize=true" align=middle width=725.4352346999999pt height=39.452455349999994pt/></p>
+<p align="center"><img src="/tex/d0aa239cc79909a5b241fb2e7dc1f3e2.svg?invert_in_darkmode&sanitize=true" align=middle width=725.4352346999999pt height=39.452455349999994pt/></p>
 
 
 
