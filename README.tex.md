@@ -213,7 +213,7 @@ where $\text{where }r=r(M,N)$, where $M$ is the z-direction coordinate and $N$ r
 
 
 
-<img src="./References/Document Sources/Boundary condition.jpg" style="zoom:50%;" />
+<img src="./References/Document Sources/Boundary condition.jpg" style="zoom:24%;" />
 
 
 
