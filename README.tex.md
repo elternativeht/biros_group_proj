@@ -196,7 +196,29 @@ $$
 
 where
 $$
-\begin{eqnarray}A =& \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1 }{\text{Re}}\frac{2}{r^2},\\B =& -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r+\frac{\Delta r}{2}\right)\frac{1}{r}\\C =&  -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r-\frac{\Delta r}{2}\right)\frac{1}{r}\\D =&  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}\\E =&  \frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}\\F =& \frac{u^n_r(M,N)}{\Delta t}-u_r^n\left(\frac{u^n_r(M,N+1)-u^n-r(M,N-1)}{2\Delta r}\right)\\+& \frac{1}{4}[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]\end{eqnarray}
+A = \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1 }{\text{Re}}\frac{2}{r^2}
+$$
+
+$$
+B = -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r+\frac{\Delta r}{2}\right)\frac{1}{r}
+$$
+
+
+
+$$
+C = -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r-\frac{\Delta r}{2}\right)\frac{1}{r}
+$$
+
+
+
+$$
+D =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2},E =  \frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}
+$$
+
+
+
+$$
+\begin{eqnarray} F=& \frac{u^n_r(M,N)}{\Delta t}-u_r^n\left(\frac{u^n_r(M,N+1)-u^n-r(M,N-1)}{2\Delta r}\right)\\+& \frac{[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]\end{eqnarray}
 $$
 
 
