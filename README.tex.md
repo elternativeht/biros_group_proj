@@ -156,6 +156,10 @@ where $M$ is the grid number in axial direction, $N$ the grid number in radial d
 
 ## Step 1 in staggered grids
 
+<img src="./References/Document Sources/Staggered grid.jpg" style="zoom:30%;" />
+
+
+
 The radial momentum equation discretization is shown below:
 $$
 \frac{\boldsymbol{u}^{*}(M,N)-\boldsymbol{u}^{n}(M,N)}{\Delta t}+(\boldsymbol{u}^{n}(M,N)\cdot\nabla)\boldsymbol{u}^{n}(M,N)=\Delta \boldsymbol{u}^{*}(M,N)
