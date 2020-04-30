@@ -116,6 +116,16 @@ The radial momentum equation discretization is shown below:
 
 
 
+<p align="center"><img src="/tex/34b408443ae916fb3c7edb9d22b1cf21.svg?invert_in_darkmode&sanitize=true" align=middle width=473.64803309999996pt height=34.7253258pt/></p>
+
+
+The advection term can be discretized as:
+<p align="center"><img src="/tex/ce70d322c09720fd3035f3d9292b0cdb.svg?invert_in_darkmode&sanitize=true" align=middle width=1204.8766999499999pt height=39.452455349999994pt/></p>
+
+
+The diffusion term is:
+
+
 
 
 
