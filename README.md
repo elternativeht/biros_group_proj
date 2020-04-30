@@ -97,7 +97,7 @@ Discretization of each term using a central differnce scheme:
 
 The grid has following naming notations:
 
-<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
 
 
 
@@ -107,7 +107,7 @@ where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&san
 
 ## Step 1 in staggered grids
 
-<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Staggered grid.jpg" style="zoom:30%;" />
+<img src="./References/Document Sources/Staggered grid.jpg" style="zoom:50%;" />
 
 
 
