@@ -140,68 +140,7 @@ $$
 
 
 
-## Grid Naming and Notation
 
-
-
-The grid has following naming notations:
-
-<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
-
-
-
-where $M$ is the grid number in axial direction, $N$ the grid number in radial direction. The notation is using 1-index rule as Matlab is also 1-index (starting the index from 1). Each row is representing an axial coordinate and each column representing a radial coordinate. The data is using [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order). Note that we are using staggered grid and the properties are having different dimensions.
-
-
-
-## Step 1 in staggered grids
-
-<img src="./References/Document Sources/Staggered grid.jpg" style="zoom:30%;" />
-
-
-
-The radial momentum equation discretization is shown below:
-$$
-\frac{\boldsymbol{u}^{*}(M,N)-\boldsymbol{u}^{n}(M,N)}{\Delta t}+(\boldsymbol{u}^{n}(M,N)\cdot\nabla)\boldsymbol{u}^{n}(M,N)=\Delta \boldsymbol{u}^{*}(M,N)
-$$
-
-
-The advection term can be discretized as:
-$$
-(\boldsymbol{u}^{n}(M,N)\cdot\nabla)\boldsymbol{u}^{n}(M,N)=u^n_r(M,N)\frac{u^n_r(M,N+1)-u^n_r(M,N-1)}{2\Delta r}\\
-+\frac{u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
-$$
-
-
-The diffusion term is:
-$$
-\frac{1}{\text{Re}}\frac{1}{r(M,N)}\left[(r(M,N)+\frac{\Delta r}{2})(\frac{u^*_r(M,N+1)-u^*_r(M,N)}{\Delta r})\\
--(r(M,N)-\frac{\Delta r}{2})(\frac{u^*_r(M,N)-u^*_r(M,N-1)}{\Delta r})\right]\frac{1}{\Delta r}-\frac{1}{\text{Re}}\frac{1}{r^2(M,N)}u^*_r(M,N)\\
-+\frac{1}{\text{Re}}\frac{u^*_r(M+1,N)-u^*_r(M-1,n)}{(\Delta z)^2}
-$$
-
-
-The intermediate variable can be summarized by the following linearized equation:
-$$
-Au^*_r(M,N)+Bu^*_r(M,N+1)+Cu^*_r(M,N-1)+Du^*_r(M+1,N)+Eu^*_r(M-1,N)=F
-$$
-
-
-where
-$$
-\begin{eqnarray}
-A =& \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1 }{\text{Re}}\frac{2}{r^2},\\
-B =& -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r+\frac{\Delta r}{2}\right)\frac{1}{r}\\
-C =&  -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r-\frac{\Delta r}{2}\right)\frac{1}{r}\\
-D =&  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}\\
-E =&  \frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}\\
-F =& \frac{u^n_r(M,N)}{\Delta t}-u_r^n\left(\frac{u^n_r(M,N+1)-u^n-r(M,N-1)}{2\Delta r}\right)\\
-+& \frac{1}{4}[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
-\end{eqnarray}
-$$
-
-
-where $\text{where }r=r(M,N)$, where $M$ is the z-direction coordinate and $N$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
