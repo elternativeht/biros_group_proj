@@ -91,7 +91,27 @@ Discretization of each term using a central differnce scheme:
 
 
 
+## Grid Naming and Notation
 
+
+
+The grid has following naming notations:
+
+<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+
+
+
+where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> is the grid number in axial direction, <img src="/tex/f9c4988898e7f532b9f826a75014ed3c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.99998994999999pt height=22.465723500000017pt/> the grid number in radial direction. The notation is using 1-index rule as Matlab is also 1-index (starting the index from 1). Each row is representing an axial coordinate and each column representing a radial coordinate. The data is using [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order). Note that we are using staggered grid and the properties are having different dimensions.
+
+
+
+## Step 1 in staggered grids
+
+<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Staggered grid.jpg" style="zoom:30%;" />
+
+
+
+The radial momentum equation discretization is shown below:
 
 
 
