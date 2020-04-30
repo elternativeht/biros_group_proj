@@ -197,7 +197,7 @@ The intermediate variable can be summarized by the following linearized equation
 
 
 $$
-Au^*_r(M,N)+Bu^*_r(M,N+1)+Cu^*_r(M,N-1)+Du^*_r(M+1,N)+Eu^*_r(M-1,N)=-F
+Au^*_r(M,N)+Bu^*_r(M,N+1)+Cu^*_r(M,N-1)+Du^*_r(M+1,N)+Eu^*_r(M-1,N)=F
 $$
 
 
@@ -229,7 +229,7 @@ F= \frac{u^n_r(M,N)}{\Delta t}-u_r^n\left(\frac{u^n_r(M,N+1)-u^n-r(M,N-1)}{2\Del
 $$
 
 $$
-+ \frac{[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
+- \frac{[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
 $$
 
 
