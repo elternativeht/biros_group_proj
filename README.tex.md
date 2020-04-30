@@ -165,6 +165,20 @@ The radial momentum equation discretization is shown below:
 
 
 
+$$
+\frac{\boldsymbol{u}^{*}(M,N)-\boldsymbol{u}^{n}(M,N)}{\Delta t}+(\boldsymbol{u}^{n}(M,N)\cdot\nabla)\boldsymbol{u}^{n}(M,N)=\Delta \boldsymbol{u}^{*}(M,N)
+$$
+
+
+The advection term can be discretized as:
+$$
+(\boldsymbol{u}^{n}(M,N)\cdot\nabla)\boldsymbol{u}^{n}(M,N)=u^n_r(M,N)\frac{u^n_r(M,N+1)-u^n_r(M,N-1)}{2\Delta r}\\+\frac{u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
+$$
+
+
+The diffusion term is:
+
+
 
 
 
