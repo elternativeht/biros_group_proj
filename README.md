@@ -134,6 +134,34 @@ The diffusion term is:
 The intermediate variable can be summarized by the following linearized equation:
 
 
+<p align="center"><img src="/tex/63abbe84a18e005227f3fccb42117868.svg?invert_in_darkmode&sanitize=true" align=middle width=640.3252482pt height=16.438356pt/></p>
+
+
+where
+<p align="center"><img src="/tex/e5c8f03e052873e81f6ba801fe328b42.svg?invert_in_darkmode&sanitize=true" align=middle width=207.60861824999998pt height=37.099754999999995pt/></p>
+
+<p align="center"><img src="/tex/d8785d54a99155cda937e99964e1503e.svg?invert_in_darkmode&sanitize=true" align=middle width=210.37781489999998pt height=39.452455349999994pt/></p>
+
+
+
+<p align="center"><img src="/tex/c3c9a3cb9ed4ec26f522352975dfc35c.svg?invert_in_darkmode&sanitize=true" align=middle width=210.00904814999998pt height=39.452455349999994pt/></p>
+
+
+
+<p align="center"><img src="/tex/96f966d682548d731a7888aee4804105.svg?invert_in_darkmode&sanitize=true" align=middle width=228.14831654999998pt height=37.099754999999995pt/></p>
+
+
+
+<p align="center"><img src="/tex/9eba3025c3989cbff5826669e30fe533.svg?invert_in_darkmode&sanitize=true" align=middle width=1084.60536525pt height=39.452455349999994pt/></p>
+
+
+where <img src="/tex/5bf3cf1ae2a463f03e1cffe5d95f8514.svg?invert_in_darkmode&sanitize=true" align=middle width=137.11557749999997pt height=24.65753399999998pt/>, where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> is the z-direction coordinate and <img src="/tex/f9c4988898e7f532b9f826a75014ed3c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.99998994999999pt height=22.465723500000017pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+
+
+
+
+
+
 
 ## Boundary conditions
 
