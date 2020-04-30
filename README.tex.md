@@ -218,8 +218,17 @@ $$
 
 
 $$
-\begin{eqnarray} F=& \frac{u^n_r(M,N)}{\Delta t}-u_r^n\left(\frac{u^n_r(M,N+1)-u^n-r(M,N-1)}{2\Delta r}\right)\\+& \frac{[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]\end{eqnarray}
+F= \frac{u^n_r(M,N)}{\Delta t}-u_r^n\left(\frac{u^n_r(M,N+1)-u^n-r(M,N-1)}{2\Delta r}\right)
 $$
+
+$$
++ \frac{[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
+$$
+
+
+
+
+
 
 
 where $\text{where }r=r(M,N)$, where $M$ is the z-direction coordinate and $N$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
