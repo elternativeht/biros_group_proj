@@ -179,11 +179,18 @@ $$
 The diffusion term is:
 
 
-
+$$
+\frac{1}{\text{Re}}\frac{1}{r(M,N)}[(r(M,N)+\frac{\Delta r}{2})(\frac{u^*_r(M,N+1)-u^*_r(M,N)}{\Delta r})
+$$
 
 $$
-\begin{array}+\frac{1}{\text{Re}}\frac{1}{r(M,N)}\left[(r(M,N)+\frac{\Delta r}{2})(\frac{u^*_r(M,N+1)-u^*_r(M,N)}{\Delta r})\\-(r(M,N)-\frac{\Delta r}{2})(\frac{u^*_r(M,N)-u^*_r(M,N-1)}{\Delta r})\right]\frac{1}{\Delta r}-\frac{1}{\text{Re}}\frac{1}{r^2(M,N)}u^*_r(M,N)\\+\frac{1}{\text{Re}}\frac{u^*_r(M+1,N)-u^*_r(M-1,n)}{(\Delta z)^2}\end{array}
+-(r(M,N)-\frac{\Delta r}{2})(\frac{u^*_r(M,N)-u^*_r(M,N-1)}{\Delta r})]\frac{1}{\Delta r}
 $$
+
+$$
+-\frac{1}{\text{Re}}\frac{1}{r^2(M,N)}u^*_r(M,N)+\frac{1}{\text{Re}}\frac{u^*_r(M+1,N)-u^*_r(M-1,n)}{(\Delta z)^2}
+$$
+
 
 
 The intermediate variable can be summarized by the following linearized equation:
