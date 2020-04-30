@@ -126,9 +126,12 @@ The advection term can be discretized as:
 The diffusion term is:
 
 
+<p align="center"><img src="/tex/502b1633fd4c52b15683527ce143f807.svg?invert_in_darkmode&sanitize=true" align=middle width=410.76756765pt height=38.83491479999999pt/></p>
 
+<p align="center"><img src="/tex/447af874d0ad3c97d2a8b9f10578e240.svg?invert_in_darkmode&sanitize=true" align=middle width=361.98238065pt height=34.7253258pt/></p>
 
-<p align="center"><img src="/tex/329f05966b5fea41c18ca1f8c2ecbd4d.svg?invert_in_darkmode&sanitize=true" align=middle width=462.76179510000003pt height=81.016815pt/></p>
+<p align="center"><img src="/tex/535deca738544baf1ce4fc37f423ce51.svg?invert_in_darkmode&sanitize=true" align=middle width=432.7234593pt height=38.83491479999999pt/></p>
+
 
 
 The intermediate variable can be summarized by the following linearized equation:
