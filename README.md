@@ -7,28 +7,6 @@ The group project for Biros
 Current proposal is at the [link  (read only)][1]. The simulation process will be carried out in the rectangular region representing a 2-dimensional axis-symmetric region. Although finite volume method is the method in the proposal, possible finite difference method can be used if possible.
 
 ## Governing Equations
-The governing equations that will allow us to solve for the semi-steady state 2D velocity distribution in the cylindrical domain include the continuity equation and two momentum equations. Refering to the proposal, the non-dimensional continuity equation is
-
-<p align="center"><img src="/tex/b20441acd018750e8d678889ae462554.svg?invert_in_darkmode&sanitize=true" align=middle width=145.5763914pt height=34.7253258pt/></p>
-
-and the two continuity equations for the <img src="/tex/89f2e0d2d24bcf44db73aab8fc03252c.svg?invert_in_darkmode&sanitize=true" align=middle width=7.87295519999999pt height=14.15524440000002pt/> and <img src="/tex/f93ce33e511096ed626b4719d50f17d2.svg?invert_in_darkmode&sanitize=true" align=middle width=8.367621899999993pt height=14.15524440000002pt/> components of velocity, respectively, are
-
-<p align="center"><img src="/tex/d0eca5d23c58fb85589a9c040e39ee00.svg?invert_in_darkmode&sanitize=true" align=middle width=494.6479824pt height=40.11819404999999pt/></p>
-
-and
-
-<p align="center"><img src="/tex/66b2ce8d0178306244e2c799d6b1d858.svg?invert_in_darkmode&sanitize=true" align=middle width=513.4111356pt height=40.11819404999999pt/></p>
-
-where the non-dimensional terms are defined as
-
-<p align="center"><img src="/tex/5a3f6e46b91c5d8fe520b10c3c78ca87.svg?invert_in_darkmode&sanitize=true" align=middle width=708.6747392999999pt height=39.84127125pt/></p>
-
----
-
-Updated on Apr 11 13:57 by Jinghu, to compare with the original dimensionless equations.
-
-
-
 Original continuous equation at the cylindrical coordinates (here <img src="/tex/0a5a0c3d35e8e061b4b7c57b0c7c6add.svg?invert_in_darkmode&sanitize=true" align=middle width=16.02556724999999pt height=14.15524440000002pt/> and <img src="/tex/5d3d08286c873e3706833a05670e23d7.svg?invert_in_darkmode&sanitize=true" align=middle width=35.67354779999999pt height=24.65753399999998pt/> is cancelled out):
 <p align="center"><img src="/tex/3a67de4e3043ba54fef558cb3b461de0.svg?invert_in_darkmode&sanitize=true" align=middle width=144.66317085pt height=34.7253258pt/></p>
 Original momentum equations:
@@ -47,10 +25,6 @@ And dimensionless axial direction momentum equation is:
 <p align="center"><img src="/tex/a1da397c75f34ceb78f6f505752659ba.svg?invert_in_darkmode&sanitize=true" align=middle width=485.60185409999997pt height=40.11819404999999pt/></p>
 
 ---
-
-
-
-
 
 ## Projection methods
 
@@ -117,17 +91,11 @@ Discretization of each term using a central differnce scheme:
 
 
 
-## Grid Naming and Notation
 
 
 
-The grid has following naming notations:
-
-<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
 
 
-
-where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> is the grid number in axial direction, <img src="/tex/f9c4988898e7f532b9f826a75014ed3c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.99998994999999pt height=22.465723500000017pt/> the grid number in radial direction. The notation is using 1-index rule as Matlab is also 1-index (starting the index from 1). Each row is representing an axial coordinate and each column representing a radial coordinate. The data is using [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order). Note that we are using staggered grid and the properties are having different dimensions.
 
 
 
@@ -135,7 +103,7 @@ where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&san
 
 
 
-<img src="./References/Document Sources/Boundary condition.jpg" style="zoom:50%;" />
+<img src="./References/Document Sources/Boundary condition.jpg" style="zoom:24%;" />
 
 
 
