@@ -140,7 +140,27 @@ $$
 
 
 
+## Grid Naming and Notation
 
+
+
+The grid has following naming notations:
+
+<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+
+
+
+where $M$ is the grid number in axial direction, $N$ the grid number in radial direction. The notation is using 1-index rule as Matlab is also 1-index (starting the index from 1). Each row is representing an axial coordinate and each column representing a radial coordinate. The data is using [row-major order](https://en.wikipedia.org/wiki/Row-_and_column-major_order). Note that we are using staggered grid and the properties are having different dimensions.
+
+
+
+## Step 1 in staggered grids
+
+<img src="/Users/jinghu/Documents/PhD_Austin/Spring 2020/Simulation/biros_group_proj/References/Document Sources/Staggered grid.jpg" style="zoom:30%;" />
+
+
+
+The radial momentum equation discretization is shown below:
 
 
 
