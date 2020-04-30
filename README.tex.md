@@ -197,7 +197,7 @@ The intermediate variable can be summarized by the following linearized equation
 
 
 $$
-Au^*_r(M,N)+Bu^*_r(M,N+1)+Cu^*_r(M,N-1)+Du^*_r(M+1,N)+Eu^*_r(M-1,N)=F
+Au^*_r(M,N)+Bu^*_r(M,N+1)+Cu^*_r(M,N-1)+Du^*_r(M+1,N)+Eu^*_r(M-1,N)=-F
 $$
 
 
