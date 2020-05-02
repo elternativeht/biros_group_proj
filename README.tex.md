@@ -158,7 +158,7 @@ where $M$ is the grid number in axial direction, $N$ the grid number in radial d
 
 <img src="./References/Document Sources/Staggered grid.jpg" style="zoom:50%;" />
 
-
+### Radial direction momentum equation
 
 The radial momentum equation discretization is shown below:
 
@@ -166,29 +166,24 @@ The radial momentum equation discretization is shown below:
 
 
 $$
-\frac{\boldsymbol{u}^{*}(M,N)-\boldsymbol{u}^{n}(M,N)}{\Delta t}+(\boldsymbol{u}^{n}(M,N)\cdot\nabla)\boldsymbol{u}^{n}(M,N)=\Delta \boldsymbol{u}^{*}(M,N)
+\frac{\boldsymbol{u}^{*}_{(i,j)}-\boldsymbol{u}^{n}_{(i,j)}}{\Delta t}+\left(\boldsymbol{u}^{n}_{(i,j)}\cdot\nabla\right)\boldsymbol{u}^{n}_{(i,j)}=\Delta \boldsymbol{u}^{*}_{(i,j)}
 $$
+
+
+
 
 
 The advection term can be discretized as:
 $$
-(\boldsymbol{u}^{n}(M,N)\cdot\nabla)\boldsymbol{u}^{n}(M,N)=u^n_r(M,N)\frac{u^n_r(M,N+1)-u^n_r(M,N-1)}{2\Delta r}\\+\frac{u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
+\left( \boldsymbol{u}^n_{r,ij} \cdot \nabla \right) \boldsymbol{u}^n_{r,ij}=u^n_{r,ij}\frac{u^n_{r,i(j+1)}-u^n_{r,i(j-1)}}{2\Delta r}+\frac{u^n_{z,i(j-1)}+u^n_{z,ij}+u^n_{z,(i+1)(j-1)}+u^n_{z,(i+1)j}}{4}\left[\frac{u^{n}_{r,(i+1)j}-u^{n}_{r,(i-1)j}}{2\Delta z}\right]
 $$
+
 
 
 The diffusion term is:
 
-
 $$
-\frac{1}{\text{Re}}\frac{1}{r(M,N)}[(r(M,N)+\frac{\Delta r}{2})(\frac{u^*_r(M,N+1)-u^*_r(M,N)}{\Delta r})
-$$
-
-$$
--(r(M,N)-\frac{\Delta r}{2})(\frac{u^*_r(M,N)-u^*_r(M,N-1)}{\Delta r})]\frac{1}{\Delta r}
-$$
-
-$$
--\frac{1}{\text{Re}}\frac{1}{r^2(M,N)}u^*_r(M,N)+\frac{1}{\text{Re}}\frac{u^*_r(M+1,N)-u^*_r(M-1,n)}{(\Delta z)^2}
+\frac{1}{\text{Re}}\left[\frac{1}{r_{ij}}\frac{u^*_{r,i(j+1)}-u^*_{r,i(j-1)}}{2\Delta r}+\frac{u^*_{r,i(j+1)}-2u^*_{r,ij}+u^*_{r,i(j-1)}}{(\Delta r)^2}-\frac{u^*_{r,ij}}{r^2_{ij}}+\frac{u^*_{r,(i+1)j}-2u^*_{r,ij}+u^*_{r,(i-1)j}}{(\Delta z)^2}\right]
 $$
 
 
@@ -197,52 +192,129 @@ The intermediate variable can be summarized by the following linearized equation
 
 
 $$
-Au^*_r(M,N)+Bu^*_r(M,N+1)+Cu^*_r(M,N-1)+Du^*_r(M+1,N)+Eu^*_r(M-1,N)=F
+Au^*_{r,ij}+Bu^*_{r,i(j+1)}+Cu^*_{r,i(j-1)}+Du^*_{r,(i+1)j}+Eu^*_{r,(i-1)j}=F
 $$
 
 
 where
 $$
-A = \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1 }{\text{Re}}\frac{2}{r^2}
-$$
-
-$$
-B = -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r+\frac{\Delta r}{2}\right)\frac{1}{r}
-$$
-
-
-
-$$
-C = -\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}\left(r-\frac{\Delta r}{2}\right)\frac{1}{r}
-$$
-
-
-
-$$
-D =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2},E =  \frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}
-$$
-
-
-
-$$
-F= \frac{u^n_r(M,N)}{\Delta t}-u_r^n\left(\frac{u^n_r(M,N+1)-u^n-r(M,N-1)}{2\Delta r}\right)
-$$
-
-$$
-- \frac{[u^n_z(M,N-1)+u^n_z(M,N)+u^n_z(M+1,N-1)+u^n_z(M+1,N)]}{4}\left[\frac{u^n_r(M+1,N)-u^n_r(M-1,N)}{2\Delta z}\right]
+A = \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1 }{\text{Re}}\frac{2}{r_{ij}^2}+\frac{1}{\text{Re}}\frac{2}{(\Delta z)^2}
 $$
 
 
 
 
+$$
+B = -\frac{1}{\text{Re}}\frac{1}{r_{ij}}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
+$$
 
 
 
-where $\text{where }r=r(M,N)$, where $M$ is the z-direction coordinate and $N$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+
+$$
+C = +\frac{1}{\text{Re}}\frac{1}{r_{ij}}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
+$$
 
 
 
 
+$$
+D =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2},E =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}
+$$
+
+
+
+
+$$
+F= \frac{u^n_{r,ij}}{\Delta t}-\left(u^n_{r,ij}\frac{u^n_{r,i(j+1)}-u^n_{r,i(j-1)}}{2\Delta r}+\frac{u^n_{z,i(j-1)}+u^n_{z,ij}+u^n_{z,(i+1)(j-1)}+u^n_{z,(i+1)j}}{4}\left[\frac{u^{n}_{r,(i+1)j}-u^{n}_{r,(i-1)j}}{2\Delta z}\right]\right)
+$$
+
+
+
+
+
+where $\text{where }r_{ij}=j\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+
+
+
+### Axial direction momentum equation
+
+
+
+Like radial, axial momentum equation discretization is shown below:
+
+
+
+
+$$
+\frac{\boldsymbol{u}^{*}_{(i,j)}-\boldsymbol{u}^{n}_{(i,j)}}{\Delta t}+\left(\boldsymbol{u}^{n}_{(i,j)}\cdot\nabla\right)\boldsymbol{u}^{n}_{(i,j)}=\Delta \boldsymbol{u}^{*}_{(i,j)}
+$$
+
+
+
+
+
+The advection term can be discretized as:
+$$
+\left( \boldsymbol{u}^n_{z,ij} \cdot \nabla \right) \boldsymbol{u}^n_{z,ij}=\frac{u^n_{r,i(j+1)}+u^n_{r,ij}+u^n_{r,(i-1)(j+1)}+u^n_{r,(i-1)j}}{4}\left[\frac{u^{n}_{z,i(j+1)}-u^{n}_{z,i(j-1)}}{2\Delta r}\right]+u^n_{z,ij}\frac{u^n_{z,(i+1)j}-u^n_{z,(i-1)j}}{2\Delta z}
+$$
+
+
+
+The diffusion term is:
+
+$$
+\frac{1}{\text{Re}}\left[\frac{1}{r_{ij}+\frac{\Delta r}{2}}\frac{u^*_{z,i(j+1)}-u^*_{z,i(j-1)}}{2\Delta r}+\frac{u^*_{z,i(j+1)}-2u^*_{z,ij}+u^*_{z,i(j-1)}}{(\Delta r)^2}+\frac{u^*_{z,(i+1)j}-2u^*_{z,ij}+u^*_{z,(i-1)j}}{(\Delta z)^2}\right]
+$$
+
+
+
+The intermediate variable can be summarized by the following linearized equation:
+
+
+$$
+Au^*_{z,ij}+Bu^*_{z,i(j+1)}+Cu^*_{z,i(j-1)}+Du^*_{z,(i+1)j}+Eu^*_{z,(i-1)j}=F+\frac{1}{\text{Fr}^2}
+$$
+
+
+where
+$$
+A = \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1}{\text{Re}}\frac{2}{(\Delta z)^2}
+$$
+
+
+
+
+$$
+B = -\frac{1}{\text{Re}}\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
+$$
+
+
+
+
+$$
+C = +\frac{1}{\text{Re}}\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
+$$
+
+
+
+
+$$
+D =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2},E =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}
+$$
+
+
+
+
+$$
+F= \frac{u^n_{z,ij}}{\Delta t}-\left(\frac{u^n_{r,i(j+1)}+u^n_{r,ij}+u^n_{r,(i-1)(j+1)}+u^n_{r,(i-1)j}}{4}\left[\frac{u^{n}_{z,i(j+1)}-u^{n}_{z,i(j-1)}}{2\Delta r}\right]+u^n_{z,ij}\frac{u^n_{z,(i+1)j}-u^n_{z,(i-1)j}}{2\Delta z}\right)
+$$
+
+
+
+
+
+where $\text{where }r_{ij}=j\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 

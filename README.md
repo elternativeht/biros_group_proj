@@ -109,67 +109,127 @@ where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&san
 
 <img src="./References/Document Sources/Staggered grid.jpg" style="zoom:50%;" />
 
-
+### Radial direction momentum equation
 
 The radial momentum equation discretization is shown below:
 
 
 
 
-<p align="center"><img src="/tex/34b408443ae916fb3c7edb9d22b1cf21.svg?invert_in_darkmode&sanitize=true" align=middle width=473.64803309999996pt height=34.7253258pt/></p>
+<p align="center"><img src="/tex/367c48c6b0933d14354735ee9dc78818.svg?invert_in_darkmode&sanitize=true" align=middle width=309.64548614999995pt height=37.1774601pt/></p>
+
+
+
 
 
 The advection term can be discretized as:
-<p align="center"><img src="/tex/ce70d322c09720fd3035f3d9292b0cdb.svg?invert_in_darkmode&sanitize=true" align=middle width=1204.8766999499999pt height=39.452455349999994pt/></p>
+<p align="center"><img src="/tex/e0a03c688828cae924df852a766f79cd.svg?invert_in_darkmode&sanitize=true" align=middle width=771.1729624499999pt height=41.11867485pt/></p>
+
 
 
 The diffusion term is:
 
-
-<p align="center"><img src="/tex/502b1633fd4c52b15683527ce143f807.svg?invert_in_darkmode&sanitize=true" align=middle width=410.76756765pt height=38.83491479999999pt/></p>
-
-<p align="center"><img src="/tex/447af874d0ad3c97d2a8b9f10578e240.svg?invert_in_darkmode&sanitize=true" align=middle width=361.98238065pt height=34.7253258pt/></p>
-
-<p align="center"><img src="/tex/535deca738544baf1ce4fc37f423ce51.svg?invert_in_darkmode&sanitize=true" align=middle width=432.7234593pt height=38.83491479999999pt/></p>
+<p align="center"><img src="/tex/ed5a150e229f2fff26e109e94bcf18be.svg?invert_in_darkmode&sanitize=true" align=middle width=697.01142885pt height=49.315569599999996pt/></p>
 
 
 
 The intermediate variable can be summarized by the following linearized equation:
 
 
-<p align="center"><img src="/tex/63abbe84a18e005227f3fccb42117868.svg?invert_in_darkmode&sanitize=true" align=middle width=640.3252482pt height=16.438356pt/></p>
+<p align="center"><img src="/tex/eaeb8dc11f27a98826a9bd7865654e77.svg?invert_in_darkmode&sanitize=true" align=middle width=442.07507024999995pt height=19.490725649999998pt/></p>
 
 
 where
-<p align="center"><img src="/tex/e5c8f03e052873e81f6ba801fe328b42.svg?invert_in_darkmode&sanitize=true" align=middle width=207.60861824999998pt height=37.099754999999995pt/></p>
-
-<p align="center"><img src="/tex/d8785d54a99155cda937e99964e1503e.svg?invert_in_darkmode&sanitize=true" align=middle width=210.37781489999998pt height=39.452455349999994pt/></p>
-
-
-
-<p align="center"><img src="/tex/c3c9a3cb9ed4ec26f522352975dfc35c.svg?invert_in_darkmode&sanitize=true" align=middle width=210.00904814999998pt height=39.452455349999994pt/></p>
-
-
-
-<p align="center"><img src="/tex/96f966d682548d731a7888aee4804105.svg?invert_in_darkmode&sanitize=true" align=middle width=228.14831654999998pt height=37.099754999999995pt/></p>
-
-
-
-<p align="center"><img src="/tex/e5ec928a2d98e737cb178dd797073cac.svg?invert_in_darkmode&sanitize=true" align=middle width=423.5558959499999pt height=39.452455349999994pt/></p>
-
-<p align="center"><img src="/tex/d0aa239cc79909a5b241fb2e7dc1f3e2.svg?invert_in_darkmode&sanitize=true" align=middle width=725.4352346999999pt height=39.452455349999994pt/></p>
+<p align="center"><img src="/tex/8f33e697eb8c579e1f44870ec1afc556.svg?invert_in_darkmode&sanitize=true" align=middle width=300.9689595pt height=39.8096622pt/></p>
 
 
 
 
-
-
-
-where <img src="/tex/5bf3cf1ae2a463f03e1cffe5d95f8514.svg?invert_in_darkmode&sanitize=true" align=middle width=137.11557749999997pt height=24.65753399999998pt/>, where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&sanitize=true" align=middle width=17.73973739999999pt height=22.465723500000017pt/> is the z-direction coordinate and <img src="/tex/f9c4988898e7f532b9f826a75014ed3c.svg?invert_in_darkmode&sanitize=true" align=middle width=14.99998994999999pt height=22.465723500000017pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+<p align="center"><img src="/tex/84f7a99adc51ab127d55223dd7740e9a.svg?invert_in_darkmode&sanitize=true" align=middle width=215.16971025pt height=37.6933392pt/></p>
 
 
 
 
+<p align="center"><img src="/tex/5b6692a9ca8be0f642e8bb1f246d400e.svg?invert_in_darkmode&sanitize=true" align=middle width=214.8009435pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/9dc225eafcdbab1765cff21cd5b61922.svg?invert_in_darkmode&sanitize=true" align=middle width=240.93375074999997pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/dce73c6fa4e5e38c1f6b8687c2738a44.svg?invert_in_darkmode&sanitize=true" align=middle width=754.6750529999999pt height=41.11867485pt/></p>
+
+
+
+
+
+where <img src="/tex/c602bf8eaf019deccee4880c91e7530a.svg?invert_in_darkmode&sanitize=true" align=middle width=129.59953875pt height=22.831056599999986pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+
+
+
+### Axial direction momentum equation
+
+
+
+Like radial, axial momentum equation discretization is shown below:
+
+
+
+
+<p align="center"><img src="/tex/367c48c6b0933d14354735ee9dc78818.svg?invert_in_darkmode&sanitize=true" align=middle width=309.64548614999995pt height=37.1774601pt/></p>
+
+
+
+
+
+The advection term can be discretized as:
+<p align="center"><img src="/tex/ff8896c15d9393b60ae3a2ddfbc8d7aa.svg?invert_in_darkmode&sanitize=true" align=middle width=772.2085040999999pt height=41.11867485pt/></p>
+
+
+
+The diffusion term is:
+
+<p align="center"><img src="/tex/360d75162335835d8a43e45062bf8b8e.svg?invert_in_darkmode&sanitize=true" align=middle width=691.6483876499999pt height=49.315569599999996pt/></p>
+
+
+
+The intermediate variable can be summarized by the following linearized equation:
+
+
+<p align="center"><img src="/tex/f4b4b7c970717d8a9f0f662c3d13265f.svg?invert_in_darkmode&sanitize=true" align=middle width=492.32601164999994pt height=34.4904021pt/></p>
+
+
+where
+<p align="center"><img src="/tex/46527258472a972637eabc5732735851.svg?invert_in_darkmode&sanitize=true" align=middle width=234.58740195pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/7b152f2d4a7fecdcff4fe0d7461fe9bc.svg?invert_in_darkmode&sanitize=true" align=middle width=273.27090615pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/8ef2b205931e0405244b19a7dfc39ec1.svg?invert_in_darkmode&sanitize=true" align=middle width=272.9021394pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/9dc225eafcdbab1765cff21cd5b61922.svg?invert_in_darkmode&sanitize=true" align=middle width=240.93375074999997pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/a2cf7aec727c950abf692d4ccf5ba033.svg?invert_in_darkmode&sanitize=true" align=middle width=756.6804844499999pt height=41.11867485pt/></p>
+
+
+
+
+
+where <img src="/tex/c602bf8eaf019deccee4880c91e7530a.svg?invert_in_darkmode&sanitize=true" align=middle width=129.59953875pt height=22.831056599999986pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
