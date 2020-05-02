@@ -53,11 +53,13 @@ classdef FFD < handle
         ArStar              % intermediate r-momentum state matrix (KP-04/25)
         AzStar              % intermediate z-momentum state matrix (KP-04/25)
         ArN                 % intermediate r-momentum advection operator 
-                            % state matrix (KP-04-25)
+                            % state matrix (KP-04-25)                            
         BrN                 % "" ""
         AzN                 % intermediate z-momentum advection operator 
                             % state matrix (KP-04-25)
         BzN                 % "" ""
+        Nr                  % intermediate r-momentum advection operator
+        Nz                  % intermediate z-momentum advection operator
         
         
         % nondimensional terms
@@ -164,46 +166,55 @@ classdef FFD < handle
         end
         
         
-        function iterateUrStar(obj) % (KP-04/25)
+        function computeUStar(obj) % (KP-04/25)
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
             % an implicit-explicit technique.
             n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
             
-            % compute diagonal elements of state matrix
-            Omega1 = 1/obj.dtau + 2/(obj.Re*obj.drbar^2) ...
-                     + 1./(obj.Re*repmat(obj.rbar', n, 1)) ...
-                     + 2/(obj.Re*obj.dzbar^2);
-            Omega2 = -1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
-                    - 1/(obj.Re*obj.drbar^2);
-            Omega3 = -1/(obj.Re*obj.dzbar^2);
-            Omega4 = 1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
-                    - 1/(obj.Re*obj.drbar^2);
-            Omega5 = -1/(obj.Re*obj.dzbar^2);
-            
-            % compile sparse diagonal state matrix
-            obj.ArStar = sparse(diag(Omega1) ...
-                   + diag(Omega2(1:end-1), 1) ...
-                   + diag(Omega3*ones(nm-m, 1), m) ...
-                   + diag(Omega4(2:end), -1) ...
-                   + diag(Omega5*ones(nm-m, 1), -m));               
-               
-            % compute intermediate r-momentum advection operator
-            Nrhs = computeNrhs(obj);
+            % compute intermediate state matrices
+            computeArStar(obj);
+            computeAzStar(obj);
+                                        
+            % compute intermediate advection operators
+            computeNr(obj);
+            computeNz(obj);
             
             % compute intermediate r-velocity
-            obj.Ustar(1:nm) = obj.ArStar\Nrhs;
+            obj.Ustar = [obj.ArStar, zeros(nm); zeros(nm), obj.AzStar] ...
+                        \[obj.Nr; obj.Nz];
                         
         end
         
-        function N = computeNrhs(obj) % (KP-04/25)
+        function computeArStar(obj)
+            % evaluates state matrix for intermediate r-velocity comp.
+            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            
+            % compute diagonal elements of state matrix
+            Omega1 = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
+                     - 1./(obj.Re*repmat(obj.rbar', n, 1).^2) ...
+                     - 2/(obj.Re*obj.dzbar^2);
+            Omega2 = 1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
+                    + 1/(obj.Re*obj.drbar^2);
+            Omega3 = 1/(obj.Re*obj.dzbar^2);
+            Omega4 = -1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
+                    + 1/(obj.Re*obj.drbar^2);
+            Omega5 = 1/(obj.Re*obj.dzbar^2);
+            
+            % compile sparse diagonal state matrix                      
+            obj.ArStar = spdiags([Omega1, Omega2', Omega3*ones(nm, 1), ...
+                         Omega4', Omega5*ones(nm, 1)], ...
+                         [0, 1, m, -1, -m], nm, nm);              
+        end
+        
+        function computeNr(obj)
             % computes advection operator for intermediate
             % non-divergence-free r-momentum equation
             n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
             
             % compute diagonal elements of state matrices
-            Lambda1 = -1/(2*obj.drbar); Lambda2 = 1/(2*obj.drbar);
-            Pi1 = -1/(2*obj.dzbar); Pi2 = 1/(2*obj.dzbar); 
+            Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
+            Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
             
             % compile sparse diagonal state matrices
             obj.ArN = sparse(diag(Lambda1*ones(nm-1, 1), 1) ...
@@ -211,12 +222,60 @@ classdef FFD < handle
                
             obj.BrN = sparse(diag(Pi1*ones(nm-m, 1), m) ...
                     + diag(Pi2*ones(nm-m, 1), -m));
-            
+                
+            Z = spdiags(0.25*ones(nm, 4), [0, m, m-1, -1], nm, nm);
+
             % compute advection operator
             ur = obj.Ubar(1:nm);
             uz = obj.Ubar(nm+1:end);
-            N = diag(ur)*(ones(nm, 1)./obj.dtau + obj.ArN*ur) ...
-                + diag(uz)*obj.BrN*ur;                                 
+            obj.Nr = diag(ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
+                + diag(Z*uz)*obj.BrN*ur;                                 
+        end
+        
+        function computeAzStar(obj)
+            % evaluates state matrix for intermediate r-velocity comp.
+            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            
+            % compute diagonal elements of state matrix
+            Omega1 = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
+                     - 2/(obj.Re*obj.dzbar^2);
+            Omega2 = 1/(2*obj.Re*(repmat(obj.rbar', n, 1) ...
+                     + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
+            Omega3 = 1/(obj.Re*obj.dzbar^2);
+            Omega4 = -1/(2*obj.Re*(repmat(obj.rbar', n, 1) ...
+                     + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
+            Omega5 = 1/(obj.Re*obj.dzbar^2);
+            
+            % compile sparse diagonal state matrix
+            obj.AzStar = spdiags([Omega1*ones(nm, 1), ...
+                         Omega2', Omega3*ones(nm, 1), Omega4', ...
+                         Omega5*ones(nm, 1)], [0, 1, m, -1, -m], nm, nm);              
+        end
+        
+        function computeNz(obj)
+            % computes advection operator for intermediate
+            % non-divergence-free r-momentum equation
+            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            
+            % compute diagonal elements of state matrices
+            Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
+            Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
+            
+            % compile sparse diagonal state matrices
+            obj.ArN = sparse(diag(Lambda1*ones(nm-1, 1), 1) ...
+                    + diag(Lambda2*ones(nm-1, 1), -1));
+               
+            obj.BrN = sparse(diag(Pi1*ones(nm-m, 1), m) ...
+                    + diag(Pi2*ones(nm-m, 1), -m));
+                
+            R = spdiags(0.25*ones(nm, 4), [0, -m, -m+1, 1], nm, nm);
+
+            % compute advection operator
+            ur = obj.Ubar(1:nm);
+            uz = obj.Ubar(nm+1:end);
+            obj.Nz = diag(R*ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
+                   + diag(uz)*(obj.BrN*ur - ones(nm, 1)./obj.dtau) ...
+                   - ones(nm, 1)./obj.Fr^2;                                 
         end
        
     end
