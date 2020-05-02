@@ -38,7 +38,7 @@ $$
 
 And dimensionless axial direction momentum equation is:
 $$
-\frac{\partial\overline{u}_z}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] - \frac{1}{Fr^2} - \frac{\partial \overline{p}}{\partial \overline{z}},
+\frac{\partial\overline{u}_z}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] + \frac{1}{Fr^2} - \frac{\partial \overline{p}}{\partial \overline{z}},
 $$
 
 ---
