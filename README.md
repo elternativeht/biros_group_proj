@@ -105,7 +105,7 @@ where <img src="/tex/fb97d38bcc19230b0acd442e17db879c.svg?invert_in_darkmode&san
 
 
 
-## Step 1 in staggered grids
+## Projection method step 1 implementation in staggered grids
 
 <img src="./References/Document Sources/Staggered grid.jpg" style="zoom:50%;" />
 
@@ -241,19 +241,33 @@ where <img src="/tex/c602bf8eaf019deccee4880c91e7530a.svg?invert_in_darkmode&san
 
 
 
-Boundary (1): set velocity (not pressure)
+- Boundary (1): velocity boundary; assume that the inflow velocity is equal to <img src="/tex/98f42838386f103b3bc6a224d72ccb8a.svg?invert_in_darkmode&sanitize=true" align=middle width=27.19988204999999pt height=22.465723500000017pt/>.
+
+
+<p align="center"><img src="/tex/573d17445e72da82a0685fcf3516d699.svg?invert_in_darkmode&sanitize=true" align=middle width=168.5845029pt height=15.936036599999998pt/></p>
+
+
+- Boundary (2):  <img src="/tex/4aee50c7fe12fe3e346db76f22ffd69e.svg?invert_in_darkmode&sanitize=true" align=middle width=45.384226799999986pt height=21.18721440000001pt/> and <img src="/tex/f6cdc5360d2d944d54ab5675731bb521.svg?invert_in_darkmode&sanitize=true" align=middle width=77.00521784999998pt height=21.18721440000001pt/>. The stress includes velocity and pressure terms. However, as pressure term does not appear in the step one, the boundary condition is simplified to the following:
+
+
+<p align="center"><img src="/tex/ba67f53f7960015c02f3a8b987e04644.svg?invert_in_darkmode&sanitize=true" align=middle width=322.49373585pt height=39.66415035pt/></p>
 
 
 
-Boundary (2): you need to set <img src="/tex/4aee50c7fe12fe3e346db76f22ffd69e.svg?invert_in_darkmode&sanitize=true" align=middle width=45.384226799999986pt height=21.18721440000001pt/> but also <img src="/tex/f6cdc5360d2d944d54ab5675731bb521.svg?invert_in_darkmode&sanitize=true" align=middle width=77.00521784999998pt height=21.18721440000001pt/>. The stress includes velocity and pressure terms. 
+
+- Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
+
+
+<p align="center"><img src="/tex/743ba08f489f550a25c283e9c1e674db.svg?invert_in_darkmode&sanitize=true" align=middle width=392.38602149999997pt height=41.2237353pt/></p>
 
 
 
-Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
+
+- Boundaries 4 and 5:  no slip.
 
 
+<p align="center"><img src="/tex/3840a2e4877ce728c63faa696a8f9001.svg?invert_in_darkmode&sanitize=true" align=middle width=644.7930819pt height=39.452455349999994pt/></p>
 
-Boundaries 4 and 5:  no slip.
 
 
 
