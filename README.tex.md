@@ -158,7 +158,7 @@ where $M$ is the grid number in axial direction, $N$ the grid number in radial d
 
 <img src="./References/Document Sources/Staggered grid.jpg" style="zoom:50%;" />
 
-
+### Radial direction momentum equation
 
 The radial momentum equation discretization is shown below:
 
@@ -170,8 +170,6 @@ $$
 $$
 
 
-
-The radial direction discretization is shown below:
 
 
 
@@ -235,13 +233,88 @@ $$
 
 
 
-
-
 where $\text{where }r_{ij}=j\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
+### Axial direction momentum equation
 
+
+
+Like radial, axial momentum equation discretization is shown below:
+
+
+
+
+$$
+\frac{\boldsymbol{u}^{*}_{(i,j)}-\boldsymbol{u}^{n}_{(i,j)}}{\Delta t}+\left(\boldsymbol{u}^{n}_{(i,j)}\cdot\nabla\right)\boldsymbol{u}^{n}_{(i,j)}=\Delta \boldsymbol{u}^{*}_{(i,j)}
+$$
+
+
+
+
+
+The advection term can be discretized as:
+$$
+\left( \boldsymbol{u}^n_{z,ij} \cdot \nabla \right) \boldsymbol{u}^n_{z,ij}=\frac{u^n_{r,i(j+1)}+u^n_{r,ij}+u^n_{r,(i-1)(j+1)}+u^n_{r,(i-1)j}}{4}\left[\frac{u^{n}_{z,i(j+1)}-u^{n}_{z,i(j-1)}}{2\Delta r}\right]+u^n_{z,ij}\frac{u^n_{z,(i+1)j}-u^n_{z,(i-1)j}}{2\Delta z}
+$$
+
+
+
+The diffusion term is:
+
+$$
+\frac{1}{\text{Re}}\left[\frac{1}{r_{ij}+\frac{\Delta r}{2}}\frac{u^*_{z,i(j+1)}-u^*_{z,i(j-1)}}{2\Delta r}+\frac{u^*_{z,i(j+1)}-2u^*_{z,ij}+u^*_{z,i(j-1)}}{(\Delta r)^2}+\frac{u^*_{z,(i+1)j}-2u^*_{z,ij}+u^*_{z,(i-1)j}}{(\Delta z)^2}\right]
+$$
+
+
+
+The intermediate variable can be summarized by the following linearized equation:
+
+
+$$
+Au^*_{z,ij}+Bu^*_{z,i(j+1)}+Cu^*_{z,i(j-1)}+Du^*_{z,(i+1)j}+Eu^*_{z,(i-1)j}=F+\frac{1}{\text{Fr}^2}
+$$
+
+
+where
+$$
+A = \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1}{\text{Re}}\frac{2}{(\Delta z)^2}
+$$
+
+
+
+
+$$
+B = -\frac{1}{\text{Re}}\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
+$$
+
+
+
+
+$$
+C = +\frac{1}{\text{Re}}\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
+$$
+
+
+
+
+$$
+D =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2},E =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}
+$$
+
+
+
+
+$$
+F= \frac{u^n_{z,ij}}{\Delta t}-\left(\frac{u^n_{r,i(j+1)}+u^n_{r,ij}+u^n_{r,(i-1)(j+1)}+u^n_{r,(i-1)j}}{4}\left[\frac{u^{n}_{z,i(j+1)}-u^{n}_{z,i(j-1)}}{2\Delta r}\right]+u^n_{z,ij}\frac{u^n_{z,(i+1)j}-u^n_{z,(i-1)j}}{2\Delta z}\right)
+$$
+
+
+
+
+
+where $\text{where }r_{ij}=j\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
