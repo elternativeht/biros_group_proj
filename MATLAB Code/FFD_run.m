@@ -26,8 +26,11 @@ rbar_new2 = FFD_test.rbar; zbar_new2 = FFD_test.zbar;
 
 % testing iterateUrStar method in FFD
 UstarTest1 = FFD_test.Ustar;
-FFD_test.iterateUrStar;
+FFD_test.computeUStar;
 UstarTest2 = FFD_test.Ustar;
 ArStarTest = full(FFD_test.ArStar);
-ArNTest = full(FFD_test.ArN);
-BrNTest = full(FFD_test.BrN);
+NrTest = reshape(FFD_test.Nr, length(FFD_test.rbar), ...
+          length(FFD_test.zbar))';
+AzStarTest = full(FFD_test.AzStar);
+NzTest = reshape(FFD_test.Nz, length(FFD_test.rbar), ...
+          length(FFD_test.zbar))';
