@@ -166,7 +166,7 @@ classdef FFD < handle
         end
         
         
-        function computeUStar(obj) % (KP-04/25)
+        function computeUStar(obj)
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
             % an implicit-explicit technique.
@@ -183,7 +183,10 @@ classdef FFD < handle
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(nm); zeros(nm), obj.AzStar] ...
                         \[obj.Nr; obj.Nz];
-                        
+                    
+            % set boundary conditions
+            applyUrBoundaries(obj);
+            applyUzBoundaries(obj);                       
         end
         
         function computeArStar(obj)
@@ -249,7 +252,8 @@ classdef FFD < handle
             % compile sparse diagonal state matrix
             obj.AzStar = spdiags([Omega1*ones(nm, 1), ...
                          Omega2', Omega3*ones(nm, 1), Omega4', ...
-                         Omega5*ones(nm, 1)], [0, 1, m, -1, -m], nm, nm);              
+                         Omega5*ones(nm, 1)], [0, 1, m, -1, -m], nm, nm);                      
+                                   
         end
         
         function computeNz(obj)
@@ -276,6 +280,58 @@ classdef FFD < handle
             obj.Nz = diag(R*ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
                    + diag(uz)*(obj.BrN*ur - ones(nm, 1)./obj.dtau) ...
                    - ones(nm, 1)./obj.Fr^2;                                 
+        end
+        
+        function applyUrBoundaries(obj)
+            % sets boundary conditions for r-velocity at intermediate
+            % computation step.
+            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            ur = obj.Ustar(1:nm);
+
+            % boundary 1 at z = 1 (free surface)
+            ur(1:m-1) = 0;
+            
+            % boundary 2 at r = 0 (centerline)
+            ur(1:m:end-m) = 0;
+            
+            % boundary 3 at z = 0 (bin opening)
+            [~, ia] = min(abs(obj.a0 - obj.rbar));
+            ur(end-m:end-m+ia) = ur(end-2*m:end-2*m+ia);
+            
+            % boundary 4 at z = 0 (bottom wall)
+            ur(end-m+ia+1:end) = 0;
+            
+            % boundary 5 at r = b (outer radius wall)
+            ur(m:m:end) = 0;
+            
+            % reasign velocity
+            obj.Ustar(1:nm) = ur;                      
+        end
+        
+        function applyUzBoundaries(obj)
+            % sets boundary conditions for r-velocity at intermediate
+            % computation step.
+            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            uz = obj.Ustar(nm+1:end);
+            
+            % boundary 1 at z = 1 (free surface)
+            uz(1:m-1) = obj.Uinf;
+            
+            % boundary 2 at r = 0 (centerline)
+            uz(1:m:end-m) = uz(2:m:end-m+1);
+            
+            % boundary 3 at z = 0 (bin opening)
+            [~, ia] = min(abs(obj.a0 - obj.rbar));
+            uz(end-m:end-m+ia) = uz(end-2*m:end-2*m+ia);
+            
+            % boundary 4 at z = 0 (bottom wall)
+            uz(end-m+ia+1:end) = 0;
+            
+            % boundary 5 at r = b (outer radius wall)
+            uz(m:m:end) = 0;
+
+            % reasign velocity
+            obj.Ustar(nm+1:end) = uz;                      
         end
        
     end
