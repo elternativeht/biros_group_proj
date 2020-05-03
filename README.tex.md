@@ -38,7 +38,7 @@ $$
 
 And dimensionless axial direction momentum equation is:
 $$
-\frac{\partial\overline{u}_z}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] - \frac{1}{Fr^2} - \frac{\partial \overline{p}}{\partial \overline{z}},
+\frac{\partial\overline{u}_z}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] + \frac{1}{Fr^2} - \frac{\partial \overline{p}}{\partial \overline{z}},
 $$
 
 ---
@@ -154,7 +154,7 @@ where $M$ is the grid number in axial direction, $N$ the grid number in radial d
 
 
 
-## Step 1 in staggered grids
+## Projection method step 1 implementation in staggered grids
 
 <img src="./References/Document Sources/Staggered grid.jpg" style="zoom:50%;" />
 
@@ -326,19 +326,51 @@ where $\text{where }r_{ij}=j\cdot \Delta r$, where $i$ is the z-direction coordi
 
 
 
-Boundary (1): set velocity (not pressure)
+- Boundary (1): velocity boundary; assume that the inflow velocity is equal to $U_\inf$.
+
+
+$$
+\overline{u_{z,1j}}=1,j=1,2,3...N
+$$
+
+
+- Boundary (2):  $v_r=0$ and $\text{stress}_r =0$. The stress includes velocity and pressure terms. However, as pressure term does not appear in the step one, the boundary condition is simplified to the following:
+
+
+$$
+\left\{\begin{array}{c}
+\overline{u_{r,i1}}=0,i=1,2,3...M \\
+\frac{\partial \overline{u_z}}{\partial \overline{r}}=0 \rightarrow \overline{u_{z,i2}}-\overline{u_{z,i1}}=0,i=1,2,3...M
+\end{array}\right.
+$$
 
 
 
-Boundary (2): you need to set $v_r=0$ but also $\text{stress}_r =0$. The stress includes velocity and pressure terms. 
+
+- Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
+
+
+$$
+\left\{\begin{array}{c}
+\frac{\partial \overline{u_r}}{\partial \overline{z}}=0 \rightarrow \overline{u_{r,Mj}}-\overline{u_{r,(M-1)j}}=0,j=1,2,3...N+1\\
+\frac{\partial \overline{u_z}}{\partial \overline{z}}=0 \rightarrow \overline{u_{z,(M+1)j}}-\overline{u_{z,Mj}}=0,j=1,2,3...N
+\end{array}\right.
+
+$$
 
 
 
-Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
+
+- Boundaries 4 and 5:  no slip.
 
 
+$$
+\left\{\begin{array}{c}
+\overline{u_{r,i(N+1)}}=0,i=1,2,3...M\\
+\overline{u_{z,(M+1)j}}=0,j=S,S+1,S+2...N, \text{ where }S=L/\Delta r+1\text{, and }L\text{ is the outlet length}
+\end{array}\right.
+$$
 
-Boundaries 4 and 5:  no slip.
 
 
 
