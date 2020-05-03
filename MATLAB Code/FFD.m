@@ -220,12 +220,10 @@ classdef FFD < handle
             Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
             
             % compile sparse diagonal state matrices
-            obj.ArN = sparse(diag(Lambda1*ones(nm-1, 1), 1) ...
-                    + diag(Lambda2*ones(nm-1, 1), -1));
-               
-            obj.BrN = sparse(diag(Pi1*ones(nm-m, 1), m) ...
-                    + diag(Pi2*ones(nm-m, 1), -m));
-                
+            obj.ArN = spdiags([Lambda1*ones(nm, 1), ...
+                               Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
+            obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
+                              [m, -m], nm, nm);             
             Z = spdiags(0.25*ones(nm, 4), [0, m, m-1, -1], nm, nm);
 
             % compute advection operator
@@ -266,12 +264,10 @@ classdef FFD < handle
             Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
             
             % compile sparse diagonal state matrices
-            obj.ArN = sparse(diag(Lambda1*ones(nm-1, 1), 1) ...
-                    + diag(Lambda2*ones(nm-1, 1), -1));
-               
-            obj.BrN = sparse(diag(Pi1*ones(nm-m, 1), m) ...
-                    + diag(Pi2*ones(nm-m, 1), -m));
-                
+            obj.AzN = spdiags([Lambda1*ones(nm, 1), ...
+                               Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
+            obj.BzN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
+                              [m, -m], nm, nm);                           
             R = spdiags(0.25*ones(nm, 4), [0, -m, -m+1, 1], nm, nm);
 
             % compute advection operator
