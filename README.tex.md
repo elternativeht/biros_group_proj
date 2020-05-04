@@ -261,18 +261,16 @@ A_r^* u_r^* = F(u^n)
 $$
 
 
-   $$A_r^*=$$
-   
-  \begin{array}{cccc}
-  
-  -	& -	&-	&- & \Omega^n_1 \\
+$$
+A_r^*= 
+  \begin{array}{ccccc}
+ -	& -	&-	&- & \Omega^n_1 \\
  -	& -	&-	&\Omega^n_2 & - \\
  -	& -	&\Omega^n_3	&- & - \\
  -	& \Omega^n_4	&-	&- & - \\
  \Omega^n_5	& -	&-	&- & - \\
-
   \end{array}
-
+$$
 
 
 
