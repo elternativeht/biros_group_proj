@@ -261,7 +261,7 @@ A_r^* u_r^* = F(u^n)
 $$
 
 
-   $$A_r^*=
+   $$A_r^*=$$
    
   \begin{array}{cccc}
   
@@ -271,7 +271,7 @@ $$
  -	& \Omega^n_4	&-	&- & - \\
  \Omega^n_5	& -	&-	&- & - \\
 
-  \end{array}$$
+  \end{array}
 
 
 
