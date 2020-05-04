@@ -175,6 +175,14 @@ where
 <p align="center"><img src="/tex/dce73c6fa4e5e38c1f6b8687c2738a44.svg?invert_in_darkmode&sanitize=true" align=middle width=754.6750529999999pt height=41.11867485pt/></p>
 
 
+<p align="center"><img src="/tex/1f80ff94ba3536bd1f442bad550ebbcc.svg?invert_in_darkmode&sanitize=true" align=middle width=102.76844655pt height=16.438356pt/></p>
+
+ \[
+   $A_r^*$=
+  \left[ {<p align="center"><img src="/tex/d93682cd5405ae3f81209715c5abdd91.svg?invert_in_darkmode&sanitize=true" align=middle width=348.85941255pt height=71.14156335pt/></p> } \right]
+\]
+
+
 
 
 
