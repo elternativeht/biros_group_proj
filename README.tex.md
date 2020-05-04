@@ -293,6 +293,28 @@ $$
 $$
 
 
+$$
+{\partial u_z \over \partial r} \approx {{u_{z,i(j+1)} + u_{z,ij} \over 2}-{u_{z,i(j+1)} +u_{z,ij} \over 2} \over \Delta r} \approx {u_{z,i(j+1)} - u_{z,i(j-1)} \over 2 \Delta r}
+$$
+
+$$
+{\partial^2 u_z \over \partial r^2} \approx {{{u_{z,i(j+1)} + u_{z,ij} \over 2} - u_{z,ij} \over {1 \over 2 }\Delta r}-{u_{r,ij} +u_{r,i(j-1)} \over \Delta r} \over \Delta r} \approx {u_{r,i(j+1)} - 2u_{r,ij} + u_{r,i(j-1)} \over (\Delta r)^2}
+$$
+
+$$
+{\partial u_r \over \partial z} \approx {{u_{r,(i+1)j} + u_{r,ij} \over 2}-{u_{r,ij} +u_{r,(i-1)j} \over 2} \over \Delta z} \approx {u_{r,(i+1)j} - u_{r,(i-1)j} \over 2 \Delta z}
+$$
+
+$$
+{\partial^2 u_r \over \partial z^2} \approx {{u_{r,(i+1)j} + u_{r,ij} \over \Delta z}-{u_{r,ij} +u_{r,(i-1)j} \over \Delta z} \over \Delta z} \approx {u_{r,(i+1)j} - 2u_{r,ij} + u_{r,(i-1)j} \over (\Delta z)^2}
+$$
+
+
+$$
+u_z \approx {u^k_{z,ij}+u^k_{z,i(j-1)}+u^k_{z,(i+1)(j-1)}+u^k_{z,(i+1)j} \over 4}
+$$
+
+
 
 
 
