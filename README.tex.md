@@ -263,6 +263,8 @@ $$
 
 $$
 A_r^*= 
+$$
+
   \begin{array}{ccccc}
  -	& -	&-	&- & \Omega^n_1 \\
  -	& -	&-	&\Omega^n_2 & - \\
@@ -270,7 +272,7 @@ A_r^*=
  -	& \Omega^n_4	&-	&- & - \\
  \Omega^n_5	& -	&-	&- & - \\
   \end{array}
-$$
+  
 
 
 
