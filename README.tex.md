@@ -31,7 +31,7 @@ $$
 \frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0
 $$
 The dimensionless radial direction momentum equation is:
-$$ 
+$$
 \frac{\partial\overline{u}_r}{\partial \overline{t}} \left[{u^2_\infty \over H} \right]+ \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}}\left[{u^2_\infty \over H} \right] + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}}\left[{u^2_\infty \over H} \right] = -\frac{\partial \overline{p}}{\partial \overline{r}}\left[{u^2_\infty \over H} \right] +\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right)\left[{\nu u_\infty \over H^2} \right] - \frac{\overline{u}_r}{\overline{r}^2}\left[{\nu u_\infty \over H^2} \right] + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2} \left[{\nu u_\infty \over H^2} \right] 
 $$
 
@@ -41,7 +41,7 @@ $$
 
 
 And dimensionless axial direction momentum equation is:
-$$ 
+$$
 \frac{\partial\overline{u}_z}{\partial \overline{t}}\left[{u^2_\infty \over H} \right] + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}}\left[{u^2_\infty \over H} \right] + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}}\left[{u^2_\infty \over H} \right] = - \frac{\partial \overline{p}}{\partial \overline{z}}\left[{u^2_\infty \over H} \right] +\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right)\left[{\nu u_\infty \over H^2} \right]  + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\left[{\nu u_\infty \over H^2} \right] -g, 
 $$
 
@@ -241,7 +241,7 @@ $$
 
 
 
-where $\text{where }r_{ij}=j\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+where $\text{where }r_{ij}=(j-1)\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
@@ -322,11 +322,11 @@ $$
 
 
 
-where $\text{where }r_{ij}=j\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+where $\text{where }r_{ij}=(j-1)\cdot \Delta r$, where $i$ is the z-direction coordinate and $j$ r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
-## Boundary conditions
+### Step 1 boundary conditions
 
 
 
@@ -363,7 +363,6 @@ $$
 \frac{\partial \overline{u_r}}{\partial \overline{z}}=0 \rightarrow \overline{u_{r,Mj}}-\overline{u_{r,(M-1)j}}=0,j=1,2,3...N+1\\
 \frac{\partial \overline{u_z}}{\partial \overline{z}}=0 \rightarrow \overline{u_{z,(M+1)j}}-\overline{u_{z,Mj}}=0,j=1,2,3...N
 \end{array}\right.
-
 $$
 
 
@@ -381,11 +380,94 @@ $$
 
 
 
+## Projection method step 2 implementation in staggered grids
+
+
+
+The Possion equation needs to be solved:
+$$
+\nabla^{2} \pi^{n+1}=\frac{1}{\Delta t} \nabla \cdot \mathbf{u}^{*}
+$$
+where $\mathbf{u}^{*}$ has been solved via step 1.
 
 
 
 
 
+A divergence operator $\nabla \cdot \mathbf{u}^{*}$ has the following expression in 2d cylindrical coordinates:
+
+
+$$
+\nabla \cdot \mathbf{u}^{*} = \frac{1}{r} \frac{\partial\left(r u_{r}\right)}{\partial r}+\frac{\partial u_{z}}{\partial z}=\frac{1}{r}u_r+\frac{\partial u_r}{\partial r}+\frac{\partial u_{z}}{\partial z}
+$$
+
+
+The discretization would need to be also at the node point of  pressure $\pi = p/\rho$:
+$$
+\nabla \cdot \mathbf{u}^{*} \approx \frac{1}{r_{ij}+\Delta r/2}\frac{u_{r,ij}+u_{r,i(j+1)}}{2}+\frac{u_{r,i(j+1)}-u_{r,ij}}{\Delta r}+\frac{u_{z,(i+1)j}-u_{z,ij}}{\Delta z}
+$$
+
+
+The Laplace operator has the following equation in the 2d cylindrical coordinates:
+
+ 
+$$
+\nabla^2\pi=\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial \pi}{\partial r}\right)+\frac{\partial^{2} \pi}{\partial z^{2}}=\frac{1}{r}\frac{\partial \pi}{\partial r}+\frac{\partial^2\pi}{\partial r^2}+\frac{\partial^2 \pi}{\partial z^2}
+$$
+
+
+The discretization method would be:
+$$
+\frac{1}{r_{ij}+\Delta r/2}\frac{\pi_{i(j+1)}-\pi_{i(j-1)}}{2\Delta r}+\frac{\pi_{i(j+1)}-2\pi_{ij}+\pi_{i(j-1)}}{(\Delta r)^2}+\frac{\pi_{(i+1)j}-2\pi_{ij}+\pi_{(i-1)j}}{(\Delta z)^2}
+$$
+where, as in step 1, $r_{ij}=(j-1)\cdot \Delta r$.
+
+
+
+The discretization allows us to get, for all internal nodes:
+$$
+A\pi_{ij}+B\pi_{i(j+1)}+C\pi_{i(j-1)}+B\pi_{(i+1)j}+B\pi_{(i-1)j}=F
+$$
+
+
+where
+$$
+A = \frac{2}{(\Delta r)^2}+\frac{2}{(\Delta z)^2}
+$$
+
+
+
+
+$$
+B = -\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{(\Delta r)^2}
+$$
+
+
+
+
+$$
+C = \frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{(\Delta r)^2}
+$$
+
+
+
+
+$$
+D = - \frac{1}{(\Delta z)^2},E =  -\frac{1}{(\Delta z)^2}
+$$
+
+
+
+
+$$
+F=\frac{1}{\Delta t} \left(\frac{1}{r_{ij}+\Delta r/2}\frac{u_{r,ij}+u_{r,i(j+1)}}{2}+\frac{u_{r,i(j+1)}-u_{r,ij}}{\Delta r}+\frac{u_{z,(i+1)j}-u_{z,ij}}{\Delta z}\right)
+$$
+
+
+
+
+
+Df 
 
 
 
