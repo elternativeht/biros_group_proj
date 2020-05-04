@@ -18,13 +18,13 @@ The non-dimensionalization process takes the following conversions:
 The dimensionless continuous equation then is:
 <p align="center"><img src="/tex/b059c5503a448993f80a667638aaf64d.svg?invert_in_darkmode&sanitize=true" align=middle width=145.5763914pt height=34.7253258pt/></p>
 The dimensionless radial direction momentum equation is:
-<p align="center"><img src="/tex/6250cbd05ce125f12228f4b3c46ec4b2.svg?invert_in_darkmode&sanitize=true" align=middle width=753.6464232pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/f691b80c47be47e54a6ea059eac4d194.svg?invert_in_darkmode&sanitize=true" align=middle width=753.6464232pt height=40.11819404999999pt/></p>
 
 <p align="center"><img src="/tex/789eb34231ed01609a5f77aa34263bc0.svg?invert_in_darkmode&sanitize=true" align=middle width=466.07951610000003pt height=40.11819404999999pt/></p>
 
 
 And dimensionless axial direction momentum equation is:
-<p align="center"><img src="/tex/00d6df40b6c72c7f7a4493452801ac8a.svg?invert_in_darkmode&sanitize=true" align=middle width=698.30142525pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/c74d1dbecc9bdbb3fd85f6914a272a43.svg?invert_in_darkmode&sanitize=true" align=middle width=698.30142525pt height=40.11819404999999pt/></p>
 
 <p align="center"><img src="/tex/8a5672e369e2d17bd0726ef06747f8f9.svg?invert_in_darkmode&sanitize=true" align=middle width=485.60185409999997pt height=40.11819404999999pt/></p>
 
@@ -170,7 +170,7 @@ where
 
 
 
-where <img src="/tex/c602bf8eaf019deccee4880c91e7530a.svg?invert_in_darkmode&sanitize=true" align=middle width=129.59953875pt height=22.831056599999986pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+where <img src="/tex/1c7887c98fd16c36851ae4c9f576fef7.svg?invert_in_darkmode&sanitize=true" align=middle width=170.69537265pt height=24.65753399999998pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
@@ -233,11 +233,11 @@ where
 
 
 
-where <img src="/tex/c602bf8eaf019deccee4880c91e7530a.svg?invert_in_darkmode&sanitize=true" align=middle width=129.59953875pt height=22.831056599999986pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+where <img src="/tex/1c7887c98fd16c36851ae4c9f576fef7.svg?invert_in_darkmode&sanitize=true" align=middle width=170.69537265pt height=24.65753399999998pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
 
 
 
-## Boundary conditions
+### Step 1 boundary conditions
 
 
 
@@ -262,7 +262,7 @@ where <img src="/tex/c602bf8eaf019deccee4880c91e7530a.svg?invert_in_darkmode&san
 - Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
 
 
-<p align="center"><img src="/tex/743ba08f489f550a25c283e9c1e674db.svg?invert_in_darkmode&sanitize=true" align=middle width=392.38602149999997pt height=41.2237353pt/></p>
+<p align="center"><img src="/tex/2021ae14f98ddd70580c474d316fb019.svg?invert_in_darkmode&sanitize=true" align=middle width=392.38602149999997pt height=41.2237353pt/></p>
 
 
 
@@ -274,11 +274,72 @@ where <img src="/tex/c602bf8eaf019deccee4880c91e7530a.svg?invert_in_darkmode&san
 
 
 
+## Projection method step 2 implementation in staggered grids
+
+
+
+The Possion equation needs to be solved:
+<p align="center"><img src="/tex/7fd490426be54f30979bad7c126b3048.svg?invert_in_darkmode&sanitize=true" align=middle width=144.93071999999998pt height=32.990165999999995pt/></p>
+where <img src="/tex/87f3abf657422bb4f80c07c54d15dee3.svg?invert_in_darkmode&sanitize=true" align=middle width=17.237421299999987pt height=22.63846199999998pt/> has been solved via step 1.
 
 
 
 
 
+A divergence operator <img src="/tex/3715c81142a6f4a78a29106b9a6799bd.svg?invert_in_darkmode&sanitize=true" align=middle width=42.80807519999998pt height=22.63846199999998pt/> has the following expression in 2d cylindrical coordinates:
+
+
+<p align="center"><img src="/tex/9d5797db3163640ffc6af6338a0c09ff.svg?invert_in_darkmode&sanitize=true" align=middle width=331.87325655pt height=34.7253258pt/></p>
+
+
+The discretization would need to be also at the node point of  pressure <img src="/tex/ddd51eabbdc98d8592c0e3bcd64764d8.svg?invert_in_darkmode&sanitize=true" align=middle width=56.866378799999985pt height=24.65753399999998pt/>:
+<p align="center"><img src="/tex/6a146366189bc34cd9c240c1b33dd481.svg?invert_in_darkmode&sanitize=true" align=middle width=523.51350315pt height=37.8237354pt/></p>
+
+
+The Laplace operator has the following equation in the 2d cylindrical coordinates:
+
+ 
+<p align="center"><img src="/tex/da3ce264e2ecf34f57dc6d9ec8d1c18e.svg?invert_in_darkmode&sanitize=true" align=middle width=353.62222004999995pt height=40.11819404999999pt/></p>
+
+
+The discretization method would be:
+<p align="center"><img src="/tex/bc226e8a1d8a15153cbb058ab254f6a1.svg?invert_in_darkmode&sanitize=true" align=middle width=575.6432979pt height=38.8282917pt/></p>
+where, as in step 1, <img src="/tex/c3d1dea018f98330b6e64554fe26423a.svg?invert_in_darkmode&sanitize=true" align=middle width=123.16109354999999pt height=24.65753399999998pt/>.
+
+
+
+The discretization allows us to get, for all internal nodes:
+<p align="center"><img src="/tex/acdbb5809b2ca484849c367b1bfbc457.svg?invert_in_darkmode&sanitize=true" align=middle width=393.04493414999996pt height=17.0776386pt/></p>
+
+
+where
+<p align="center"><img src="/tex/623c908c1d52288e9a729cf5534f6db3.svg?invert_in_darkmode&sanitize=true" align=middle width=144.21308385pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/b23318b4a3ea8437ba4e5c37294dff94.svg?invert_in_darkmode&sanitize=true" align=middle width=226.56772379999998pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/caccbd4ece2f4f220e54ede23188888b.svg?invert_in_darkmode&sanitize=true" align=middle width=213.4135245pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/dbafe675788d8f5585d9cfa02daf71fc.svg?invert_in_darkmode&sanitize=true" align=middle width=194.23056839999998pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/97ed8e70975e6798ee64e100a62efbe3.svg?invert_in_darkmode&sanitize=true" align=middle width=545.2306843499999pt height=39.814869599999994pt/></p>
+
+
+
+
+
+Df 
 
 
 
