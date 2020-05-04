@@ -18,7 +18,7 @@ The non-dimensionalization process takes the following conversions:
 The dimensionless continuous equation then is:
 <p align="center"><img src="/tex/b059c5503a448993f80a667638aaf64d.svg?invert_in_darkmode&sanitize=true" align=middle width=145.5763914pt height=34.7253258pt/></p>
 The dimensionless radial direction momentum equation is:
-<p align="center"><img src="/tex/f691b80c47be47e54a6ea059eac4d194.svg?invert_in_darkmode&sanitize=true" align=middle width=753.6464232pt height=40.11819404999999pt/></p>
+<p align="center"><img src="/tex/972e7eb1f96482a6f3f60aaab979c2d4.svg?invert_in_darkmode&sanitize=true" align=middle width=753.6464232pt height=40.11819404999999pt/></p>
 
 <p align="center"><img src="/tex/789eb34231ed01609a5f77aa34263bc0.svg?invert_in_darkmode&sanitize=true" align=middle width=466.07951610000003pt height=40.11819404999999pt/></p>
 
