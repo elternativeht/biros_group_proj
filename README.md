@@ -177,10 +177,9 @@ where
 
 <p align="center"><img src="/tex/1f80ff94ba3536bd1f442bad550ebbcc.svg?invert_in_darkmode&sanitize=true" align=middle width=102.76844655pt height=16.438356pt/></p>
 
- \[
-   $A_r^*$=
-  \left[ {<p align="center"><img src="/tex/d93682cd5405ae3f81209715c5abdd91.svg?invert_in_darkmode&sanitize=true" align=middle width=348.85941255pt height=71.14156335pt/></p> } \right]
-\]
+
+   $$A_r^*$$=
+  \[ <p align="center"><img src="/tex/d93682cd5405ae3f81209715c5abdd91.svg?invert_in_darkmode&sanitize=true" align=middle width=348.85941255pt height=71.14156335pt/></p> \]
 
 
 
