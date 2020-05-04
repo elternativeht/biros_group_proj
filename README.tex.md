@@ -32,7 +32,7 @@ $$
 $$
 The dimensionless radial direction momentum equation is:
 $$
-\frac{\partial\overline{u}_r}{\partial \overline{t}} \left[{u^2_\infty \over H} \right]+ \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}}\left[{u^2_\infty \over H} \right] + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}}\left[{u^2_\infty \over H} \right] = -\frac{\partial \overline{p}}{\partial \overline{r}}\left[{u^2_\infty \over H} \right] +\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right)\left[{\nu u_\infty \over H^2} \right] - \frac{\overline{u}_r}{\overline{r}^2}\left[{\nu u_\infty \over H^2} \right] + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2} \left[{\nu u_\infty \over H^2} \right] 
+\frac{\partial\overline{u}_r}{\partial \overline{t}} \left[{u^2_\infty \over H} \right]+ \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}}\left[{u^2_\infty \over H} \right] + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{r}}\left[{u^2_\infty \over H} \right] = -\frac{\partial \overline{p}}{\partial \overline{r}}\left[{u^2_\infty \over H} \right] +\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right)\left[{\nu u_\infty \over H^2} \right] - \frac{\overline{u}_r}{\overline{r}^2}\left[{\nu u_\infty \over H^2} \right] + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2} \left[{\nu u_\infty \over H^2} \right] 
 $$
 
 $$
