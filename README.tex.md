@@ -144,7 +144,7 @@ $$
 {\partial^2\overline{u^*_r} \over \partial \overline{z^2}} \approx {\overline{u_r^*}_{,(i+1)j}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,(i-1)j} \over (\overline{\Delta z})^2}
 $$
 
-
+## Step 2: Possion equation
 
 
 
