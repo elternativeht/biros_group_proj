@@ -388,7 +388,7 @@ The Possion equation needs to be solved:
 $$
 \nabla^{2} \pi^{n+1}=\frac{1}{\Delta t} \nabla \cdot \mathbf{u}^{*}
 $$
-where $\mathbf{u}^{*}$ has been solved via step 1.
+After the first step.
 
 
 
