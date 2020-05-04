@@ -178,57 +178,178 @@ where
 <p align="center"><img src="/tex/1f80ff94ba3536bd1f442bad550ebbcc.svg?invert_in_darkmode&sanitize=true" align=middle width=102.76844655pt height=16.438356pt/></p>
 
 
-   $$A_r^*=
+   $$A_r^*=$$
    
-  <p align="center"><img src="/tex/ca2734ad8d4b0eb5efe5550fbb32edba.svg?invert_in_darkmode&sanitize=true" align=middle width=131.77355565pt height=188.4931719pt/></p><p align="center"><img src="/tex/374927edf3ea0e0fc8964a30b9d195e2.svg?invert_in_darkmode&sanitize=true" align=middle width=700.2746965499999pt height=94.42922775pt/></p>
-\frac{\boldsymbol{u}^{*}_{(i,j)}-\boldsymbol{u}^{n}_{(i,j)}}{\Delta t}+\left(\boldsymbol{u}^{n}_{(i,j)}\cdot\nabla\right)\boldsymbol{u}^{n}_{(i,j)}=\Delta \boldsymbol{u}^{*}_{(i,j)}
-<p align="center"><img src="/tex/5174e3e2cc66af333d6ec31bf1b0be4e.svg?invert_in_darkmode&sanitize=true" align=middle width=300.2747649pt height=11.4155283pt/></p>
-\left( \boldsymbol{u}^n_{z,ij} \cdot \nabla \right) \boldsymbol{u}^n_{z,ij}=\frac{u^n_{r,i(j+1)}+u^n_{r,ij}+u^n_{r,(i-1)(j+1)}+u^n_{r,(i-1)j}}{4}\left[\frac{u^{n}_{z,i(j+1)}-u^{n}_{z,i(j-1)}}{2\Delta r}\right]+u^n_{z,ij}\frac{u^n_{z,(i+1)j}-u^n_{z,(i-1)j}}{2\Delta z}
-<p align="center"><img src="/tex/d352c2fe29961288bbd34dc377e06478.svg?invert_in_darkmode&sanitize=true" align=middle width=155.02324199999998pt height=11.4155283pt/></p>
-\frac{1}{\text{Re}}\left[\frac{1}{r_{ij}+\frac{\Delta r}{2}}\frac{u^*_{z,i(j+1)}-u^*_{z,i(j-1)}}{2\Delta r}+\frac{u^*_{z,i(j+1)}-2u^*_{z,ij}+u^*_{z,i(j-1)}}{(\Delta r)^2}+\frac{u^*_{z,(i+1)j}-2u^*_{z,ij}+u^*_{z,(i-1)j}}{(\Delta z)^2}\right]
-<p align="center"><img src="/tex/c3da89483fe22ee76470d058eabb93e8.svg?invert_in_darkmode&sanitize=true" align=middle width=595.7094pt height=14.611878599999999pt/></p>
-Au^*_{z,ij}+Bu^*_{z,i(j+1)}+Cu^*_{z,i(j-1)}+Du^*_{z,(i+1)j}+Eu^*_{z,(i-1)j}=F+\frac{1}{\text{Fr}^2}
-<p align="center"><img src="/tex/a38577c4da2a0986caf37e1891e2f11f.svg?invert_in_darkmode&sanitize=true" align=middle width=260.50297184999994pt height=11.4155283pt/></p>
-A = \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1}{\text{Re}}\frac{2}{(\Delta z)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-B = -\frac{1}{\text{Re}}\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-C = +\frac{1}{\text{Re}}\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{\text{Re}}\frac{1}{(\Delta r)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-D =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2},E =  -\frac{1}{\text{Re}}\frac{1}{(\Delta z)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-F= \frac{u^n_{z,ij}}{\Delta t}-\left(\frac{u^n_{r,i(j+1)}+u^n_{r,ij}+u^n_{r,(i-1)(j+1)}+u^n_{r,(i-1)j}}{4}\left[\frac{u^{n}_{z,i(j+1)}-u^{n}_{z,i(j-1)}}{2\Delta r}\right]+u^n_{z,ij}\frac{u^n_{z,(i+1)j}-u^n_{z,(i-1)j}}{2\Delta z}\right)
-<p align="center"><img src="/tex/51201ec0ed4a30a6f8b2c36fd65c65fd.svg?invert_in_darkmode&sanitize=true" align=middle width=700.2746965499999pt height=115.06849364999998pt/></p>
-\overline{u_{z,1j}}=1,j=1,2,3...N
-<p align="center"><img src="/tex/f01ed562c9500c4932aae825e4a5b3ca.svg?invert_in_darkmode&sanitize=true" align=middle width=700.27463055pt height=54.9771717pt/></p>
-\left\{<p align="center"><img src="/tex/41adc9f6b482e55c3b37fe026b4f79a6.svg?invert_in_darkmode&sanitize=true" align=middle width=299.973168pt height=37.5498585pt/></p>\right.
-<p align="center"><img src="/tex/c67a4f3ce389602857ebf6cc46aeec09.svg?invert_in_darkmode&sanitize=true" align=middle width=639.4081039499999pt height=16.438356pt/></p>
-\left\{<p align="center"><img src="/tex/36e376aa8ea769431ddd08c1027e87f6.svg?invert_in_darkmode&sanitize=true" align=middle width=369.86545364999995pt height=41.2237353pt/></p>\right.
-<p align="center"><img src="/tex/8efb6f604f0265c0f55230cf84c600e2.svg?invert_in_darkmode&sanitize=true" align=middle width=214.6124112pt height=14.611878599999999pt/></p>
-\left\{<p align="center"><img src="/tex/e064c8371fb15edf68c3ed36e28030fe.svg?invert_in_darkmode&sanitize=true" align=middle width=624.2451105pt height=36.8036658pt/></p>\right.
-<p align="center"><img src="/tex/189b81a6bae2042f436d3faa8671a324.svg?invert_in_darkmode&sanitize=true" align=middle width=433.06055595pt height=34.3379058pt/></p>
-\nabla^{2} \pi^{n+1}=\frac{1}{\Delta t} \nabla \cdot \mathbf{u}^{*}
-<p align="center"><img src="/tex/a3872426bb1565e6ba7c604d9a961301.svg?invert_in_darkmode&sanitize=true" align=middle width=628.2891615pt height=44.2009194pt/></p>
-\nabla \cdot \mathbf{u}^{*} = \frac{1}{r} \frac{\partial\left(r u_{r}\right)}{\partial r}+\frac{\partial u_{z}}{\partial z}=\frac{1}{r}u_r+\frac{\partial u_r}{\partial r}+\frac{\partial u_{z}}{\partial z}
-<p align="center"><img src="/tex/6b141d720bb72fde33c0690a0a945747.svg?invert_in_darkmode&sanitize=true" align=middle width=572.4384765pt height=16.438356pt/></p>
-\nabla \cdot \mathbf{u}^{*} \approx \frac{1}{r_{ij}+\Delta r/2}\frac{u_{r,ij}+u_{r,i(j+1)}}{2}+\frac{u_{r,i(j+1)}-u_{r,ij}}{\Delta r}+\frac{u_{z,(i+1)j}-u_{z,ij}}{\Delta z}
-<p align="center"><img src="/tex/b6140b7e6872492331e2b0c77292a439.svg?invert_in_darkmode&sanitize=true" align=middle width=591.46284615pt height=14.611878599999999pt/></p>
-\nabla^2\pi=\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial \pi}{\partial r}\right)+\frac{\partial^{2} \pi}{\partial z^{2}}=\frac{1}{r}\frac{\partial \pi}{\partial r}+\frac{\partial^2\pi}{\partial r^2}+\frac{\partial^2 \pi}{\partial z^2}
-<p align="center"><img src="/tex/f4579c56b81f6fa0a57e39a3c87e35b3.svg?invert_in_darkmode&sanitize=true" align=middle width=264.52128120000003pt height=11.4155283pt/></p>
-\frac{1}{r_{ij}+\Delta r/2}\frac{\pi_{i(j+1)}-\pi_{i(j-1)}}{2\Delta r}+\frac{\pi_{i(j+1)}-2\pi_{ij}+\pi_{i(j-1)}}{(\Delta r)^2}+\frac{\pi_{(i+1)j}-2\pi_{ij}+\pi_{(i-1)j}}{(\Delta z)^2}
-<p align="center"><img src="/tex/6d2a00b89723c2a30d8abb2b668861bb.svg?invert_in_darkmode&sanitize=true" align=middle width=436.1198094pt height=63.92694825pt/></p>
-A\pi_{ij}+B\pi_{i(j+1)}+C\pi_{i(j-1)}+B\pi_{(i+1)j}+B\pi_{(i-1)j}=F
-<p align="center"><img src="/tex/f6851476009182f828d80792e4d78020.svg?invert_in_darkmode&sanitize=true" align=middle width=42.05492115pt height=11.4155283pt/></p>
-A = \frac{2}{(\Delta r)^2}+\frac{2}{(\Delta z)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-B = -\frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{(\Delta r)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-C = \frac{1}{r_{ij}+\Delta r/2}\frac{1}{2\Delta r}-\frac{1}{(\Delta r)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-D = - \frac{1}{(\Delta z)^2},E =  -\frac{1}{(\Delta z)^2}
-<p align="center"><img src="/tex/f8bfc3a483b0e785ac7c71bc777479cb.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>
-F=\frac{1}{\Delta t} \left(\frac{1}{r_{ij}+\Delta r/2}\frac{u_{r,ij}+u_{r,i(j+1)}}{2}+\frac{u_{r,i(j+1)}-u_{r,ij}}{\Delta r}+\frac{u_{z,(i+1)j}-u_{z,ij}}{\Delta z}\right)
-$$
+  <p align="center"><img src="/tex/ca2734ad8d4b0eb5efe5550fbb32edba.svg?invert_in_darkmode&sanitize=true" align=middle width=131.77355565pt height=188.4931719pt/></p>
+
+
+
+
+
+where <img src="/tex/1c7887c98fd16c36851ae4c9f576fef7.svg?invert_in_darkmode&sanitize=true" align=middle width=170.69537265pt height=24.65753399999998pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+
+
+
+### Axial direction momentum equation
+
+
+
+Like radial, axial momentum equation discretization is shown below:
+
+
+
+
+<p align="center"><img src="/tex/367c48c6b0933d14354735ee9dc78818.svg?invert_in_darkmode&sanitize=true" align=middle width=309.64548614999995pt height=37.1774601pt/></p>
+
+
+
+
+
+The advection term can be discretized as:
+<p align="center"><img src="/tex/ff8896c15d9393b60ae3a2ddfbc8d7aa.svg?invert_in_darkmode&sanitize=true" align=middle width=772.2085040999999pt height=41.11867485pt/></p>
+
+
+
+The diffusion term is:
+
+<p align="center"><img src="/tex/360d75162335835d8a43e45062bf8b8e.svg?invert_in_darkmode&sanitize=true" align=middle width=691.6483876499999pt height=49.315569599999996pt/></p>
+
+
+
+The intermediate variable can be summarized by the following linearized equation:
+
+
+<p align="center"><img src="/tex/f4b4b7c970717d8a9f0f662c3d13265f.svg?invert_in_darkmode&sanitize=true" align=middle width=492.32601164999994pt height=34.4904021pt/></p>
+
+
+where in state matrix form we have:
+<p align="center"><img src="/tex/46527258472a972637eabc5732735851.svg?invert_in_darkmode&sanitize=true" align=middle width=234.58740195pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/7b152f2d4a7fecdcff4fe0d7461fe9bc.svg?invert_in_darkmode&sanitize=true" align=middle width=273.27090615pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/8ef2b205931e0405244b19a7dfc39ec1.svg?invert_in_darkmode&sanitize=true" align=middle width=272.9021394pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/9dc225eafcdbab1765cff21cd5b61922.svg?invert_in_darkmode&sanitize=true" align=middle width=240.93375074999997pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/a2cf7aec727c950abf692d4ccf5ba033.svg?invert_in_darkmode&sanitize=true" align=middle width=756.6804844499999pt height=41.11867485pt/></p>
+
+
+
+
+
+where <img src="/tex/1c7887c98fd16c36851ae4c9f576fef7.svg?invert_in_darkmode&sanitize=true" align=middle width=170.69537265pt height=24.65753399999998pt/>, where <img src="/tex/77a3b857d53fb44e33b53e4c8b68351a.svg?invert_in_darkmode&sanitize=true" align=middle width=5.663225699999989pt height=21.68300969999999pt/> is the z-direction coordinate and <img src="/tex/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710416999999989pt height=21.68300969999999pt/> r-direction coordinate. The equation only applies to internal points, with z positive direction pointing downward and r positive direction pointint rightward (outward).
+
+
+
+### Step 1 boundary conditions
+
+
+
+<img src="./References/Document Sources/Boundary condition.jpg" style="zoom:24%;" />
+
+
+
+- Boundary (1): velocity boundary; assume that the inflow velocity is equal to <img src="/tex/98f42838386f103b3bc6a224d72ccb8a.svg?invert_in_darkmode&sanitize=true" align=middle width=27.19988204999999pt height=22.465723500000017pt/>.
+
+
+<p align="center"><img src="/tex/573d17445e72da82a0685fcf3516d699.svg?invert_in_darkmode&sanitize=true" align=middle width=168.5845029pt height=15.936036599999998pt/></p>
+
+
+- Boundary (2):  <img src="/tex/4aee50c7fe12fe3e346db76f22ffd69e.svg?invert_in_darkmode&sanitize=true" align=middle width=45.384226799999986pt height=21.18721440000001pt/> and <img src="/tex/f6cdc5360d2d944d54ab5675731bb521.svg?invert_in_darkmode&sanitize=true" align=middle width=77.00521784999998pt height=21.18721440000001pt/>. The stress includes velocity and pressure terms. However, as pressure term does not appear in the step one, the boundary condition is simplified to the following:
+
+
+<p align="center"><img src="/tex/ba67f53f7960015c02f3a8b987e04644.svg?invert_in_darkmode&sanitize=true" align=middle width=322.49373585pt height=39.66415035pt/></p>
+
+
+
+
+- Boundary (3):  normal stress =0. The stress has a viscous component and the pressure. 
+
+
+<p align="center"><img src="/tex/2021ae14f98ddd70580c474d316fb019.svg?invert_in_darkmode&sanitize=true" align=middle width=392.38602149999997pt height=41.2237353pt/></p>
+
+
+
+
+- Boundaries 4 and 5:  no slip.
+
+
+<p align="center"><img src="/tex/3840a2e4877ce728c63faa696a8f9001.svg?invert_in_darkmode&sanitize=true" align=middle width=644.7930819pt height=39.452455349999994pt/></p>
+
+
+
+## Projection method step 2 implementation in staggered grids
+
+
+
+The Possion equation needs to be solved:
+<p align="center"><img src="/tex/7fd490426be54f30979bad7c126b3048.svg?invert_in_darkmode&sanitize=true" align=middle width=144.93071999999998pt height=32.990165999999995pt/></p>
+After the first step.
+
+
+
+
+
+A divergence operator <img src="/tex/3715c81142a6f4a78a29106b9a6799bd.svg?invert_in_darkmode&sanitize=true" align=middle width=42.80807519999998pt height=22.63846199999998pt/> has the following expression in 2d cylindrical coordinates:
+
+
+<p align="center"><img src="/tex/9d5797db3163640ffc6af6338a0c09ff.svg?invert_in_darkmode&sanitize=true" align=middle width=331.87325655pt height=34.7253258pt/></p>
+
+
+The discretization would need to be also at the node point of  pressure <img src="/tex/ddd51eabbdc98d8592c0e3bcd64764d8.svg?invert_in_darkmode&sanitize=true" align=middle width=56.866378799999985pt height=24.65753399999998pt/>:
+<p align="center"><img src="/tex/6a146366189bc34cd9c240c1b33dd481.svg?invert_in_darkmode&sanitize=true" align=middle width=523.51350315pt height=37.8237354pt/></p>
+
+
+The Laplace operator has the following equation in the 2d cylindrical coordinates:
+
+ 
+<p align="center"><img src="/tex/da3ce264e2ecf34f57dc6d9ec8d1c18e.svg?invert_in_darkmode&sanitize=true" align=middle width=353.62222004999995pt height=40.11819404999999pt/></p>
+
+
+The discretization method would be:
+<p align="center"><img src="/tex/bc226e8a1d8a15153cbb058ab254f6a1.svg?invert_in_darkmode&sanitize=true" align=middle width=575.6432979pt height=38.8282917pt/></p>
+where, as in step 1, <img src="/tex/c3d1dea018f98330b6e64554fe26423a.svg?invert_in_darkmode&sanitize=true" align=middle width=123.16109354999999pt height=24.65753399999998pt/>.
+
+
+
+The discretization allows us to get, for all internal nodes:
+<p align="center"><img src="/tex/acdbb5809b2ca484849c367b1bfbc457.svg?invert_in_darkmode&sanitize=true" align=middle width=393.04493414999996pt height=17.0776386pt/></p>
+
+
+where
+<p align="center"><img src="/tex/623c908c1d52288e9a729cf5534f6db3.svg?invert_in_darkmode&sanitize=true" align=middle width=144.21308385pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/b23318b4a3ea8437ba4e5c37294dff94.svg?invert_in_darkmode&sanitize=true" align=middle width=226.56772379999998pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/caccbd4ece2f4f220e54ede23188888b.svg?invert_in_darkmode&sanitize=true" align=middle width=213.4135245pt height=37.6933392pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/dbafe675788d8f5585d9cfa02daf71fc.svg?invert_in_darkmode&sanitize=true" align=middle width=194.23056839999998pt height=37.099754999999995pt/></p>
+
+
+
+
+<p align="center"><img src="/tex/97ed8e70975e6798ee64e100a62efbe3.svg?invert_in_darkmode&sanitize=true" align=middle width=545.2306843499999pt height=39.814869599999994pt/></p>
 
 
 
