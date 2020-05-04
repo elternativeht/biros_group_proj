@@ -144,7 +144,7 @@ $$
 {\partial^2\overline{u^*_r} \over \partial \overline{z^2}} \approx {\overline{u_r^*}_{,(i+1)j}-2 \overline{u_r^*}_{,ij}+\overline{u_r^*}_{,(i-1)j} \over (\overline{\Delta z})^2}
 $$
 
-## Step 2: Possion equation
+Howver, due to a staggered grid being used the discretizations require an extra step of complexity, detailed below. 
 
 
 
@@ -177,8 +177,26 @@ $$
 \frac{\boldsymbol{u}^{*}_{(i,j)}-\boldsymbol{u}^{n}_{(i,j)}}{\Delta t}+\left(\boldsymbol{u}^{n}_{(i,j)}\cdot\nabla\right)\boldsymbol{u}^{n}_{(i,j)}=\Delta \boldsymbol{u}^{*}_{(i,j)}
 $$
 
+$$
+{\partial u_r \over \partial r} \approx {{u_{r,i(j+1)} + u_{r,ij} \over 2}-{u_{r,ij} +u_{r,i(j-1)} \over 2} \over \Delta r} \approx {u_{r,i(j+1)} - u_{r,i(j-1)} \over 2 \Delta r}
+$$
+
+$$
+{\partial^2 u_r \over \partial r^2} \approx {{u_{r,i(j+1)} + u_{r,ij} \over \Delta r}-{u_{r,ij} +u_{r,i(j-1)} \over \Delta r} \over \Delta r} \approx {u_{r,i(j+1)} - 2u_{r,ij} + u_{r,i(j-1)} \over (\Delta r)^2}
+$$
+
+$$
+{\partial u_r \over \partial z} \approx {{u_{r,(i+1)j} + u_{r,ij} \over 2}-{u_{r,ij} +u_{r,(i-1)j} \over 2} \over \Delta z} \approx {u_{r,(i+1)j} - u_{r,(i-1)j} \over 2 \Delta z}
+$$
+
+$$
+{\partial^2 u_r \over \partial z^2} \approx {{u_{r,(i+1)j} + u_{r,ij} \over \Delta z}-{u_{r,ij} +u_{r,(i-1)j} \over \Delta z} \over \Delta z} \approx {u_{r,(i+1)j} - 2u_{r,ij} + u_{r,(i-1)j} \over (\Delta z)^2}
+$$
 
 
+$$
+u_z \approx {u^k_{z,ij}+u^k_{z,i(j-1)}+u^k_{z,(i+1)(j-1)}+u^k_{z,(i+1)j} \over 4}
+$$
 
 
 The advection term can be discretized as:
@@ -465,10 +483,11 @@ $$
 
 
 
-
-
 Df 
 
-
+## Validation of the model
+The results of our numerical scheme are compard to the results of K. F. Zhang and  J. Y. OOi (1998). 
+### Establishing a relationship between viscosity and properties of solid grain particles
+K. F. Zhang and  J. Y. OOi (1998) investigated the kinematic constant, B, as a function of various particle parameters. Has been shown to most closely related to particle size. The kinematic eqn they use is identical to the 1D unsteady heat conduction equation. 
 
 [1]:	https://www.overleaf.com/read/hzzczmvjnnht
