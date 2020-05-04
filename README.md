@@ -214,7 +214,7 @@ The intermediate variable can be summarized by the following linearized equation
 <p align="center"><img src="/tex/f4b4b7c970717d8a9f0f662c3d13265f.svg?invert_in_darkmode&sanitize=true" align=middle width=492.32601164999994pt height=34.4904021pt/></p>
 
 
-where
+where in state matrix form we have:
 <p align="center"><img src="/tex/46527258472a972637eabc5732735851.svg?invert_in_darkmode&sanitize=true" align=middle width=234.58740195pt height=37.099754999999995pt/></p>
 
 
