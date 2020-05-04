@@ -31,12 +31,20 @@ $$
 \frac{1}{\overline{r}}\frac{\partial(\overline{r}\:\overline{u}_r)}{\partial \overline{r}} + \frac{\partial \overline{u}_z}{\partial \overline{z}} = 0
 $$
 The dimensionless radial direction momentum equation is:
+$$ 
+\frac{\partial\overline{u}_r}{\partial \overline{t}} \left[{u^2_\infty \over H} \right]+ \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}}\left[{u^2_\infty \over H} \right] + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}}\left[{u^2_\infty \over H} \right] = -\frac{\partial \overline{p}}{\partial \overline{r}}\left[{u^2_\infty \over H} \right] +\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right)\left[{\nu u_\infty \over H^2} \right] - \frac{\overline{u}_r}{\overline{r}^2}\left[{\nu u_\infty \over H^2} \right] + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2} \left[{\nu u_\infty \over H^2} \right] 
+$$
+
 $$
 \frac{\partial\overline{u}_r}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_r}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_r}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_r}{\partial \overline{r}}\right) - \frac{\overline{u}_r}{\overline{r}^2} + \frac{\partial^2 \overline{u}_r}{\partial \overline{z}^2}\right] - \frac{\partial \overline{p}}{\partial \overline{r}}
 $$
 
 
 And dimensionless axial direction momentum equation is:
+$$ 
+\frac{\partial\overline{u}_z}{\partial \overline{t}}\left[{u^2_\infty \over H} \right] + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}}\left[{u^2_\infty \over H} \right] + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}}\left[{u^2_\infty \over H} \right] = - \frac{\partial \overline{p}}{\partial \overline{z}}\left[{u^2_\infty \over H} \right] +\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right)\left[{\nu u_\infty \over H^2} \right]  + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\left[{\nu u_\infty \over H^2} \right] -g, 
+$$
+
 $$
 \frac{\partial\overline{u}_z}{\partial \overline{t}} + \overline{u}_r\frac{\partial\overline{u}_z}{\partial\overline{r}} + \overline{u}_z\frac{\partial\overline{u}_z}{\partial\overline{z}} = \frac{1}{Re}\left[\frac{1}{\overline{r}}\frac{\partial}{\partial \overline{r}}\left(\overline{r}\frac{\partial \overline{u}_z}{\partial \overline{r}}\right) + \frac{\partial^2 \overline{u}_z}{\partial \overline{z}^2}\right] + \frac{1}{Fr^2} - \frac{\partial \overline{p}}{\partial \overline{z}},
 $$
