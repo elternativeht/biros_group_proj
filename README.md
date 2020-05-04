@@ -91,7 +91,7 @@ Discretization of each term using a central differnce scheme:
 
 <p align="center"><img src="/tex/7c5c5607a353042c445e4bfef8ab9faf.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
 
-## Step 2: Possion equation
+Howver, due to a staggered grid being used the discretizations require an extra step of complexity, detailed below. 
 
 
 
@@ -122,8 +122,16 @@ The radial momentum equation discretization is shown below:
 
 <p align="center"><img src="/tex/367c48c6b0933d14354735ee9dc78818.svg?invert_in_darkmode&sanitize=true" align=middle width=309.64548614999995pt height=37.1774601pt/></p>
 
+<p align="center"><img src="/tex/9b92aae872efd9c1b35726db243c8c54.svg?invert_in_darkmode&sanitize=true" align=middle width=417.15232184999996pt height=39.8302311pt/></p>
+
+<p align="center"><img src="/tex/fef2e3fbea22a1a08cc1e119045fb33f.svg?invert_in_darkmode&sanitize=true" align=middle width=483.47846415pt height=43.9398201pt/></p>
+
+<p align="center"><img src="/tex/948260ab6f92cb8397a91b0602178826.svg?invert_in_darkmode&sanitize=true" align=middle width=417.15232184999996pt height=39.8302311pt/></p>
+
+<p align="center"><img src="/tex/09c041205d15e51546ad04e7fa294567.svg?invert_in_darkmode&sanitize=true" align=middle width=483.47846415pt height=43.9398201pt/></p>
 
 
+<p align="center"><img src="/tex/a8c7eb7c20a9657f030bc08ce698ef59.svg?invert_in_darkmode&sanitize=true" align=middle width=335.76136275pt height=39.8144505pt/></p>
 
 
 The advection term can be discretized as:
@@ -337,10 +345,11 @@ where
 
 
 
-
-
 Df 
 
-
+## Validation of the model
+The results of our numerical scheme are compard to the results of K. F. Zhang and  J. Y. OOi (1998). 
+### Establishing a relationship between viscosity and properties of solid grain particles
+K. F. Zhang and  J. Y. OOi (1998) investigated the kinematic constant, B, as a function of various particle parameters. Has been shown to most closely related to particle size. The kinematic eqn they use is identical to the 1D unsteady heat conduction equation. 
 
 [1]:	https://www.overleaf.com/read/hzzczmvjnnht
