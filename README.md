@@ -280,7 +280,7 @@ where <img src="/tex/1c7887c98fd16c36851ae4c9f576fef7.svg?invert_in_darkmode&san
 
 The Possion equation needs to be solved:
 <p align="center"><img src="/tex/7fd490426be54f30979bad7c126b3048.svg?invert_in_darkmode&sanitize=true" align=middle width=144.93071999999998pt height=32.990165999999995pt/></p>
-where <img src="/tex/87f3abf657422bb4f80c07c54d15dee3.svg?invert_in_darkmode&sanitize=true" align=middle width=17.237421299999987pt height=22.63846199999998pt/> has been solved via step 1.
+After the first step.
 
 
 
