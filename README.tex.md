@@ -262,14 +262,16 @@ $$
 
 
    $$A_r^*=
-  \left[ \begin{array}{cccc}
+   
+  \begin{array}{cccc}
+  
   -	& -	&-	&- & \Omega^n_1 \\
  -	& -	&-	&\Omega^n_2 & - \\
  -	& -	&\Omega^n_3	&- & - \\
  -	& \Omega^n_4	&-	&- & - \\
  \Omega^n_5	& -	&-	&- & - \\
 
-  \end{array} \right]$$
+  \end{array}$$
 
 
 
