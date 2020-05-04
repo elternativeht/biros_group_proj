@@ -114,7 +114,7 @@ $$
 
 The equation rewritten in 2D cylindrical coordinates ($z$ and $r$ used):
 $$
-{\overline{u^*_r}-\overline{u^n_r} \over \Delta t} + \overline{u^n_r}{\partial\overline{u^n_r} \over \partial \overline{r}} +\overline{u^n_z}{\partial\overline{u^n_z} \over \partial \overline{z}} = {1 \over Re} \left[{1 \over \overline{r}}{\partial \over \partial \overline{r}} \left(\overline{r} {\partial\overline{u^*_r} \over \partial \overline{r}} \right)+{\partial^2\overline{u^*_r} \over \partial \overline{z^2}}-{\overline{u^*_r} \over \overline{r^2}}\right]
+{\overline{u^*_r}-\overline{u^n_r} \over \Delta t} + \overline{u^n_r}{\partial\overline{u^n_r} \over \partial \overline{r}} +\overline{u^n_r}{\partial\overline{u^n_z} \over \partial \overline{z}} = {1 \over Re} \left[{1 \over \overline{r}}{\partial \over \partial \overline{r}} \left(\overline{r} {\partial\overline{u^*_r} \over \partial \overline{r}} \right)+{\partial^2\overline{u^*_r} \over \partial \overline{z^2}}-{\overline{u^*_r} \over \overline{r^2}}\right]
 $$
 
 
