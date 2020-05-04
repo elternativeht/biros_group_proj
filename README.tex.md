@@ -303,7 +303,7 @@ Au^*_{z,ij}+Bu^*_{z,i(j+1)}+Cu^*_{z,i(j-1)}+Du^*_{z,(i+1)j}+Eu^*_{z,(i-1)j}=F+\f
 $$
 
 
-where
+where in state matrix form we have:
 $$
 A = \frac{1}{\Delta t}+\frac{1}{\text{Re}}\frac{2}{(\Delta r)^2}+\frac{1}{\text{Re}}\frac{2}{(\Delta z)^2}
 $$
