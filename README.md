@@ -91,7 +91,7 @@ Discretization of each term using a central differnce scheme:
 
 <p align="center"><img src="/tex/7c5c5607a353042c445e4bfef8ab9faf.svg?invert_in_darkmode&sanitize=true" align=middle width=259.61135475pt height=43.72759214999999pt/></p>
 
-
+## Step 2: Possion equation
 
 
 
