@@ -179,7 +179,8 @@ where
 
 
    $$A_r^*=
-  \left[ <p align="center"><img src="/tex/2b8dbe58dfa7f2bfb08f5c1a38e8b521.svg?invert_in_darkmode&sanitize=true" align=middle width=131.77355565pt height=188.4931719pt/></p> \right]<p align="center"><img src="/tex/374927edf3ea0e0fc8964a30b9d195e2.svg?invert_in_darkmode&sanitize=true" align=middle width=700.2746965499999pt height=94.42922775pt/></p>
+   
+  <p align="center"><img src="/tex/ca2734ad8d4b0eb5efe5550fbb32edba.svg?invert_in_darkmode&sanitize=true" align=middle width=131.77355565pt height=188.4931719pt/></p><p align="center"><img src="/tex/374927edf3ea0e0fc8964a30b9d195e2.svg?invert_in_darkmode&sanitize=true" align=middle width=700.2746965499999pt height=94.42922775pt/></p>
 \frac{\boldsymbol{u}^{*}_{(i,j)}-\boldsymbol{u}^{n}_{(i,j)}}{\Delta t}+\left(\boldsymbol{u}^{n}_{(i,j)}\cdot\nabla\right)\boldsymbol{u}^{n}_{(i,j)}=\Delta \boldsymbol{u}^{*}_{(i,j)}
 <p align="center"><img src="/tex/5174e3e2cc66af333d6ec31bf1b0be4e.svg?invert_in_darkmode&sanitize=true" align=middle width=300.2747649pt height=11.4155283pt/></p>
 \left( \boldsymbol{u}^n_{z,ij} \cdot \nabla \right) \boldsymbol{u}^n_{z,ij}=\frac{u^n_{r,i(j+1)}+u^n_{r,ij}+u^n_{r,(i-1)(j+1)}+u^n_{r,(i-1)j}}{4}\left[\frac{u^{n}_{z,i(j+1)}-u^{n}_{z,i(j-1)}}{2\Delta r}\right]+u^n_{z,ij}\frac{u^n_{z,(i+1)j}-u^n_{z,(i-1)j}}{2\Delta z}
