@@ -154,7 +154,7 @@ Howver, due to a staggered grid being used the discretizations require an extra 
 
 The grid has following naming notations:
 
-<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+​	
 
 
 
@@ -271,8 +271,8 @@ $$
  -	& -	&\Omega^n_3	&- & - \\
  -	& \Omega^n_4	&-	&- & - \\
  \Omega^n_5	& -	&-	&- & - \\
-  \end{array}
-  
+    \end{array}
+
 
 
 
@@ -468,7 +468,7 @@ $$
 
 The Laplace operator has the following equation in the 2d cylindrical coordinates:
 
- 
+
 $$
 \nabla^2\pi=\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial \pi}{\partial r}\right)+\frac{\partial^{2} \pi}{\partial z^{2}}=\frac{1}{r}\frac{\partial \pi}{\partial r}+\frac{\partial^2\pi}{\partial r^2}+\frac{\partial^2 \pi}{\partial z^2}
 $$

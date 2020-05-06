@@ -319,21 +319,21 @@ classdef FFD < handle
             
             Omega1_main = (-1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
                      - 2/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
-            Omega1_main(1:m+1:TotalNum)=1.0;
-            Omega1_main(m+1:m+1:TotalNum)=1.0;
-            Omega1_main(1:m+1)=1.0;
-            Omega1_main((m+1)*(n-1)+1:end)=1.0;
+            Omega1_main(1:m:TotalNum)=1.0;
+            Omega1_main(m+1:m:TotalNum)=1.0;
             
-            
-            Omega2_main = 1/(2*obj.Re*(repmat(([-obj.drbar,...
-                     obj.rbar])',n, 1) ...
+            x=([-obj.drbar,...
+                     obj.rbar])';
+            y
+            Omega2_main = 1/(2*obj.Re*(repmat(x,TotalNum, 1) ...
                      + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
-            Omega2_main=Omega2_main';
             Omega2_main(m+2:m+1:(m+1)*(n-1))=-1.0;
             Omega2_main(1)=0.0;
-            Omega2_main([(m+1)*(n-1)+1:end])=0.0;
-            Omega2_main(1:m+1)=0.0;
             Omega2_main(m+1:m+1:TotalNum)=0.0;
+            Omega2_main([(m+1)*(n-1)+1:end])=0.0;
+            
+            Omega2_main(1:m:TotalNum)=0.0;
+            Omega2_main(m+1:m:TotalNum)=0.0;
             Omega2_main(end)=[];
             Omega2_main = [0.0;Omega2_main];
             
@@ -341,20 +341,18 @@ classdef FFD < handle
             
                  
             Omega3_main = (1/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
-            Omega3_main(1:m+1)=0.0;
+            Omega3_main(1:m+1)=0.0
             Omega3_main(1:m+1:TotalNum)=0.0;
             Omega3_main(m+1:m+1:TotalNum)=0.0;
-            Omega3_main((m+1)*(n-1)+1:end)=[];
+            Omega3_main((m+1)*(n-1)+1:end)=[]
             Omega3_main = [zeros(m+1,1);Omega3_main];
             
-            Omega4_main = -1/(2*obj.Re*(repmat(([-obj.drbar,...
-                     obj.rbar])',n, 1) ...
+            Omega4_main = 1/(2*obj.Re*(repmat(([-obj.drbar,...
+                     obj.rbar,obj.rbar+obj.drbar])',TotalNum, 1) ...
                      + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
-            Omega4_main=Omega4_main';
             Omega4_main(1:m+1:end)=0.0;
-            
+            Omega4_main(m+1:m+1:TotalNum)=0.0;
             Omega4_main([(m+1)*(n-1)+1:end])=0.0;
-            Omega4_main(m+1:m+1:(m+1)*(n-1))=1.0;
             Omega4_main(1:m+1)=0.0;
             Omega4_main(1)=[];
             Omega4_main = [Omega4_main;0.0];
