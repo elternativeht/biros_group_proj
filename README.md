@@ -101,7 +101,7 @@ Howver, due to a staggered grid being used the discretizations require an extra 
 
 The grid has following naming notations:
 
-<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
+​	
 
 
 
@@ -178,9 +178,9 @@ where
 <p align="center"><img src="/tex/1f80ff94ba3536bd1f442bad550ebbcc.svg?invert_in_darkmode&sanitize=true" align=middle width=102.76844655pt height=16.438356pt/></p>
 
 
-   $$A_r^*=$$
-   
-  <p align="center"><img src="/tex/ca2734ad8d4b0eb5efe5550fbb32edba.svg?invert_in_darkmode&sanitize=true" align=middle width=131.77355565pt height=188.4931719pt/></p>
+<p align="center"><img src="/tex/4b6a890e99567c8b950bdb557619276b.svg?invert_in_darkmode&sanitize=true" align=middle width=37.23741945pt height=16.204986599999998pt/></p>
+
+  <p align="center"><img src="/tex/ab47822fb54cc6808e805fd389e2f511.svg?invert_in_darkmode&sanitize=true" align=middle width=169.03200765pt height=94.2171384pt/></p>
 
 
 
@@ -200,6 +200,18 @@ Like radial, axial momentum equation discretization is shown below:
 
 
 <p align="center"><img src="/tex/367c48c6b0933d14354735ee9dc78818.svg?invert_in_darkmode&sanitize=true" align=middle width=309.64548614999995pt height=37.1774601pt/></p>
+
+
+<p align="center"><img src="/tex/de8ab136d31a42813bc82f0c7e793334.svg?invert_in_darkmode&sanitize=true" align=middle width=421.9259055pt height=39.8302311pt/></p>
+
+<p align="center"><img src="/tex/4901b351c36504d34724265b78f0a753.svg?invert_in_darkmode&sanitize=true" align=middle width=524.2081696500001pt height=55.9874799pt/></p>
+
+<p align="center"><img src="/tex/948260ab6f92cb8397a91b0602178826.svg?invert_in_darkmode&sanitize=true" align=middle width=417.15232184999996pt height=39.8302311pt/></p>
+
+<p align="center"><img src="/tex/09c041205d15e51546ad04e7fa294567.svg?invert_in_darkmode&sanitize=true" align=middle width=483.47846415pt height=43.9398201pt/></p>
+
+
+<p align="center"><img src="/tex/a8c7eb7c20a9657f030bc08ce698ef59.svg?invert_in_darkmode&sanitize=true" align=middle width=335.76136275pt height=39.8144505pt/></p>
 
 
 
@@ -314,7 +326,7 @@ The discretization would need to be also at the node point of  pressure <img src
 
 The Laplace operator has the following equation in the 2d cylindrical coordinates:
 
- 
+
 <p align="center"><img src="/tex/da3ce264e2ecf34f57dc6d9ec8d1c18e.svg?invert_in_darkmode&sanitize=true" align=middle width=353.62222004999995pt height=40.11819404999999pt/></p>
 
 
