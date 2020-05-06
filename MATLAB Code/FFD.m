@@ -21,10 +21,18 @@ classdef FFD < handle
         Ustar           % intermediate velocity vector (KP-04/25)
         Pbar            % pressure storage 
         
+        testAr
+        
+        % Staggered grid real node number:
         % pressure data is (zMaxIndex-1)-by-(rMaxIndex-1)
         % z velocity data is (zMaxIndex)-by-(rMaxIndex-1)
         % r velocity data is (zMaxindex-1)-by-(rMaxIndex)
-        % the difference is due to staggered grid
+        
+        %For ghost point
+        % vz has 2 columns of (M-2) ghost points
+        % vr has 2 rows    of (N-2) ghost points
+        % P  has 2 columns of (M-1) and 2 rows of (N-1) ghost points
+        
         
         % Updated by Jinghu on Apr 25 16:00
         rbarOutlet = 0.3                % outlet radius
@@ -92,11 +100,17 @@ classdef FFD < handle
             obj.rMaxIndex = size(obj.rbar,2);
             obj.zMaxIndex = size(obj.zbar,2);
 
-            % Updated by Jinghu on Apr 25 16:00
-            obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
-            obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
-%             obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
-%             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
+            % Staggered grid real node number:
+            % pressure data is (zMaxIndex-1)-by-(rMaxIndex-1)
+            % z velocity data is (zMaxIndex)-by-(rMaxIndex-1)
+            % r velocity data is (zMaxindex-1)-by-(rMaxIndex)          
+            
+            
+            % Updated 05-25 JH staggered grid mod
+            %obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
+            %obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
+            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
+            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
             obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
@@ -118,12 +132,12 @@ classdef FFD < handle
             obj.rMaxIndex = size(obj.rbar,2);
             obj.zMaxIndex = size(obj.zbar,2);
             
-            % Updated by Jinghu on Apr 25 16:00
-            obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
-            obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
-%             obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
-%             obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
-            obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
+            
+            %obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
+            %obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
+            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
+            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
+            %obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
             obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
@@ -157,15 +171,6 @@ classdef FFD < handle
         % then it should instead be defined as a property.
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-        % Updated by Jinghu on Apr 25 16:00
-        function grad_inside = InsideNodeGrd(obj,cur_zindex,cur_rindex)
-        % calculate the gradient values of the pressure nodes
-        % "pressure nodes" are the nodes at the finite volume center
-        % Messed up; need to think more
-        grad_inside = 0;
-        end
-        
-        
         function computeUStar(obj)
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
@@ -191,29 +196,100 @@ classdef FFD < handle
         
         function computeArStar(obj)
             % evaluates state matrix for intermediate r-velocity comp.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            n = length(obj.zbar); m = length(obj.rbar); 
+            
+            n_1m = (n-1)*m;
+            
+            
+            OutletNodeNum = sum((obj.rbar)<=obj.a0);
+            
+            TotalNum = m*(n+1);
+            
+            Omega1_GhostPoint = ones(m,1);
+            Omega2_UpperGhostPoint = zeros(m+1,1);
+            Omega2_LowerGhostPoint = zeros(m-1,1);
+          
+            Omega3_UpperGhostPoint = ones(m,1);
+            Omega3_UpperGhostPoint([1,m])=0.0;
+            
+            Omega4_UpperGhostPoint = zeros(m-1,1);
+            Omega4_LowerGhostPoint = zeros(m+1,1);
+
+            Omega5_LowerGhostPoint = ones(m,1);
+            Omega5_LowerGhostPoint([1:OutletNodeNum])=-1.0;
+            Omega5_LowerGhostPoint([1,m])=0.0;
+
+            Omega1_main = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
+                     - 1./(obj.Re*repmat(obj.rbar', n-1, 1).^2) ...
+                     - 2/(obj.Re*obj.dzbar^2);     
+            Omega1_main(1:m:n_1m)=1.0;
+            Omega1_main(m:m:n_1m)=1.0;
+            
+                 
+            Omega2_main = 1/(2*obj.Re*repmat(obj.rbar',n-1,1)*obj.drbar) ...
+                    + 1/(obj.Re*obj.drbar^2);
+            Omega2_main = Omega2_main';
+            Omega2_main(1:m:n_1m)=0.0;
+            Omega2_main(m:m:n_1m)=0.0;
+            
+            Omega3_main = (1/(obj.Re*obj.dzbar^2))*ones(n_1m, 1);
+            Omega3_main(1:m:n_1m) = 0.0;
+            Omega3_main(m:m:n_1m) = 0.0;
+            Omega4_main = -1/(2*obj.Re*repmat(obj.rbar',n-1,1)*obj.drbar) ...
+                    + 1/(obj.Re*obj.drbar^2);
+            Omega4_main = Omega4_main';
+            Omega4_main(1:m:n_1m)=0.0;
+            Omega4_main(m:m:n_1m) = 0.0;
+       
+            Omega5_main = (1/(obj.Re*obj.dzbar^2))*ones(n_1m, 1);
+            Omega5_main(1:m:n_1m)=0.0;
+            Omega5_main(m:m:n_1m)=0.0;
+           
+            TOmega1 = [Omega1_GhostPoint;Omega1_main;Omega1_GhostPoint];
+            TOmega2 = [Omega2_UpperGhostPoint;Omega2_main;...
+                       Omega2_LowerGhostPoint];
+            TOmega3 = [zeros(m,1);Omega3_UpperGhostPoint;Omega3_main];
+            TOmega4 = [Omega4_UpperGhostPoint;Omega4_main;...
+                       Omega4_LowerGhostPoint];
+            TOmega5 = [Omega5_main;Omega5_LowerGhostPoint;zeros(m,1)];
+            
+            obj.ArStar = spdiags([TOmega1, TOmega2, TOmega3,...
+                         TOmega4, TOmega5], ...
+                         [0, 1, m, -1, -m], TotalNum, TotalNum);     
+            
+              
+            
             
             % compute diagonal elements of state matrix
-            Omega1 = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
-                     - 1./(obj.Re*repmat(obj.rbar', n, 1).^2) ...
-                     - 2/(obj.Re*obj.dzbar^2);
-            Omega2 = 1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
-                    + 1/(obj.Re*obj.drbar^2);
-            Omega3 = 1/(obj.Re*obj.dzbar^2);
-            Omega4 = -1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
-                    + 1/(obj.Re*obj.drbar^2);
-            Omega5 = 1/(obj.Re*obj.dzbar^2);
-            
+            %Omega1 = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
+            %         - 1./(obj.Re*repmat(obj.rbar', n, 1).^2) ...
+            %         - 2/(obj.Re*obj.dzbar^2);
+            %Omega2 = 1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
+            %        + 1/(obj.Re*obj.drbar^2);
+            %Omega3 = 1/(obj.Re*obj.dzbar^2);
+            %Omega4 = -1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
+            %        + 1/(obj.Re*obj.drbar^2);
+            %Omega5 = 1/(obj.Re*obj.dzbar^2);
+            %
             % compile sparse diagonal state matrix                      
-            obj.ArStar = spdiags([Omega1, Omega2', Omega3*ones(nm, 1), ...
-                         Omega4', Omega5*ones(nm, 1)], ...
-                         [0, 1, m, -1, -m], nm, nm);              
+            %obj.testAr = spdiags([Omega1, Omega2', Omega3*ones(nm, 1), ...
+            %             Omega4', Omega5*ones(nm, 1)], ...
+            %             [0, 1, m, -1, -m], nm, nm);  
         end
         
         function computeNr(obj)
             % computes advection operator for intermediate
             % non-divergence-free r-momentum equation
             n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            
+            OutletNodeNum = sum((obj.rbar)<=obj.a0);
+            
+            TotalNum = m*(n+1);
+            n_1m = m*(n-1);
+            
+            
+            
+            
             
             % compute diagonal elements of state matrices
             Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
@@ -235,7 +311,66 @@ classdef FFD < handle
         
         function computeAzStar(obj)
             % evaluates state matrix for intermediate r-velocity comp.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            n = length(obj.zbar); m = length(obj.rbar); m_1n = n*(m-1);
+            
+            OutletNodeNum = sum((obj.rbar)<=obj.a0);
+            
+            TotalNum = n*(m+1);
+            
+            Omega1_main = (-1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
+                     - 2/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
+            Omega1_main(1:m+1:TotalNum)=1.0;
+            Omega1_main(m+1:m+1:TotalNum)=1.0;
+            Omega1_main(1:m+1)=1.0;
+            Omega1_main((m+1)*(n-1)+1:end)=1.0;
+            
+            
+            Omega2_main = 1/(2*obj.Re*(repmat(([-obj.drbar,...
+                     obj.rbar])',n, 1) ...
+                     + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
+            Omega2_main=Omega2_main';
+            Omega2_main(m+2:m+1:(m+1)*(n-1))=-1.0;
+            Omega2_main(1)=0.0;
+            Omega2_main([(m+1)*(n-1)+1:end])=0.0;
+            Omega2_main(1:m+1)=0.0;
+            Omega2_main(m+1:m+1:TotalNum)=0.0;
+            Omega2_main(end)=[];
+            Omega2_main = [0.0;Omega2_main];
+            
+            
+            
+                 
+            Omega3_main = (1/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
+            Omega3_main(1:m+1)=0.0;
+            Omega3_main(1:m+1:TotalNum)=0.0;
+            Omega3_main(m+1:m+1:TotalNum)=0.0;
+            Omega3_main((m+1)*(n-1)+1:end)=[];
+            Omega3_main = [zeros(m+1,1);Omega3_main];
+            
+            Omega4_main = -1/(2*obj.Re*(repmat(([-obj.drbar,...
+                     obj.rbar])',n, 1) ...
+                     + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
+            Omega4_main=Omega4_main';
+            Omega4_main(1:m+1:end)=0.0;
+            
+            Omega4_main([(m+1)*(n-1)+1:end])=0.0;
+            Omega4_main(m+1:m+1:(m+1)*(n-1))=1.0;
+            Omega4_main(1:m+1)=0.0;
+            Omega4_main(1)=[];
+            Omega4_main = [Omega4_main;0.0];
+            
+            
+            Omega5_main = 1/(obj.Re*obj.dzbar^2)*ones(TotalNum,1);
+            Omega5_main(1:m+1:end)=0.0;
+            Omega5_main(m+1:m+1:end)=0.0;
+            Omega5_main((m+1)*(n-1)+1:(m+1)*(n-1)+OutletNodeNum)=-1.0;
+            Omega5_main((m+1)*(n-1)+OutletNodeNum:end)=0.0;
+            Omega5_main(1:m+1)=[];
+            Omega5_main = [Omega5_main;zeros(m+1,1)];
+            obj.AzStar = spdiags([Omega1_main,Omega2_main,...
+                         Omega3_main, Omega4_main, ...
+                         Omega5_main],[0, 1, m+1, -1, -m-1],TotalNum, TotalNum); 
+            
             
             % compute diagonal elements of state matrix
             Omega1 = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
@@ -248,9 +383,9 @@ classdef FFD < handle
             Omega5 = 1/(obj.Re*obj.dzbar^2);
             
             % compile sparse diagonal state matrix
-            obj.AzStar = spdiags([Omega1*ones(nm, 1), ...
-                         Omega2', Omega3*ones(nm, 1), Omega4', ...
-                         Omega5*ones(nm, 1)], [0, 1, m, -1, -m], nm, nm);                      
+            %obj.AzStar = spdiags([Omega1*ones(nm, 1), ...
+            %             Omega2', Omega3*ones(nm, 1), Omega4', ...
+            %             Omega5*ones(nm, 1)], [0, 1, m, -1, -m], nm, nm);                      
                                    
         end
         
