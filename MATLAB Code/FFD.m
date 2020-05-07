@@ -106,13 +106,16 @@ classdef FFD < handle
             % r velocity data is (zMaxindex-1)-by-(rMaxIndex)          
             
             
-            % Updated 05-25 JH staggered grid mod
-            %obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
-            %obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
-            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
-            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
-            obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
-            obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
+            % Updated 05-07 JH from KP: storing ghost points
+            obj.Urbar = zeros(obj.zMaxIndex+1, obj.rMaxIndex);
+            obj.Uzbar = zeros(obj.zMaxIndex, obj.rMaxIndex+1);
+            obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];
+            obj.Pbar  = zeros(obj.zMaxIndex+1,obj.rMaxIndex+1);
+            
+            %obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
+            %obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
+            %obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
+            %obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
@@ -132,13 +135,12 @@ classdef FFD < handle
             obj.rMaxIndex = size(obj.rbar,2);
             obj.zMaxIndex = size(obj.zbar,2);
             
-            
-            %obj.Urbar = ones(length(obj.rbar), length(obj.zbar));
-            %obj.Uzbar = zeros(length(obj.rbar), length(obj.zbar));
-            obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
-            obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
-            %obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
-            obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
+             % Updated 05-07 JH from KP: storing ghost points
+            obj.Urbar = zeros(obj.zMaxIndex+1, obj.rMaxIndex);
+            obj.Uzbar = zeros(obj.zMaxIndex, obj.rMaxIndex+1);
+            obj.Ubar = [reshape(obj.Urbar', [], 1); ...
+                        reshape(obj.Uzbar', [], 1)];
+            obj.Pbar  = zeros(obj.zMaxIndex+1,obj.rMaxIndex+1);
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
             obj.dt = obj.dtau*obj.H/obj.Uinf;
@@ -193,6 +195,37 @@ classdef FFD < handle
             applyUrBoundaries(obj);
             applyUzBoundaries(obj);                       
         end
+        function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
+            if rowflag ==true
+                begin = (locator-1)*ncol+begin_i;
+                stop = (locator-1)*ncol + stop_i;
+                vec(begin:stop)=value;
+                R = vec;
+            else
+                begin = (begin_i-1)*ncol + locator;
+                stop  = (stop_i-1) * ncol   + locator;
+                vec(begin:ncol:stop) = value;
+                R = vec;
+            end
+        end
+        function Rfill = FillBoundary(obj,vec,nrow,ncol,...
+                                      lval,rval,upval,lowval)
+            Rfill = vec;
+            if ~isnan(lval) 
+                Rfill = Fill(obj,Rfill,ncol,lval,false,1,1,nrow);
+            end
+            if ~isnan(rval)
+                Rfill = Fill(obj,Rfill,ncol,rval,false,ncol,1,nrow);
+            end
+            if ~isnan(upval)
+                Rfill = Fill(obj,Rfill,ncol,upval,true,1,1,ncol);
+            end
+            if ~isnan(lowval)
+                Rfill = Fill(obj,Rfill,ncol,lowval,true,nrow,1,ncol);
+            end
+        end
+        
+        
         function computeArStar(obj)
             % evaluates state matrix for intermediate r-velocity comp.
             
@@ -202,13 +235,11 @@ classdef FFD < handle
             % the number of real points m*(n-1)
             n_1m = (n-1)*m;
             
-            % two rows of ghost points added
-            % the number of total points m * (n-1) + 2m = m * (n+1)
             % the number of ghost points 2m
             TotalNum = m*(n+1);
             
             % obj.a0 the outlet radius
-            %find out how many nodes belong to outlet
+            % nodes belong to outlet
             OutletNodeNum = sum((obj.rbar)<=obj.a0);
             
             % Omega1*u_ij + Omega2*u_i(j+1) + Omega3*u_(i+1)j
@@ -221,10 +252,15 @@ classdef FFD < handle
                      - 1./(obj.Re*repmat(obj.rbar', n-1, 1).^2) ...
                      - 2/(obj.Re*obj.dzbar^2);  
             
-            % left boundary condition: Ur_ij = 0 (symmetry) Omega1=1.0
-            Omega1_main(1:m:n_1m)=1.0;
-            % right boundary condition Ur_ij = 0 (wall) Omega1 = 1.0
-            Omega1_main(m:m:n_1m)=1.0;
+            % left boundary: Ur_ij = 0 (symmetry) Omega1=1.0
+            % right boundary: Ur_ij = 0 (wall) Omega1 = 1.0
+            %Omega1_main(1:m:n_1m)=1.0;
+            %Omega1_main(m:m:n_1m)=1.0;
+            Omega1_main = FillBoundary(obj,Omega1_main,n-1,m,1.0,1.0,NaN,NaN);
+            
+            
+            % total Omega vectors to be put in matrix as diagnals
+            Omega1 = [Omega1_GhostPoint;Omega1_main;Omega1_GhostPoint];
             
             % Omega2 for ghost points: all should be zero
             % the 1st upper subdiagonal; first element popped off
@@ -239,10 +275,16 @@ classdef FFD < handle
             Omega2_main = Omega2_main';%Omega2 now ((n-1)xm)-by-1
             
             % left boundary condition: Ur_ij = 0 (symmetry) Omega2 = 0
-            Omega2_main(1:m:n_1m)=0.0;
             % right boundary condition Ur_ij = 0 (wall) Omega2 = 0
-            Omega2_main(m:m:n_1m)=0.0;
-          
+            %Omega2_main(1:m:n_1m)=0.0;
+            %Omega2_main(m:m:n_1m)=0.0;
+            Omega2_main = FillBoundary(obj,Omega2_main,n-1,m,0,0,NaN,NaN);
+            
+            
+            % first 0.0 is to be cut off by spdiags function
+            Omega2 = [0.0;Omega2_UpperGhostPoint;Omega2_main;...
+                       Omega2_LowerGhostPoint];                    
+            
             % upper boundary condition Ur_ij + Ur_(i+1)j = 0; Omega3 = 1.0
             Omega3_UpperGhostPoint = ones(m,1);
             
@@ -252,10 +294,15 @@ classdef FFD < handle
             
             % real internal points Omega3
             Omega3_main = (1/(obj.Re*obj.dzbar^2))*ones(n_1m, 1);
-            
+                       
             % left and right boundary points: Omega3 = 0
-            Omega3_main(1:m:n_1m) = 0.0;
-            Omega3_main(m:m:n_1m) = 0.0;
+            %Omega3_main(1:m:n_1m) = 0.0;
+            %Omega3_main(m:m:n_1m) = 0.0;
+            Omega3_main = FillBoundary(obj,Omega3_main,n-1,m,0.0,0.0,NaN,NaN);
+            
+            % first (m,1) vectors are to be cut off by spdiags function
+            Omega3 = [zeros(m,1);Omega3_UpperGhostPoint;Omega3_main];
+            
             
             % Omega4 should be zero for all ghost points
             % first upper ghost points doesn't have Omega4
@@ -266,10 +313,16 @@ classdef FFD < handle
             Omega4_main = -1/(2*obj.Re*repmat(obj.rbar',n-1,1)*obj.drbar) ...
                     + 1/(obj.Re*obj.drbar^2);
             Omega4_main = Omega4_main';
+            
+            Omega4_main = FillBoundary(obj,Omega4_main,n-1,m,0.0,0.0,NaN,NaN);
             % left and right boundary points: Omega4 = 0
-            Omega4_main(1:m:n_1m)=0.0;
-            Omega4_main(m:m:n_1m) = 0.0;
-       
+            %Omega4_main(1:m:n_1m)=0.0;
+            %Omega4_main(m:m:n_1m) = 0.0;            
+             % last 0.0 is to be cut off by spdiags function
+            Omega4 = [Omega4_UpperGhostPoint;Omega4_main;...
+                       Omega4_LowerGhostPoint;0.0];
+            
+            
             % lower Boundary conditions: Ur_ij + Ur_(i-1)j = 0 Omega5 = 1.0
             Omega5_LowerGhostPoint = ones(m,1);
             
@@ -281,52 +334,20 @@ classdef FFD < handle
             
             % real internal points Omega5
             Omega5_main = (1/(obj.Re*obj.dzbar^2))*ones(n_1m, 1);
-            
             % left and right boundary points: Omega5 = 0
-            Omega5_main(1:m:n_1m)=0.0;
-            Omega5_main(m:m:n_1m)=0.0;
+            %Omega5_main(1:m:n_1m)=0.0;
+            %Omega5_main(m:m:n_1m)=0.0;
+            Omega5_main = FillBoundary(obj,Omega5_main,n-1,m,0.0,0.0,NaN,NaN);
            
-            % total Omega vectors to be put in matrix as sub-diagnals
-            
-            TOmega1 = [Omega1_GhostPoint;Omega1_main;Omega1_GhostPoint];
-            
-            % first 0.0 is to be cut off by spdiags function
-            TOmega2 = [0.0;Omega2_UpperGhostPoint;Omega2_main;...
-                       Omega2_LowerGhostPoint];
-            
-            % first mx1 vectors are to be cut off by spdiags function
-            TOmega3 = [zeros(m,1);Omega3_UpperGhostPoint;Omega3_main];
-            
-            % last 0.0 is to be cut off by spdiags function
-            TOmega4 = [Omega4_UpperGhostPoint;Omega4_main;...
-                       Omega4_LowerGhostPoint;0.0];
-            
+       
             % last mx1 vectors are to be cut off by spdiags function
-            TOmega5 = [Omega5_main;Omega5_LowerGhostPoint;zeros(m,1)];
+            Omega5 = [Omega5_main;Omega5_LowerGhostPoint;zeros(m,1)];
             
             % build up Ar*
-            obj.ArStar = spdiags([TOmega1, TOmega2, TOmega3,...
-                         TOmega4, TOmega5], ...
+            obj.ArStar = spdiags([Omega1, Omega2, Omega3,...
+                         Omega4, Omega5], ...
                          [0, 1, m, -1, -m], TotalNum, TotalNum);     
             
-              
-            
-            
-            % compute diagonal elements of state matrix
-            %Omega1 = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
-            %         - 1./(obj.Re*repmat(obj.rbar', n, 1).^2) ...
-            %         - 2/(obj.Re*obj.dzbar^2);
-            %Omega2 = 1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
-            %        + 1/(obj.Re*obj.drbar^2);
-            %Omega3 = 1/(obj.Re*obj.dzbar^2);
-            %Omega4 = -1/(2*obj.Re*repmat(obj.rbar', n, 1)*obj.drbar) ...
-            %        + 1/(obj.Re*obj.drbar^2);
-            %Omega5 = 1/(obj.Re*obj.dzbar^2);
-            %
-            % compile sparse diagonal state matrix                      
-            %obj.testAr = spdiags([Omega1, Omega2', Omega3*ones(nm, 1), ...
-            %             Omega4', Omega5*ones(nm, 1)], ...
-            %             [0, 1, m, -1, -m], nm, nm);  
         end
         
         function computeNr(obj)
@@ -368,14 +389,10 @@ classdef FFD < handle
             % the number of real points (m-1)*n
             n = length(obj.zbar); m = length(obj.rbar); m_1n = n*(m-1);
             
-            % two cols of ghost points added
-            % the number of total points (m-1) * n + 2n = (m+1) * n
-            % the number of ghost points 2n
             
             OutletNodeNum = sum((obj.rbar)<=obj.a0);
             
-            %total points = real points (real internal + real boundary)
-            %               + ghost points
+            % the number of ghost points 2n
             TotalNum = n*(m+1);
             
             %       Omega1*u_ij + Omega2*u_i(j+1) + Omega3*u_(i+1)j
@@ -384,15 +401,18 @@ classdef FFD < handle
             % internal real points Omega1
             Omega1_main = (-1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
                      - 2/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
-            
             % left boundary Omega1
-            Omega1_main(1:m+1:TotalNum)=1.0;
+            %Omega1_main(1:m+1:TotalNum)=1.0;
             % right boundary Omega1
-            Omega1_main(m+1:m+1:TotalNum)=1.0;
+            %Omega1_main(m+1:m+1:TotalNum)=1.0;
             % upper boundary Omega1
-            Omega1_main(1:m+1)=1.0;
+            %Omega1_main(1:m+1)=1.0;
             % lower boundary Omega1
-            Omega1_main((m+1)*(n-1)+1:end)=1.0;
+            %Omega1_main((m+1)*(n-1)+1:end)=1.0;
+            Omega1_main = FillBoundary(obj,Omega1_main,n,m+1,...
+                                      1.0,1.0,1.0,1.0);
+            
+            
             
             % internal real points Omega2
             Omega2_main = 1/(2*obj.Re*(repmat(([-obj.drbar,...
@@ -404,53 +424,78 @@ classdef FFD < handle
             % left boundary condition: zero gradient 
             % Uz,ij = Uz,i(j+1)
             % Omega2 = -1.0
-            Omega2_main(m+2:m+1:(m+1)*(n-1))=-1.0;
+            %Omega2_main(m+2:m+1:(m+1)*(n-1))=-1.0;
             % Omega2 for two left corner ghost points = 0
-            Omega2_main(1)=0.0;
-            Omega2_main(1:m+1)=0.0;
+            %Omega2_main(1)=0.0;
+            % Upper boundary
+            %Omega2_main(1:m+1)=0.0;
             
             % Lower boundary condition Omega2 = 0
-            Omega2_main([(m+1)*(n-1)+1:end])=0.0;
+            %Omega2_main([(m+1)*(n-1)+1:end])=0.0;
             
             % Right boundary condition Omega2 = 0
-            Omega2_main(m+1:m+1:TotalNum)=0.0;
+            %Omega2_main(m+1:m+1:TotalNum)=0.0;
+            
+            Omega2_main = FillBoundary(obj,Omega2_main,n,m+1,...
+                                      -1.0,0.0,0.0,0.0);
             
             % Last element doesn't have Omega2
             Omega2_main(end)=[];
+            
+            
             % first zero is to be cut off
             Omega2_main = [0.0;Omega2_main];
+            
+            
             
             
             
             % real internal points Omega3
             Omega3_main = (1/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
             % upper boundary: Uz,ij = 1
-            Omega3_main(1:m+1)=0.0;
+            %Omega3_main(1:m+1)=0.0;
             % left boundary Omega3 = 0
-            Omega3_main(1:m+1:TotalNum)=0.0;
+            %Omega3_main(1:m+1:TotalNum)=0.0;
             
             % right boundary Omega3 = 0.0
-            Omega3_main(m+1:m+1:TotalNum)=0.0;
+            %Omega3_main(m+1:m+1:TotalNum)=0.0;
+            
+                                  
+            
+            
+            Omega3_main = FillBoundary(obj,Omega3_main,n,m+1,...
+                                     0.0,0.0,0.0,0.0);
             
             % last row of nodes (lower boundary) don't have Omega3
             Omega3_main((m+1)*(n-1)+1:end)=[];
             % zeros are to be cut off
             Omega3_main = [zeros(m+1,1);Omega3_main];
             
+            
+            
             % real internal points Omega4
             Omega4_main = -1/(2*obj.Re*(repmat(([-obj.drbar,...
                      obj.rbar])',n, 1) ...
                      + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
             Omega4_main=Omega4_main';
+            
+            
+            
             % left boundary Omega4 = 0
-            Omega4_main(1:m+1:end)=0.0;
+            %Omega4_main(1:m+1:end)=0.0;
             % lower boundary Omega4 = 0
-            Omega4_main([(m+1)*(n-1)+1:end])=0.0;
+            %Omega4_main([(m+1)*(n-1)+1:end])=0.0;
             
             % right boundary Omega4 = 0.0
-            Omega4_main(m+1:m+1:(m+1)*(n-1))=1.0;
+            %Omega4_main(m+1:m+1:(m+1)*(n-1))=1.0;
             % upper boundary Omega4 = 0.0
-            Omega4_main(1:m+1)=0.0;
+            %Omega4_main(1:m+1)=0.0;
+            
+            
+            
+            Omega4_main = FillBoundary(obj,Omega4_main,n,m+1,...
+                                      0.0,1.0,0.0,0.0);
+            
             
             % first element doesn't have Omega4
             Omega4_main(1)=[];
@@ -459,39 +504,40 @@ classdef FFD < handle
             
             % real internal points Omega5
             Omega5_main = 1/(obj.Re*obj.dzbar^2)*ones(TotalNum,1);
+            
+            testm = Omega5_main;
+            
+            
             % left boundary Omega5 = 0.0
-            Omega5_main(1:m+1:end)=0.0;
+            %Omega5_main(1:m+1:end)=0.0;
             % right boundary
-            Omega5_main(m+1:m+1:end)=0.0;
+            %Omega5_main(m+1:m+1:end)=0.0;
             % lower boundary outlet condition: zero gradient
             % U_ij = U_(i-1)j  Omega5 = -1.0
-            Omega5_main((m+1)*(n-1)+1:(m+1)*(n-1)+OutletNodeNum)=-1.0;
+            %Omega5_main((m+1)*(n-1)+2:(m+1)*(n-1)+OutletNodeNum)=-1.0;
             % lower boundary outlet condition: wall
             % U_ij = 0; Omega5 = 0.0
-            Omega5_main((m+1)*(n-1)+OutletNodeNum:end)=0.0;
+            %Omega5_main((m+1)*(n-1)+OutletNodeNum+1:end)=0.0;
+            
+            
+            Omega5_main = FillBoundary(obj,Omega5_main,n,m+1,...
+                                      0.0,0.0,0.0,NaN);
+            
+            Omega5_main = Fill(obj,Omega5_main,m+1,-1.0,true,n,2,OutletNodeNum);                      
+            Omega5_main((m+1)*(n-1)+OutletNodeNum+1:end)=0.0;
+            Omega5_main((m+1)*(n-1)+1)=0.0;
+            
+            
             % first (m+1) elements don't have Omega5
             Omega5_main(1:m+1)=[];
             Omega5_main = [Omega5_main;zeros(m+1,1)];
+            
+            
             obj.AzStar = spdiags([Omega1_main,Omega2_main,...
                          Omega3_main, Omega4_main, ...
                          Omega5_main],[0, 1, m+1, -1, -m-1],TotalNum, TotalNum); 
             
             
-            % compute diagonal elements of state matrix
-            Omega1 = -1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
-                     - 2/(obj.Re*obj.dzbar^2);
-            Omega2 = 1/(2*obj.Re*(repmat(obj.rbar', n, 1) ...
-                     + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
-            Omega3 = 1/(obj.Re*obj.dzbar^2);
-            Omega4 = -1/(2*obj.Re*(repmat(obj.rbar', n, 1) ...
-                     + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
-            Omega5 = 1/(obj.Re*obj.dzbar^2);
-            
-            % compile sparse diagonal state matrix
-            %obj.AzStar = spdiags([Omega1*ones(nm, 1), ...
-            %             Omega2', Omega3*ones(nm, 1), Omega4', ...
-            %             Omega5*ones(nm, 1)], [0, 1, m, -1, -m], nm, nm);                      
-                                   
         end
         
         function computeNz(obj)
