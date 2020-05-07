@@ -525,7 +525,7 @@ classdef FFD < handle
                 obj.Nz = NaN*ones(nm, 1);
             end   
             
-            % match uz cells with ur
+            % match ur cells with uz
             [ur, uz, ~] = obj.matchCells('uz');
                         
             % compute diagonal elements of state matrices
