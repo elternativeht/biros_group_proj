@@ -254,12 +254,11 @@ classdef FFD < handle
             
             % left boundary: Ur_ij = 0 (symmetry) Omega1=1.0
             % right boundary: Ur_ij = 0 (wall) Omega1 = 1.0
-            %Omega1_main(1:m:n_1m)=1.0;
-            %Omega1_main(m:m:n_1m)=1.0;
-            Omega1_main = FillBoundary(obj,Omega1_main,n-1,m,1.0,1.0,NaN,NaN);
+            Omega1_main = FillBoundary(obj,Omega1_main,n-1,m,...
+                                       1.0,1.0,NaN,NaN);
             
             
-            % total Omega vectors to be put in matrix as diagnals
+            % full Omega1 vectors to be put in matrix as diagnal
             Omega1 = [Omega1_GhostPoint;Omega1_main;Omega1_GhostPoint];
             
             % Omega2 for ghost points: all should be zero
@@ -272,12 +271,10 @@ classdef FFD < handle
             % real internal points Omega2
             Omega2_main = 1/(2*obj.Re*repmat(obj.rbar',n-1,1)*obj.drbar)...
                     + 1/(obj.Re*obj.drbar^2);
-            Omega2_main = Omega2_main';%Omega2 now ((n-1)xm)-by-1
+            Omega2_main = Omega2_main';
             
             % left boundary condition: Ur_ij = 0 (symmetry) Omega2 = 0
             % right boundary condition Ur_ij = 0 (wall) Omega2 = 0
-            %Omega2_main(1:m:n_1m)=0.0;
-            %Omega2_main(m:m:n_1m)=0.0;
             Omega2_main = FillBoundary(obj,Omega2_main,n-1,m,0,0,NaN,NaN);
             
             
@@ -289,16 +286,14 @@ classdef FFD < handle
             Omega3_UpperGhostPoint = ones(m,1);
             
             % two upper corner ghost points won't have Omega3;
-            % U_ij=0
             Omega3_UpperGhostPoint([1,m])=0.0;
             
             % real internal points Omega3
             Omega3_main = (1/(obj.Re*obj.dzbar^2))*ones(n_1m, 1);
                        
             % left and right boundary points: Omega3 = 0
-            %Omega3_main(1:m:n_1m) = 0.0;
-            %Omega3_main(m:m:n_1m) = 0.0;
-            Omega3_main = FillBoundary(obj,Omega3_main,n-1,m,0.0,0.0,NaN,NaN);
+            Omega3_main = FillBoundary(obj,Omega3_main,n-1,m,...
+                                       0.0,0.0,NaN,NaN);
             
             % first (m,1) vectors are to be cut off by spdiags function
             Omega3 = [zeros(m,1);Omega3_UpperGhostPoint;Omega3_main];
@@ -313,12 +308,11 @@ classdef FFD < handle
             Omega4_main = -1/(2*obj.Re*repmat(obj.rbar',n-1,1)*obj.drbar) ...
                     + 1/(obj.Re*obj.drbar^2);
             Omega4_main = Omega4_main';
-            
-            Omega4_main = FillBoundary(obj,Omega4_main,n-1,m,0.0,0.0,NaN,NaN);
-            % left and right boundary points: Omega4 = 0
-            %Omega4_main(1:m:n_1m)=0.0;
-            %Omega4_main(m:m:n_1m) = 0.0;            
-             % last 0.0 is to be cut off by spdiags function
+            % left and right boundary points: Omega4 = 0  
+            Omega4_main = FillBoundary(obj,Omega4_main,n-1,m,...
+                                       0.0,0.0,NaN,NaN);
+              
+            % last 0.0 is to be cut off by spdiags function
             Omega4 = [Omega4_UpperGhostPoint;Omega4_main;...
                        Omega4_LowerGhostPoint;0.0];
             
@@ -335,9 +329,8 @@ classdef FFD < handle
             % real internal points Omega5
             Omega5_main = (1/(obj.Re*obj.dzbar^2))*ones(n_1m, 1);
             % left and right boundary points: Omega5 = 0
-            %Omega5_main(1:m:n_1m)=0.0;
-            %Omega5_main(m:m:n_1m)=0.0;
-            Omega5_main = FillBoundary(obj,Omega5_main,n-1,m,0.0,0.0,NaN,NaN);
+            Omega5_main = FillBoundary(obj,Omega5_main,n-1,m,...
+                                       0.0,0.0,NaN,NaN);
            
        
             % last mx1 vectors are to be cut off by spdiags function
@@ -401,14 +394,7 @@ classdef FFD < handle
             % internal real points Omega1
             Omega1_main = (-1/obj.dtau - 2/(obj.Re*obj.drbar^2) ...
                      - 2/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
-            % left boundary Omega1
-            %Omega1_main(1:m+1:TotalNum)=1.0;
-            % right boundary Omega1
-            %Omega1_main(m+1:m+1:TotalNum)=1.0;
-            % upper boundary Omega1
-            %Omega1_main(1:m+1)=1.0;
-            % lower boundary Omega1
-            %Omega1_main((m+1)*(n-1)+1:end)=1.0;
+            % all boundary Omega1 = 1.0
             Omega1_main = FillBoundary(obj,Omega1_main,n,m+1,...
                                       1.0,1.0,1.0,1.0);
             
@@ -422,19 +408,11 @@ classdef FFD < handle
             Omega2_main=Omega2_main';
             % left boundary except for two corner ghost points
             % left boundary condition: zero gradient 
-            % Uz,ij = Uz,i(j+1)
             % Omega2 = -1.0
-            %Omega2_main(m+2:m+1:(m+1)*(n-1))=-1.0;
             % Omega2 for two left corner ghost points = 0
-            %Omega2_main(1)=0.0;
-            % Upper boundary
-            %Omega2_main(1:m+1)=0.0;
-            
+            % Upper boundary omega2 = 0
             % Lower boundary condition Omega2 = 0
-            %Omega2_main([(m+1)*(n-1)+1:end])=0.0;
-            
             % Right boundary condition Omega2 = 0
-            %Omega2_main(m+1:m+1:TotalNum)=0.0;
             
             Omega2_main = FillBoundary(obj,Omega2_main,n,m+1,...
                                       -1.0,0.0,0.0,0.0);
@@ -445,23 +423,13 @@ classdef FFD < handle
             
             % first zero is to be cut off
             Omega2_main = [0.0;Omega2_main];
-            
-            
-            
-            
+
             
             % real internal points Omega3
             Omega3_main = (1/(obj.Re*obj.dzbar^2))*ones(TotalNum,1);
-            % upper boundary: Uz,ij = 1
-            %Omega3_main(1:m+1)=0.0;
+            % upper boundary omega3 = 0
             % left boundary Omega3 = 0
-            %Omega3_main(1:m+1:TotalNum)=0.0;
-            
-            % right boundary Omega3 = 0.0
-            %Omega3_main(m+1:m+1:TotalNum)=0.0;
-            
-                                  
-            
+            % right boundary Omega3 = 0.0                                         
             
             Omega3_main = FillBoundary(obj,Omega3_main,n,m+1,...
                                      0.0,0.0,0.0,0.0);
@@ -477,22 +445,12 @@ classdef FFD < handle
             Omega4_main = -1/(2*obj.Re*(repmat(([-obj.drbar,...
                      obj.rbar])',n, 1) ...
                      + obj.drbar/2)*obj.drbar) + 1/(obj.Re*obj.drbar^2);
-            Omega4_main=Omega4_main';
-            
-            
+            Omega4_main=Omega4_main';    
             
             % left boundary Omega4 = 0
-            %Omega4_main(1:m+1:end)=0.0;
-            % lower boundary Omega4 = 0
-            %Omega4_main([(m+1)*(n-1)+1:end])=0.0;
-            
-            % right boundary Omega4 = 0.0
-            %Omega4_main(m+1:m+1:(m+1)*(n-1))=1.0;
+            % lower boundary Omega4 = 0           
+            % right boundary Omega4 = 1.0
             % upper boundary Omega4 = 0.0
-            %Omega4_main(1:m+1)=0.0;
-            
-            
-            
             Omega4_main = FillBoundary(obj,Omega4_main,n,m+1,...
                                       0.0,1.0,0.0,0.0);
             
@@ -504,25 +462,14 @@ classdef FFD < handle
             
             % real internal points Omega5
             Omega5_main = 1/(obj.Re*obj.dzbar^2)*ones(TotalNum,1);
-            
-            testm = Omega5_main;
-            
-            
             % left boundary Omega5 = 0.0
-            %Omega5_main(1:m+1:end)=0.0;
-            % right boundary
-            %Omega5_main(m+1:m+1:end)=0.0;
+            % right boundary Omega5 = 0.0
             % lower boundary outlet condition: zero gradient
             % U_ij = U_(i-1)j  Omega5 = -1.0
-            %Omega5_main((m+1)*(n-1)+2:(m+1)*(n-1)+OutletNodeNum)=-1.0;
             % lower boundary outlet condition: wall
             % U_ij = 0; Omega5 = 0.0
-            %Omega5_main((m+1)*(n-1)+OutletNodeNum+1:end)=0.0;
-            
-            
             Omega5_main = FillBoundary(obj,Omega5_main,n,m+1,...
                                       0.0,0.0,0.0,NaN);
-            
             Omega5_main = Fill(obj,Omega5_main,m+1,-1.0,true,n,2,OutletNodeNum);                      
             Omega5_main((m+1)*(n-1)+OutletNodeNum+1:end)=0.0;
             Omega5_main((m+1)*(n-1)+1)=0.0;
