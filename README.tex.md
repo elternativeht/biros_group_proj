@@ -154,7 +154,7 @@ Howver, due to a staggered grid being used the discretizations require an extra 
 
 The grid has following naming notations:
 
-​	
+<img src="./References/Document Sources/Notation.png" alt="./References/Document Sources/Notation.png" style="zoom:80%;" />
 
 
 
@@ -271,8 +271,8 @@ $$
  -	& -	&\Omega^n_3	&- & - \\
  -	& \Omega^n_4	&-	&- & - \\
  \Omega^n_5	& -	&-	&- & - \\
-    \end{array}
-
+  \end{array}
+  
 
 
 
@@ -444,7 +444,7 @@ $$
 
 The Possion equation needs to be solved:
 $$
-\nabla^{2} \pi^{n+1}=\frac{1}{\Delta t} \nabla \cdot \mathbf{u}^{*}
+\nabla^{2} p^{n+1}=\frac{1}{\Delta t} \nabla \cdot \mathbf{u}^{*}
 $$
 After the first step.
 
@@ -468,15 +468,15 @@ $$
 
 The Laplace operator has the following equation in the 2d cylindrical coordinates:
 
-
+ 
 $$
-\nabla^2\pi=\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial \pi}{\partial r}\right)+\frac{\partial^{2} \pi}{\partial z^{2}}=\frac{1}{r}\frac{\partial \pi}{\partial r}+\frac{\partial^2\pi}{\partial r^2}+\frac{\partial^2 \pi}{\partial z^2}
+\nabla^2 p=\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial p}{\partial r}\right)+\frac{\partial^{2} p}{\partial z^{2}}=\frac{1}{r}\frac{\partial p}{\partial r}+\frac{\partial^2p}{\partial r^2}+\frac{\partial^2 p}{\partial z^2}
 $$
 
 
 The discretization method would be:
 $$
-\frac{1}{r_{ij}+\Delta r/2}\frac{\pi_{i(j+1)}-\pi_{i(j-1)}}{2\Delta r}+\frac{\pi_{i(j+1)}-2\pi_{ij}+\pi_{i(j-1)}}{(\Delta r)^2}+\frac{\pi_{(i+1)j}-2\pi_{ij}+\pi_{(i-1)j}}{(\Delta z)^2}
+\frac{1}{r_{ij}+\Delta r/2}\frac{p_{i(j+1)}-p_{i(j-1)}}{2\Delta r}+\frac{p_{i(j+1)}-2p_{ij}+p_{i(j-1)}}{(\Delta r)^2}+\frac{p_{(i+1)j}-2p_{ij}+p_{(i-1)j}}{(\Delta z)^2}
 $$
 where, as in step 1, $r_{ij}=(j-1)\cdot \Delta r$.
 
@@ -484,7 +484,7 @@ where, as in step 1, $r_{ij}=(j-1)\cdot \Delta r$.
 
 The discretization allows us to get, for all internal nodes:
 $$
-A\pi_{ij}+B\pi_{i(j+1)}+C\pi_{i(j-1)}+B\pi_{(i+1)j}+B\pi_{(i-1)j}=F
+Ap_{ij}+Bp_{i(j+1)}+Cp_{i(j-1)}+Bp_{(i+1)j}+Bp_{(i-1)j}=F
 $$
 
 
