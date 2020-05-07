@@ -109,13 +109,10 @@ classdef FFD < handle
             % Updated 05-07 JH from KP: storing ghost points
             obj.Urbar = zeros(obj.zMaxIndex+1, obj.rMaxIndex);
             obj.Uzbar = zeros(obj.zMaxIndex, obj.rMaxIndex+1);
-            obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];
+            obj.Ubar = [reshape(obj.Urbar', [], 1); ...
+                        reshape(obj.Uzbar', [], 1)];
             obj.Pbar  = zeros(obj.zMaxIndex+1,obj.rMaxIndex+1);
             
-            %obj.Urbar = zeros(obj.zMaxIndex-1,obj.rMaxIndex);
-            %obj.Uzbar = zeros(obj.zMaxIndex,obj.rMaxIndex-1);
-            %obj.Ubar = [obj.Urbar(:); obj.Uzbar(:)];          % (KP-04/25)
-            %obj.Pbar  = zeros(obj.zMaxIndex-1,obj.rMaxIndex-1);
             
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
