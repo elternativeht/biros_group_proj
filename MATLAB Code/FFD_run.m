@@ -24,13 +24,22 @@ rbar_new2 = FFD_test.rbar; zbar_new2 = FFD_test.zbar;
 % for operations. in an operation, all associated properties will be
 % updated. e.g. rbar and zbar in this case
 
+% testing computeNr and computeNz
+computeNr(FFD_test);
+computeNz(FFD_test);
+
+test1 = reshape(FFD_test.Nr, size(FFD_test.Urbar, 2), ...
+                         size(FFD_test.Urbar, 1))';
+test2 = reshape(FFD_test.Nz, size(FFD_test.Uzbar, 2), ...
+               size(FFD_test.Uzbar, 1))';
+
 % testing iterateUrStar method in FFD
-UstarTest1 = FFD_test.Ustar;
-FFD_test.computeUStar;
-UstarTest2 = FFD_test.Ustar;
-ArStarTest = full(FFD_test.ArStar);
-NrTest = reshape(FFD_test.Nr, length(FFD_test.rbar), ...
-          length(FFD_test.zbar))';
-AzStarTest = full(FFD_test.AzStar);
-NzTest = reshape(FFD_test.Nz, length(FFD_test.rbar), ...
-          length(FFD_test.zbar))';
+% UstarTest1 = FFD_test.Ustar;
+% FFD_test.computeUStar;
+% UstarTest2 = FFD_test.Ustar;
+% ArStarTest = full(FFD_test.ArStar);
+% NrTest = reshape(FFD_test.Nr, length(FFD_test.rbar), ...
+%           length(FFD_test.zbar))';
+% AzStarTest = full(FFD_test.AzStar);
+% NzTest = reshape(FFD_test.Nz, length(FFD_test.rbar), ...
+%           length(FFD_test.zbar))';
