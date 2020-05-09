@@ -315,37 +315,32 @@ classdef FFD < handle
             
         end
         
-        function computeNr(obj)
-            % computes advection operator for intermediate
-            % non-divergence-free r-momentum equation
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-            
-            OutletNodeNum = sum((obj.rbar)<=obj.a0);
-            
-            TotalNum = m*(n+1);
-            n_1m = m*(n-1);
-            
-            
-            
-            
-            
-            % compute diagonal elements of state matrices
-            Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
-            Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
-            
-            % compile sparse diagonal state matrices
-            obj.ArN = spdiags([Lambda1*ones(nm, 1), ...
-                               Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
-            obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
-                              [m, -m], nm, nm);             
-            Z = spdiags(0.25*ones(nm, 4), [0, m, m-1, -1], nm, nm);
+        %function computeNr(obj)
+        %    % computes advection operator for intermediate
+        %    % non-divergence-free r-momentum equation
+        %    n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+        %    
+        %    OutletNodeNum = sum((obj.rbar)<=obj.a0);
+        %    
+        %    TotalNum = m*(n+1);
+        %    n_1m = m*(n-1);
+        %    % compute diagonal elements of state matrices
+        %    Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
+        %    Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
+        %    
+        %    % compile sparse diagonal state matrices
+        %    obj.ArN = spdiags([Lambda1*ones(nm, 1), ...
+        %                       Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
+        %    obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
+        %                      [m, -m], nm, nm);             
+        %    Z = spdiags(0.25*ones(nm, 4), [0, m, m-1, -1], nm, nm);
 
-            % compute advection operator
-            ur = obj.Ubar(1:nm);
-            uz = obj.Ubar(nm+1:end);
-            obj.Nr = diag(ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
-                + diag(Z*uz)*obj.BrN*ur;                                 
-        end
+        %    % compute advection operator
+        %    ur = obj.Ubar(1:nm);
+        %    uz = obj.Ubar(nm+1:end);
+        %    obj.Nr = diag(ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
+        %        + diag(Z*uz)*obj.BrN*ur;                                 
+        %    end
         
         function AzStar = SetAzBoundaries(obj,Omegas,nz,mz)
             omega1 = Omegas{1};
@@ -460,12 +455,74 @@ classdef FFD < handle
             
             obj.AzStar = SetAzBoundaries(obj,Omegas,n,m+1);                     
         end
-        
-        function computeNz(obj)
+        function computeNr(obj)
             % computes advection operator for intermediate
             % non-divergence-free r-momentum equation
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            n = size(obj.Urbar, 1); m = size(obj.Urbar, 2); nm = n*m;
             
+            % initialize Nr if not already
+            if isempty(obj.Nr)
+                obj.Nr = NaN*ones(nm, 1);
+        end   
+            
+            % match uz cells with ur
+            [ur, uz, ~] = obj.matchCells('ur');                        
+                        
+            % compute diagonal elements of state matrices
+            Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
+            Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
+            
+            % compile sparse diagonal state matrices
+            obj.ArN = spdiags([Lambda1*ones(nm, 1), ...
+                               Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
+            obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
+                              [m, -m], nm, nm);             
+
+            % compute advection operator
+            ur = reshape(ur', [], 1);
+            uz = reshape(uz', [], 1);
+            obj.Nr = diag(ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
+                + diag(uz)*obj.BrN*ur;              
+                                    
+            % replace boundary elements
+            setNrBoundaries(obj);                         
+        end
+                      
+        function setNrBoundaries(obj)
+            % replaces boundary elements in Nr according to prescribed
+            % boundary conditions
+            m = size(obj.Urbar, 2);
+
+            % boundary 1 at z = 0 (free surface)
+            obj.Nr(1:m-1) = 1; %0;
+            
+            % boundary 2 at r = 0 (centerline)
+            obj.Nr(1:m:end-m) = 2; %0;
+            
+            % boundary 3 at z = 1 (bin opening)
+            [~, ia] = min(abs(obj.a0 - obj.rbar));
+            obj.Nr(end-m:end-m+ia) = 3; %0;
+            
+            % boundary 4 at z = 1 (bottom wall)
+            obj.Nr(end-m+ia+1:end) = 4; %0;
+            
+            % boundary 5 at r = b (outer radius wall)
+            obj.Nr(m:m:end) = 5; %0;                                   
+        end
+       
+        function computeNz(obj)
+            % computes advection operator for intermediate
+            % non-divergence-free z-momentum equation
+            n = size(obj.Uzbar, 1); m = size(obj.Uzbar, 2); nm = n*m;
+            
+            % initialize Nr if not already
+            if isempty(obj.Nz)
+                obj.Nz = NaN*ones(nm, 1);
+            end   
+            
+            % match ur cells with uz
+            [ur, uz, ~] = obj.matchCells('uz');
+                        
             % compute diagonal elements of state matrices
             Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
             Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
@@ -475,15 +532,62 @@ classdef FFD < handle
                                Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
             obj.BzN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
                               [m, -m], nm, nm);                           
-            R = spdiags(0.25*ones(nm, 4), [0, -m, -m+1, 1], nm, nm);
 
             % compute advection operator
-            ur = obj.Ubar(1:nm);
-            uz = obj.Ubar(nm+1:end);
-            obj.Nz = diag(R*ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
-                   + diag(uz)*(obj.BrN*ur - ones(nm, 1)./obj.dtau) ...
-                   - ones(nm, 1)./obj.Fr^2;                                 
+            ur = reshape(ur', [], 1);
+            uz = reshape(uz', [], 1);
+            obj.Nz = diag(ur)*obj.AzN*uz ...
+                   + diag(uz)*(obj.BzN*uz - ones(nm, 1)./obj.dtau) ...
+                   - ones(nm, 1)./obj.Fr^2;               
+                                    
+            % replace boundary elements
+            setNzBoundaries(obj);            
         end
+                      
+        function setNzBoundaries(obj)
+            % replaces boundary elements in Nr according to prescribed
+            % boundary conditions
+            m = size(obj.Uzbar, 2);
+
+            % boundary 1 at z = 1 (free surface)
+            obj.Nz(1:m-1) = 1; %obj.Uinf;
+            
+            % boundary 2 at r = 0 (centerline)
+            obj.Nz(1:m:end-m) = 2; %0;
+            
+            % boundary 3 at z = 0 (bin opening)
+            [~, ia] = min(abs(obj.a0 - obj.rbar));
+            obj.Nz(end-m:end-m+ia) = 3; %0;
+            
+            % boundary 4 at z = 0 (bottom wall)
+            obj.Nz(end-m+ia+1:end) = 4; %0;
+            
+            % boundary 5 at r = b (outer radius wall)
+            obj.Nz(m:m:end) = 5; %0;                                   
+        end    
+       % function computeNz(obj)
+       %     % computes advection operator for intermediate
+       %     % non-divergence-free r-momentum equation
+       %     n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+       %     
+       %     % compute diagonal elements of state matrices
+       %     Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
+       %     Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
+       %     
+       %     % compile sparse diagonal state matrices
+       %     obj.AzN = spdiags([Lambda1*ones(nm, 1), ...
+       %                        Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
+       %     obj.BzN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
+       %                       [m, -m], nm, nm);                           
+       %     R = spdiags(0.25*ones(nm, 4), [0, -m, -m+1, 1], nm, nm);
+
+       %     % compute advection operator
+       %     ur = obj.Ubar(1:nm);
+       %     uz = obj.Ubar(nm+1:end);
+       %     obj.Nz = diag(R*ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
+       %            + diag(uz)*(obj.BrN*ur - ones(nm, 1)./obj.dtau) ...
+       %            - ones(nm, 1)./obj.Fr^2;                                 
+       % end
         
         function applyUrBoundaries(obj)
             % sets boundary conditions for r-velocity at intermediate
@@ -535,6 +639,152 @@ classdef FFD < handle
 
             % reasign velocity
             obj.Ustar(nm+1:end) = uz;                      
+        end
+        
+        function [ur, uz, p] = matchCells(obj, base_variable)
+            % matches the cells for primitive variables to that of the base
+            % variable (specified by 'ur', 'uz', or 'p')
+            nr = size(obj.Urbar, 1); mr = size(obj.Urbar, 2); nmr = nr*mr;
+            nz = size(obj.Uzbar, 1); mz = size(obj.Uzbar, 2);            
+            
+            % compute averaging matrices
+            [Zr, Zp] = averageUz(obj);
+            [Rz, Rp] = averageUr(obj);
+            
+            % shift and align to grid for base primitive variable
+            switch base_variable
+                case 'ur'
+                    % snap uz to ur grid
+                    ur = obj.Urbar;
+                    uz = reshape(Zr*reshape(obj.Uzbar', [], 1), mz, nz)';
+                    uz = [NaN*ones(1, mr); uz(:, 2:end)];
+                    p = NaN;
+                case 'uz'
+                    % snap ur to uz grid
+                    ur = reshape(Rz*reshape(obj.Urbar', [], 1), mr, nr)';
+                    ur = [NaN*ones(nz, 1), ur(2:end, :)];
+                    uz = obj.Uzbar;
+                    p = NaN;
+                case 'p'
+                    % snap ur and uz to p grid
+                    ur = reshape(Rp*reshape(obj.Ustar(1:nmr)', [], 1), ...
+                                                                 mr, nr)';
+                    ur = [NaN*ones(nr, 1), ur];
+                    uz = reshape(Zp*reshape(obj.Ustar(nmr+1:end)', ...
+                                                         [], 1), mz, nz)';
+                    uz = [NaN*ones(1, mz); uz];
+                    p = obj.Pbar;
+            end                                                                               
+        end
+        
+        function [Zr, Zp] = averageUz(obj)
+            % computes averaging matrix for ur and p nodes
+            nz = size(obj.Uzbar, 1); mz = size(obj.Uzbar, 2); nmz = nz*mz;
+            
+            % averaging matrix for 4 uz nodes surrounding ur        
+            Zr = spdiags(0.25*ones(nmz, 4), [0, mz, mz-1, -1], nmz, nmz);
+            
+            % averaging matrix for 2 uz nodes above/below p
+            Zp = spdiags(0.5*ones(nmz, 2), [0, mz], nmz, nmz);                       
+            
+            % correct for z = 0 boundary
+            Zr(1:mz, :) = 0;           
+            Zr(1:mz, 1:mz) = 0.5*eye(mz);
+            Zr(2:nmz+1:(nmz+1)*(mz-1)) = 0.5;   
+            Zp(1:mz, :) = 0;
+            Zp(1:mz, 1:mz) = eye(mz); 
+            
+            % correct for z = 1 boundary            
+            Zr(end-mz+1:end, :) = 0;                  
+            Zr(end-mz+1:end, end-mz+1:end) = 0.5*eye(mz);
+            Zr(end-(mz-1)*(nmz+1)+1:nmz+1:end-nmz) = 0.5;
+            Zp(end-mz+1:end, :) = 0;
+            Zp(end-mz+1:end, end-mz+1:end) = eye(mz);            
+        end
+        
+        function [Rz, Rp] = averageUr(obj)
+            % computes averaging matrix for uz and p nodes
+            nr = size(obj.Urbar, 1); mr = size(obj.Urbar, 2); nmr = nr*mr;
+            
+            % averaging matrix for 4 ur nodes surrounding uz
+            Rz = spdiags(0.25*ones(nmr, 4), [0, -mr, -mr+1, 1], nmr, nmr);
+            
+            % averaging matrix for 2 ur nodes left/right of p
+            Rp = spdiags(0.5*ones(nmr, 2), [0, 1], nmr, nmr); 
+            
+            % correct for r = 0 boundary            
+            Rz(1:mr:end-mr, :) = 0;            
+            Rz(1:(nmr+1)*mr:end-nmr*mr) = 0.5;            
+            Rz((nmr+1)*(mr-1)+1:(nmr+1)*mr:end) = 0.5;
+            Rp(1:mr:end-mr, :) = 0;    
+            Rp(1:(nmr+1)*mr:end-nmr*mr) = 1;
+            
+            % correct for r = b boundary
+            Rz(mr:mr:end, :) = 0;
+            Rz(nmr*mr+1:(nmr+1)*mr:end) = 0.5;
+            Rz(nmr*(2*mr-1)+mr:(nmr+1)*mr:end) = 0.5;                        
+            Rp(mr:mr:end, :) = 0;            
+            Rp((nmr+1)*(mr-1)+1:(nmr+1)*mr:end) = 1;           
+        end
+       
+        function computeDstar(obj)
+            % Computes velocity operator for the discretized poison
+            % equation
+            n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
+            
+            % compute Ustar if not yet populated
+            if isempty(obj.Ustar)
+                obj.Ustar = ones(length(obj.Urbar(:))+length(obj.Uzbar(:)), 1);
+%                 computeUstar(obj);
+            end
+            
+            % match urstar and uzstar cells with p
+            [ur, uz, ~] = obj.matchCells('p');
+            r = [NaN, obj.rbar];
+            
+            % compute diagonal elements of state matrices
+            Lambda1 = 1/(2*obj.dtau*(repmat(r', n, 1) + obj.drbar/2)) ...
+                    - 1/(obj.dtau*obj.drbar); 
+            Lambda2 = 1/(2*obj.dtau*(repmat(r', n, 1) + obj.drbar/2)) ...
+                    + 1/(obj.dtau*obj.drbar); 
+            Pi1 = -1/(obj.dtau*obj.dzbar); Pi2 = 1/(obj.dtau*obj.dzbar); 
+            
+            % compile sparse diagonal state matrices
+            Dr = spdiags([Lambda1', Lambda2'], [0, 1], nm, nm);              
+            Dz = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
+                              [0, m], nm, nm);                           
+
+            % compute advection operator
+            ur = reshape(ur', [], 1);
+            uz = reshape(uz', [], 1);
+            obj.Dstar = [Dr, Dz]*[ur; uz];                          
+            
+            % replace boundary elements
+            setDstarBoundaries(obj);                                     
+        end
+        
+        function setDstarBoundaries(obj)
+            % sets boundary conditions for RHS of pressure equation (Dstar)
+            m = size(obj.Pbar, 2);           
+            
+            % boundary 1 at z = 1 (free surface)
+            obj.Dstar(1:m-1) = 1; %0;
+            
+            % boundary 2 at r = 0 (centerline)
+            obj.Dstar(1:m:end-m) = 2; %0;
+            
+            % boundary 3 at z = 0 (bin opening)
+            [~, ia] = min(abs(obj.a0 - obj.rbar));
+            obj.Dstar(end-m:end-m+ia) = 3; %0;
+            
+            % boundary 4 at z = 0 (bottom wall)
+            obj.Dstar(end-m+ia+1:end) = 4; %0;
+            
+            % boundary 5 at r = b (outer radius wall)
+            obj.Dstar(m:m:end) = 5; %0;      
+            
+            % prescribed boundary point for controling matrix rank
+            obj.Dstar(end) = NaN; %1;
         end
        
     end
