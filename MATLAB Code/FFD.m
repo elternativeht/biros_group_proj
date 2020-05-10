@@ -773,7 +773,7 @@ classdef FFD < handle
             
             omega3 = FillBoundary(obj,omega3,np,mp,...
                                      0.0,0.0,-1.0,0.0);
-            omega3([1,2,mp]) = 0.0;
+            omega3([1,mp]) = 0.0;
             
             % last row of nodes (lower boundary) don't have Omega3
             omega3(mp*(np-1)+1:end)=[];
@@ -799,12 +799,13 @@ classdef FFD < handle
             % lower boundary except for 2 corner ghost points:zero gradient 
             % Omega5 = -1.0
             % Omega5 for two left corner ghost points = 0
+            % Omega5 for the lower right corner (-1) = 0 
             % left  boundary Omega5 = 0   
             % right boundary Omega5 = 0 
             % upper boundary Omega5 = 0
             omega5 = FillBoundary(obj,omega5,np,mp,...
                                       0.0,0.0,0.0,-1.0);
-            omega5([(np-1)*mp+1,tmnp]) = 0.0;
+            omega5([(np-1)*mp+1,tmnp-1,tmnp]) = 0.0;
             % first (m+1) elements don't have Omega5
             omega5(1:mp)=[];
             omega5 = [omega5;zeros(mp,1)];
@@ -909,7 +910,7 @@ classdef FFD < handle
             obj.DStar(m:m:end) = 5; %0;      
             
             % prescribed boundary point for controling matrix rank
-            obj.DStar(end) = NaN; %1;
+            obj.DStar(end-1) = NaN; %1;
         end
        
     end
