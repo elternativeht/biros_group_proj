@@ -180,8 +180,8 @@ where
 
 <p align="center"><img src="/tex/4b6a890e99567c8b950bdb557619276b.svg?invert_in_darkmode&sanitize=true" align=middle width=37.23741945pt height=16.204986599999998pt/></p>
 
-  <p align="center"><img src="/tex/eefd9d38c4ac20bfabf21863ccc355ca.svg?invert_in_darkmode&sanitize=true" align=middle width=169.03200765pt height=94.2171384pt/></p>
-  
+  <p align="center"><img src="/tex/ab47822fb54cc6808e805fd389e2f511.svg?invert_in_darkmode&sanitize=true" align=middle width=169.03200765pt height=94.2171384pt/></p>
+
 
 
 
@@ -326,7 +326,7 @@ The discretization would need to be also at the node point of  pressure <img src
 
 The Laplace operator has the following equation in the 2d cylindrical coordinates:
 
- 
+
 <p align="center"><img src="/tex/5a3c1b11dbb97a608aa20d282703ef7f.svg?invert_in_darkmode&sanitize=true" align=middle width=343.67913194999994pt height=40.11819404999999pt/></p>
 
 
@@ -337,7 +337,7 @@ where, as in step 1, <img src="/tex/c3d1dea018f98330b6e64554fe26423a.svg?invert_
 
 
 The discretization allows us to get, for all internal nodes:
-<p align="center"><img src="/tex/474595499da9050fe0d9c37b808eaae0.svg?invert_in_darkmode&sanitize=true" align=middle width=387.5462052pt height=17.0776386pt/></p>
+<p align="center"><img src="/tex/902c648b89de09fc74a51a8abdbcbf2e.svg?invert_in_darkmode&sanitize=true" align=middle width=388.10780579999994pt height=17.0776386pt/></p>
 
 
 where
