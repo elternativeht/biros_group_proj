@@ -271,8 +271,8 @@ $$
  -	& -	&\Omega^n_3	&- & - \\
  -	& \Omega^n_4	&-	&- & - \\
  \Omega^n_5	& -	&-	&- & - \\
-  \end{array}
-  
+    \end{array}
+
 
 
 
@@ -468,7 +468,7 @@ $$
 
 The Laplace operator has the following equation in the 2d cylindrical coordinates:
 
- 
+
 $$
 \nabla^2 p=\frac{1}{r} \frac{\partial}{\partial r}\left(r \frac{\partial p}{\partial r}\right)+\frac{\partial^{2} p}{\partial z^{2}}=\frac{1}{r}\frac{\partial p}{\partial r}+\frac{\partial^2p}{\partial r^2}+\frac{\partial^2 p}{\partial z^2}
 $$
@@ -484,7 +484,7 @@ where, as in step 1, $r_{ij}=(j-1)\cdot \Delta r$.
 
 The discretization allows us to get, for all internal nodes:
 $$
-Ap_{ij}+Bp_{i(j+1)}+Cp_{i(j-1)}+Bp_{(i+1)j}+Bp_{(i-1)j}=F
+Ap_{ij}+Bp_{i(j+1)}+Cp_{i(j-1)}+Dp_{(i+1)j}+Ep_{(i-1)j}=F
 $$
 
 
