@@ -69,6 +69,10 @@ classdef FFD < handle
         Nr                  % intermediate r-momentum advection operator
         Nz                  % intermediate z-momentum advection operator
         
+        ApStar
+        DStar
+        
+        
         
         % nondimensional terms
         Re                  % Reynolds number w.r.t. Uinf
@@ -727,6 +731,127 @@ classdef FFD < handle
             Rp((nmr+1)*(mr-1)+1:(nmr+1)*mr:end) = 1;           
         end
        
+        function AzStar = SetApBoundaries(obj,Omegas,np,mp)
+            omega1 = Omegas{1};
+            omega2 = Omegas{2};
+            omega3 = Omegas{3};
+            omega4 = Omegas{4};
+            omega5 = Omegas{5};
+            
+            tmnp = np*mp;
+            
+            OutletNodeNum = sum((obj.rbar)<=obj.a0);
+            
+            % all boundary Omega1 = 1.0
+            omega1 = FillBoundary(obj,omega1,np,mp,...
+                                      1.0,1.0,1.0,1.0);
+            
+            % left boundary except for 2 corner ghost points: zero gradient 
+            % Omega2 = -1.0
+            % Omega2 for two left corner ghost points = 0
+            % Upper boundary omega2 = 0
+            % Lower boundary condition Omega2 = 0
+            % Right boundary condition Omega2 = 0
+            
+            omega2 = FillBoundary(obj,omega2,np,mp,...
+                                      -1.0,0.0,0.0,0.0);
+            
+            % Last element doesn't have Omega2
+            omega2(end)=[];
+            
+            % first zero is to be cut off
+            omega2 = [0.0;omega2];
+            
+            % upper boundary except for 2 corner ghost points:zero gradient 
+            % Omega3 = -1.0
+            % Omega3 for two left corner ghost points = 0
+            % Omega3 for the first valid ghost points = 0 (specify p = 0)
+            % left  boundary Omega3 = 0   
+            % right boundary Omega3 = 0 
+            % lower boundary Omega3 = 0
+                                     
+            
+            omega3 = FillBoundary(obj,omega3,np,mp,...
+                                     0.0,0.0,-1.0,0.0);
+            omega3([1,2,mp]) = 0.0;
+            
+            % last row of nodes (lower boundary) don't have Omega3
+            omega3(mp*(np-1)+1:end)=[];
+            % zeros are to be cut off
+            omega3 = [zeros(mp,1);omega3];
+            
+            
+            % right boundary except for 2 corner ghost points:zero gradient 
+            % Omega4 = -1.0
+            % Omega4 for two left corner ghost points = 0
+            % left  boundary Omega4 = 0   
+            % upper boundary Omega4 = 0 
+            % lower boundary Omega4 = 0
+            omega4 = FillBoundary(obj,omega4,np,mp,...
+                                      0.0,-1.0,0.0,0.0);
+            
+            
+            % first element doesn't have Omega4
+            omega4(1)=[];
+            %zeros to be cut off
+            omega4 = [omega4;0.0];
+
+            % lower boundary except for 2 corner ghost points:zero gradient 
+            % Omega5 = -1.0
+            % Omega5 for two left corner ghost points = 0
+            % left  boundary Omega5 = 0   
+            % right boundary Omega5 = 0 
+            % upper boundary Omega5 = 0
+            omega5 = FillBoundary(obj,omega5,np,mp,...
+                                      0.0,0.0,0.0,-1.0);
+            omega5([(np-1)*mp+1,tmnp]) = 0.0;
+            % first (m+1) elements don't have Omega5
+            omega5(1:mp)=[];
+            omega5 = [omega5;zeros(mp,1)];
+            
+            AzStar = spdiags([omega1,omega2,...
+                         omega3, omega4, ...
+                         omega5],[0, 1, mp, -1, -mp],tmnp, tmnp); 
+        end
+        
+        
+        function computeApStar(obj)
+            % evaluates state matrix for n+1 pressure comp.
+            
+            % n the number of z nodes; m the number of r nodes
+            % the number of real pressure points (m-1)*(n-1)
+            n = length(obj.zbar); m = length(obj.rbar); 
+            mn_1 = (m-1)*(n-1);
+
+            % the number of total points for boundary settings
+            TotalNum = (n+1)*(m+1);
+            
+            % internal real points Omega1
+            Omega1 = (-2.0/(obj.drbar^2)-2.0/(obj.dzbar^2))...
+                      *ones(TotalNum,1);
+            
+            % internal real points Omega2
+            Omega2 = 1./(2*(repmat(([-obj.drbar,...
+                     obj.rbar])',n+1, 1) ...
+                     + obj.drbar/2)*obj.drbar) + 1/(obj.drbar^2);
+            
+            % real internal points Omega3
+            Omega3 = (1/(obj.dzbar^2))*ones(TotalNum,1);
+            
+            % real internal points Omega4
+            Omega4 = -1./(2*(repmat(([-obj.drbar,...
+                     obj.rbar])',n, 1) ...
+                     + obj.drbar/2)*obj.drbar) + 1/(obj.drbar^2);
+            
+            % real internal points Omega5
+            Omega5 = 1/(obj.Re*obj.dzbar^2)*ones(TotalNum,1);
+            
+            
+            Omegas = {Omega1,Omega2,Omega3,Omega4,Omega5};
+            
+            obj.ApStar = SetApBoundaries(obj,Omegas,n+1,m+1);                     
+        end
+        
         function computeDstar(obj)
             % Computes velocity operator for the discretized poison
             % equation
@@ -757,7 +882,7 @@ classdef FFD < handle
             % compute advection operator
             ur = reshape(ur', [], 1);
             uz = reshape(uz', [], 1);
-            obj.Dstar = [Dr, Dz]*[ur; uz];                          
+            obj.DStar = [Dr, Dz]*[ur; uz];                          
             
             % replace boundary elements
             setDstarBoundaries(obj);                                     
@@ -768,23 +893,23 @@ classdef FFD < handle
             m = size(obj.Pbar, 2);           
             
             % boundary 1 at z = 1 (free surface)
-            obj.Dstar(1:m-1) = 1; %0;
+            obj.DStar(1:m-1) = 1; %0;
             
             % boundary 2 at r = 0 (centerline)
-            obj.Dstar(1:m:end-m) = 2; %0;
+            obj.DStar(1:m:end-m) = 2; %0;
             
             % boundary 3 at z = 0 (bin opening)
             [~, ia] = min(abs(obj.a0 - obj.rbar));
-            obj.Dstar(end-m:end-m+ia) = 3; %0;
+            obj.DStar(end-m:end-m+ia) = 3; %0;
             
             % boundary 4 at z = 0 (bottom wall)
-            obj.Dstar(end-m+ia+1:end) = 4; %0;
+            obj.DStar(end-m+ia+1:end) = 4; %0;
             
             % boundary 5 at r = b (outer radius wall)
-            obj.Dstar(m:m:end) = 5; %0;      
+            obj.DStar(m:m:end) = 5; %0;      
             
             % prescribed boundary point for controling matrix rank
-            obj.Dstar(end) = NaN; %1;
+            obj.DStar(end) = NaN; %1;
         end
        
     end
