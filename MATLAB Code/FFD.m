@@ -71,6 +71,8 @@ classdef FFD < handle
         
         ApStar
         DStar
+        Austar              % intermediate operator for the velocity correction
+        p                   % pressure for the velocity correction
         
         
         
@@ -190,7 +192,7 @@ classdef FFD < handle
             
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(nm); zeros(nm), obj.AzStar] ...
-                        \[obj.Nr; obj.Nz];
+                        .\[obj.Nr; obj.Nz];
                     
             % set boundary conditions
             applyUrBoundaries(obj);
@@ -911,6 +913,25 @@ classdef FFD < handle
             
             % prescribed boundary point for controling matrix rank
             obj.DStar(end-1) = NaN; %1;
+        end
+        
+        function computepressure(obj)
+            obj.p = [obj.ApStar]\[obj.DStar]*[obj.Ustar];
+    
+        end
+        
+        function computeAustar(obj)
+            
+            Pi1 = -1*obj.dtau/(2*obj.drbar); Pi2 = -1*obj.dtau/(2*obj.dzbar); 
+            Pi3 = 1*obj.dtau/(2*obj.drbar); Pi4 = 1*obj.dtau/(2*obj.dzbar);
+            
+            obj.Austar = spdiags([Pi2*ones(nm, 1), Pi1*ones(nm, 1)], [Pi3*ones(nm, 1), Pi4*ones(nm, 1)],...
+                              [m, -m], nm, nm);  
+        end
+        
+        function computeu(obj)
+            obj.u = [obj.Ustar]-[obj.Austar]*[obj.p];
+    
         end
        
     end
