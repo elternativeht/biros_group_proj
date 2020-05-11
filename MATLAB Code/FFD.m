@@ -50,10 +50,10 @@ classdef FFD < handle
                                         % density
         rhoLoose = 1810                 % (kg/m3) particle loose bulk 
                                         % density
-        mu = 1 %2.5*1.81e-5                % (kg/ms) viscosity of particles 
+        mu = 1 %2.5*1.81e-5                % (kg/m s) dynamic viscosity, u,  of particles 
                                         % moving in air(Bicerano, Douglas 
                                         % and Brune, 1999)
-        nu                              % (m2/s) dynamic viscosity of 
+        nu                              % (m2/s) kinematic viscosity of 
                                         % particles moving in air  
         Uinf = 0.01                     % (m/s) normalization velocity
         
