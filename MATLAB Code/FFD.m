@@ -73,6 +73,7 @@ classdef FFD < handle
         DStar
         Austar              % intermediate operator for the velocity correction
         p                   % pressure for the velocity correction
+        u
         
         
         
@@ -192,7 +193,7 @@ classdef FFD < handle
             
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(nm); zeros(nm), obj.AzStar] ...
-                        .\[obj.Nr; obj.Nz];
+                       \[obj.Nr; obj.Nz];
                     
             % set boundary conditions
             applyUrBoundaries(obj);
@@ -293,7 +294,8 @@ classdef FFD < handle
             omega5 = [omega5;Omega5_LowerGhostPoint;zeros(mr,1)];
             ArStar = spdiags([omega1, omega2, omega3,...
                          omega4, omega5], ...
-                         [0, 1, mr, -1, -mr], tnmr,  tnmr);    
+                         [0, 1, mr, -1, -mr], tnmr,  tnmr);  
+                               
         end
         function computeArStar(obj)
             % evaluates state matrix for intermediate r-velocity comp.
