@@ -926,7 +926,7 @@ classdef FFD < handle
             Pi3 = 1*obj.dtau/(2*obj.drbar); Pi4 = 1*obj.dtau/(2*obj.dzbar);
             
             obj.Austar = spdiags([Pi2*ones(nm, 1), Pi1*ones(nm, 1)], [Pi3*ones(nm, 1), Pi4*ones(nm, 1)],...
-                              [m, -m], nm, nm);  
+                              [m, -m], nm, nm);
         end
         
         function computeu(obj)
