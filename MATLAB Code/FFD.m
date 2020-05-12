@@ -915,11 +915,10 @@ obj.AzStar] \[obj.Nr; obj.Nz];
             
             computeApStar(obj);
             computeDstar(obj);
-            %SetApBoundaries(obj);
             setDstarBoundaries(obj);
             
             computepressure(obj);
-            %computeAustar(obj);
+          
             D = diffR(obj, n, m);
             Dr = D;
             D = diffZ(obj, n, m);
