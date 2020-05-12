@@ -20,6 +20,8 @@ classdef FFD < handle
         Ubar            % full velocity vector (KP-04/25)
         Ustar           % intermediate velocity vector (KP-04/25)
         Pbar            % pressure storage 
+        u               % r velocity for all time steps
+        v               % z velocity for all time steps
         
         testAr
         
@@ -50,7 +52,7 @@ classdef FFD < handle
                                         % density
         rhoLoose = 1810                 % (kg/m3) particle loose bulk 
                                         % density
-        mu = 1 %2.5*1.81e-5                % (kg/m s) dynamic viscosity, u,  of particles 
+        mu = 2.5*1.81e-5                % (kg/m s) dynamic viscosity, u,  of particles 
                                         % moving in air(Bicerano, Douglas 
                                         % and Brune, 1999)
         nu                              % (m2/s) kinematic viscosity of 
@@ -124,6 +126,15 @@ classdef FFD < handle
             obj.nu = obj.mu/obj.rhoLoose;  
             obj.Re = obj.H*obj.Uinf/obj.nu;              
             obj.Fr = obj.Uinf/sqrt(obj.g*obj.H);
+            
+            % matrices that contain velocity values at every time step for
+            % all non-ghost points
+            obj.u = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
+            obj.v = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
         end
         function reInitObj(obj)
             % recomputes static variables. should be ran if any of the
@@ -148,6 +159,15 @@ classdef FFD < handle
             obj.nu = obj.mu/obj.rhoLoose;  
             obj.Re = obj.H*obj.Uinf/obj.nu;              
             obj.Fr = obj.Uinf/sqrt(obj.g*obj.H);
+            
+            % matrices that contain velocity values at every time step for
+            % all non-ghost points
+            obj.u = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
+            obj.v = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
         end 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % add any additional functions here
@@ -181,7 +201,11 @@ classdef FFD < handle
             n = length(obj.zbar); m = length(obj.rbar);
             n_m = (n+1)*m;
             m_n = (m+1)*n;
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 1ef7aea84f42c6c8cb95de36e2a57f3b0bb8202e
             % compute intermediate state matrices
             computeArStar(obj);
             computeAzStar(obj);
@@ -189,14 +213,17 @@ classdef FFD < handle
             % compute intermediate advection operators
             computeNr(obj);
             computeNz(obj);
-            
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
+<<<<<<< HEAD
             obj.AzStar] \[obj.Nr; obj.Nz];
 
             % set boundary conditions
             applyUrBoundaries(obj);
             applyUzBoundaries(obj);
+=======
+                         obj.AzStar] \[obj.Nr; obj.Nz];                                            
+>>>>>>> 1ef7aea84f42c6c8cb95de36e2a57f3b0bb8202e
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
@@ -596,57 +623,6 @@ classdef FFD < handle
        %            - ones(nm, 1)./obj.Fr^2;                                 
        % end
         
-        function applyUrBoundaries(obj)
-            % sets boundary conditions for r-velocity at intermediate
-            % computation step.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-            ur = obj.Ustar(1:nm);
-
-            % boundary 1 at z = 1 (free surface)
-            ur(1:m-1) = 0;
-            
-            % boundary 2 at r = 0 (centerline)
-            ur(1:m:end-m) = 0;
-            
-            % boundary 3 at z = 0 (bin opening)
-            [~, ia] = min(abs(obj.a0 - obj.rbar));
-            ur(end-m:end-m+ia) = ur(end-2*m:end-2*m+ia);
-            
-            % boundary 4 at z = 0 (bottom wall)
-            ur(end-m+ia+1:end) = 0;
-            
-            % boundary 5 at r = b (outer radius wall)
-            ur(m:m:end) = 0;
-            
-            % reasign velocity
-            obj.Ustar(1:nm) = ur;                      
-        end
-        
-        function applyUzBoundaries(obj)
-            % sets boundary conditions for r-velocity at intermediate
-            % computation step.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-            uz = obj.Ustar(nm+1:end);
-            
-            % boundary 1 at z = 1 (free surface)
-            uz(1:m-1) = obj.Uinf;
-            
-            % boundary 2 at r = 0 (centerline)
-            uz(1:m:end-m) = uz(2:m:end-m+1);
-            
-            % boundary 3 at z = 0 (bin opening)
-            [~, ia] = min(abs(obj.a0 - obj.rbar));
-            uz(end-m:end-m+ia) = uz(end-2*m:end-2*m+ia);
-            
-            % boundary 4 at z = 0 (bottom wall)
-            uz(end-m+ia+1:end) = 0;
-            
-            % boundary 5 at r = b (outer radius wall)
-            uz(m:m:end) = 0;
-
-            % reasign velocity
-            obj.Ustar(nm+1:end) = uz;                      
-        end
         
         function [ur, uz, p] = matchCells(obj, base_variable)
             % matches the cells for primitive variables to that of the base
@@ -953,7 +929,11 @@ classdef FFD < handle
             obj.Uzbar = [obj.Ustar(nm+1:2^nm)]-Dz*[obj.Pbar];
             
         end
-        function D = diffR(obj, n, m)
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % first derivative operators (KP)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function D = diffR(obj, n, m)
             % creates a differential operator for first derivative in r 
             % dimension with central differencing at internal points 
             % and forward/backward differencing at boundaries
@@ -997,6 +977,235 @@ classdef FFD < handle
             % set backward differencing for bottom boundary
             D(end-(m-1)*(nm+1):nm+1:end) = 1/obj.dzbar;
             D(end-2*m*nm-m:nm+1:end-m*nm) = -1/obj.dzbar;               
+        end
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % post processing and conversions (KP)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function t = tau2t(obj, tau)
+            % converts non-dimensional time, tau, to dimensional time, t
+            t = tau*obj.H/obj.Uinf;
+        end
+        
+        function patchVelocity(obj, k_)
+            % combines thetaS, thetaT and thetaC for time step k_
+            n = length(obj.zbar); m = length(obj.rbar);
+            % overlay current r-velocity
+            obj.u(n*(k_-1)+1:n*k_, m*(k_-1)+1:m*k_) ...
+                = obj.Urbar(2:end, :);
+            % overlay current r-velocity
+            obj.v(n*(k_-1)+1:n*k_, m*(k_-1)+1:m*k_) ...
+                = obj.Uzbar(:, 2:end);
+        end
+        
+        function x = uk(obj, k)
+            % returns the r-velocity at every point in the mesh for time k
+            n = length(obj.zbar); m = length(obj.rbar);
+            x = obj.u(n*(k-1)+1:n*k, m*(k-1)+1:m*k);                       
+        end
+        
+        function x = vk(obj, k)
+            % returns the z-velocity at every point in the mesh for time k
+            n = length(obj.zbar); m = length(obj.rbar);
+            x = obj.v(n*(k-1)+1:n*k, m*(k-1)+1:m*k);                       
+        end
+        
+        function u = uMag(obj, ur, uz)
+            % computes the velocity magnitude for input vectors of the same
+            % size (ghost points need to be removed prior)
+            u = sqrt(ur.^2 + uz.^2);           
+        end
+        
+        function [Srr, Szz, tauR, tauZ] = stress(obj, ur, uz)
+            % computes strain rates and viscous stress at every point in
+            % given velocity vectors
+            n = length(obj.zbar); m = length(obj.rbar);
+            
+            % compute derivative operators
+            Dr = obj.diffR(n, m);
+            Dz = obj.diffZ(n, m);
+            
+            % compute strain rate with differential operators
+            Srr = Dr*ur;
+            Szz = Dz*uz;            
+            
+            % compute viscous stress
+            tauR = 2*obj.mu*Srr*obj.Uinf/obj.H;
+            tauZ = 2*obj.mu*Szz*obj.Uinf/obj.H; 
+            
+            % reshape to physical domain
+            Srr = reshape(Srr, m, n)';
+            Szz = reshape(Szz, m, n)';
+            tauR = reshape(tauR, m, n)';
+            tauZ = reshape(tauZ, m, n)';
+        end
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % plotting (KP)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function animateSpeed(obj, plot_filename, rr, snapK)
+            % generates gif that displays velocity magnitude at every time
+            % step
+            if nargin < 4
+                snapK = 1e10;
+            end
+            if nargin < 3
+                rr = 0.5;
+            end
+            if nargin < 2
+                plot_filename = 'speedPlot.gif';
+            end
+            figure('Units', 'normalized', ...
+            'Position', [0 0 0.4*obj.b 0.4], 'Visible', 'off');            
+            [~, tfigs] = plotZR(obj,  obj.uMag(obj.uk(1), obj.vk(1)), true);
+            ylabel(colorbar, '$\vert u/U_\infty\vert$', 'interpreter', 'latex', ...
+                'FontSize', 14); 
+            caxis([0, sqrt(2)]);
+            gif(plot_filename, 'frame', gcf);
+            % update sequentially
+            for ii = 1:length(obj.tau)                                      
+                gif;
+                t = obj.tau2t(obj.tau(ii));
+                u_ = obj.uMag(obj.uk(ii), obj.vk(ii));
+                tfigs.ZData = u_; 
+                title(sprintf('$t$ = %1.0f s', t), 'interpreter', 'latex', ...
+                'FontSize', 14);
+                pause(rr);
+                % save plot if on save time-step
+                if mod(ii, snapK) == 0
+                    captureSpeed(obj, ii);
+                end
+            end            
+        end
+        
+        function animateStress(obj, plot_filename, rr, snapK)
+            % generates gif that displays velocity magnitude at every time
+            % step
+            if nargin < 4
+                snapK = 1e10;
+            end
+            if nargin < 3
+                rr = 0.5;
+            end
+            if nargin < 2
+                plot_filename = 'stressPlot.gif';
+            end
+            ur = obj.uk(1); uz = obj.vk(1);
+            [~, ~, tauR, tauZ] = stress(obj, reshape(ur', [], 1), ...
+                                                 reshape(uz', [], 1));
+            s = sqrt(tauR.^2 + tauZ.^2);                                          
+            figure('Units', 'normalized', ...
+            'Position', [0 0 0.4*obj.b 0.4], 'Visible', 'off');            
+            [~, tfigs] = plotZR(obj, s, true);
+            ylabel(colorbar, '$\vert \tau \vert$ (Pa)', 'interpreter', 'latex', ...
+                'FontSize', 14); 
+            caxis([min(s(:)), max(s(:))]);
+            gif(plot_filename, 'frame', gcf);
+            % update sequentially
+            for ii = 1:length(obj.tau)                                      
+                gif;
+                ur = obj.uk(ii); uz = obj.vk(ii);
+                [~, ~, tauR, tauZ] = stress(obj, reshape(ur', [], 1), ...
+                                                 reshape(uz', [], 1));
+                s = sqrt(tauR.^2 + tauZ.^2); 
+                t = obj.tau2t(obj.tau(ii));
+                tfigs.ZData = s; 
+                title(sprintf('$t$ = %1.0f s', t), 'interpreter', 'latex', ...
+                'FontSize', 14);
+                pause(rr);
+                % save plot if on save time-step
+                if mod(ii, snapK) == 0
+                    captureStress(obj, ii);
+                end
+            end            
+        end
+        
+        function [fzri, pzri] = plotZR(obj, x, ShowPlot)
+            % plots ZR plane for one time instance
+            [R, Z] = meshgrid(obj.rbar, obj.zbar); 
+            % plot contour
+            fzri = figure('Units', 'normalized', ...
+                'Position', [0 0 0.4*obj.b 0.4], 'Visible', 'off');
+            pzri = surf(R, Z, x);         
+            xlim([0, max(R(:))])
+            ylim([min(Z(:)), max(Z(:))])
+            pbaspect([obj.b, 1, 1]);  % figure sized proportional to aspect ratio
+            view(0, 90);
+            caxis([0, 1]);
+            colormap(flipud(spring));
+            cb = colorbar;
+            cb.Ruler.MinorTick = 'on';
+            set(pzri, 'linestyle', 'none');
+            xlabel('$r/H$', 'interpreter', 'latex', 'FontSize', 14);
+            ylabel('$z/H$', 'interpreter', 'latex', 'FontSize', 14);
+            if nargin > 2 && ShowPlot
+                fzri.Visible = 'on';
+            end
+        end            
+        function captureSpeed(obj, k)
+            % plots the non-dimensional speed profile over the entire
+            % domain at the indicated time step, k
+            % compute velocity magnitudes and time that will be ploted                                    
+            u_ = obj.uMag(obj.uk(k), obj.vk(k));
+            t = obj.tau2t(obj.tau(k));
+            [R, Z] = meshgrid(obj.rbar, obj.zbar); 
+            % plot contour
+            fzri = figure('Units', 'normalized', ...
+                'Position', [0 0 0.4*obj.b 0.4], 'Visible', 'off');
+            pzri = surf(R, Z, u_);         
+            xlim([0, max(R(:))])
+            ylim([min(Z(:)), max(Z(:))])
+            pbaspect([obj.b, 1, 1]);  % figure sized proportional to aspect ratio
+            view(0, 90);
+            caxis([0, sqrt(2)]);
+            colormap(flipud(spring));
+            cb = colorbar;
+            cb.Ruler.MinorTick = 'on';
+            set(pzri, 'linestyle', 'none');
+            ylabel(cb, '$\vert u/U_\infty\vert$', 'interpreter', 'latex', 'FontSize', 14);
+            xlabel('$r/H$', 'interpreter', 'latex', 'FontSize', 14);
+            ylabel('$z/H$', 'interpreter', 'latex', 'FontSize', 14);
+            title(sprintf('$t$ = %1.0f s', t), 'interpreter', 'latex', ...
+                'FontSize', 14);
+            if nargin > 2 && ShowPlot
+                fzri.Visible = 'on';
+            end      
+            % save figure
+            saveas(pzri, sprintf('speed_%1.0d.png', k));
+        end   
+        function captureStress(obj, k)
+            % plots the dimensional stress profile over the entire
+            % domain at the indicated time step, k
+            % compute stress magnitudes and time that will be ploted    
+            ur = obj.uk(k); uz = obj.vk(k);
+            [~, ~, tauR, tauZ] = stress(obj, reshape(ur', [], 1), ...
+                                                 reshape(uz', [], 1));
+            s = sqrt(tauR.^2 + tauZ.^2);                                
+            t = obj.tau2t(obj.tau(k));
+            [R, Z] = meshgrid(obj.rbar, obj.zbar); 
+            % plot contour
+            fzri = figure('Units', 'normalized', ...
+                'Position', [0 0 0.4*obj.b 0.4], 'Visible', 'off');
+            pzri = surf(R, Z, s);         
+            xlim([0, max(R(:))])
+            ylim([min(Z(:)), max(Z(:))])
+            pbaspect([obj.b, 1, 1]);  % figure sized proportional to aspect ratio
+            view(0, 90);
+            caxis([0, 1]);
+            colormap(flipud(spring));
+            cb = colorbar;
+            cb.Ruler.MinorTick = 'on';
+            set(pzri, 'linestyle', 'none');
+            ylabel(cb, '$\vert \tau\vert$ (Pa)', 'interpreter', 'latex', 'FontSize', 14);
+            xlabel('$r/H$', 'interpreter', 'latex', 'FontSize', 14);
+            ylabel('$z/H$', 'interpreter', 'latex', 'FontSize', 14);
+            title(sprintf('$t$ = %1.0f s', t), 'interpreter', 'latex', ...
+                'FontSize', 14);
+            if nargin > 2 && ShowPlot
+                fzri.Visible = 'on';
+            end      
+            % save figure
+            saveas(pzri, sprintf('stress_%1.0d.png', k));
         end
        
     end
