@@ -922,8 +922,8 @@ obj.AzStar] \[obj.Nr; obj.Nz];
             Dr = diffR(obj, n, m);
             Dz = diffZ(obj, n, m);
     
-            obj.Urbar = [obj.Ustar(1:nm)]+Dr.*[obj.Pbar];
-            obj.Uzbar = [obj.Ustar(nm+1:end)]+Dz.*[obj.Pbar];
+            obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
+            obj.Uzbar = [obj.Ustar(nm+1:2*nm)]-Dz*[obj.Pbar];
             
         end
         
