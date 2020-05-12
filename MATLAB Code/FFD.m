@@ -174,27 +174,29 @@ classdef FFD < handle
         % then it should instead be defined as a property.
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-        function computeUStar(obj)
+         function computeUStar(obj)
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
             % an implicit-explicit technique.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-            
+            n = length(obj.zbar); m = length(obj.rbar);
+            n_m = (n+1)*m;
+            m_n = (m+1)*n;
+
             % compute intermediate state matrices
             computeArStar(obj);
             computeAzStar(obj);
-                                        
+
             % compute intermediate advection operators
             computeNr(obj);
             computeNz(obj);
             
             % compute intermediate r-velocity
-            obj.Ustar = [obj.ArStar, zeros(nm); zeros(nm), obj.AzStar] ...
-                       \[obj.Nr; obj.Nz];
-                    
+            obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
+            obj.AzStar] \[obj.Nr; obj.Nz];
+
             % set boundary conditions
             applyUrBoundaries(obj);
-            applyUzBoundaries(obj);                       
+             applyUzBoundaries(obj);
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
