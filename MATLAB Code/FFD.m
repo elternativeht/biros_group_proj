@@ -357,6 +357,7 @@ classdef FFD < handle
             
             tmnz = nz*mz;
             
+            %Finds the nodes of the outlet 
             OutletNodeNum = sum((obj.rbar)<=obj.a0);
             
             % all boundary Omega1 = 1.0
@@ -425,7 +426,6 @@ classdef FFD < handle
                          omega5],[0, 1, mz, -1, -mz],tmnz, tmnz); 
         end
         
-        
         function computeAzStar(obj)
             % evaluates state matrix for intermediate r-velocity comp.
             
@@ -469,7 +469,7 @@ classdef FFD < handle
             % initialize Nr if not already
             if isempty(obj.Nr)
                 obj.Nr = NaN*ones(nm, 1);
-        end   
+            end   
             
             % match uz cells with ur
             [ur, uz, ~] = obj.matchCells('ur');                        
@@ -930,6 +930,8 @@ classdef FFD < handle
             
             obj.Austar = spdiags([Pi2*ones(nm, 1), Pi1*ones(nm, 1)], [Pi3*ones(nm, 1), Pi4*ones(nm, 1)],...
                               [0, -mr, -mr+1, 1], nm, nm);
+                          
+            %obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], [m, -m], nm, nm); 
         end
         
         function computeu(obj)
