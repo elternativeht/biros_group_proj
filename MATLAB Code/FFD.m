@@ -50,10 +50,10 @@ classdef FFD < handle
                                         % density
         rhoLoose = 1810                 % (kg/m3) particle loose bulk 
                                         % density
-        mu = 1 %2.5*1.81e-5                % (kg/ms) viscosity of particles 
+        mu = 1 %2.5*1.81e-5                % (kg/m s) dynamic viscosity, u,  of particles 
                                         % moving in air(Bicerano, Douglas 
                                         % and Brune, 1999)
-        nu                              % (m2/s) dynamic viscosity of 
+        nu                              % (m2/s) kinematic viscosity of 
                                         % particles moving in air  
         Uinf = 0.01                     % (m/s) normalization velocity
         
@@ -71,6 +71,9 @@ classdef FFD < handle
         
         ApStar
         DStar
+        Austar              % intermediate operator for the velocity correction
+        p                   % pressure for the velocity correction
+        u
         
         
         
@@ -192,6 +195,10 @@ classdef FFD < handle
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
                          obj.AzStar] \[obj.Nr; obj.Nz];                      
+                    
+            % set boundary conditions
+            applyUrBoundaries(obj);
+            applyUzBoundaries(obj);                       
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
@@ -288,7 +295,8 @@ classdef FFD < handle
             omega5 = [omega5;Omega5_LowerGhostPoint;zeros(mr,1)];
             ArStar = spdiags([omega1, omega2, omega3,...
                          omega4, omega5], ...
-                         [0, 1, mr, -1, -mr], tnmr,  tnmr);    
+                         [0, 1, mr, -1, -mr], tnmr,  tnmr);  
+                               
         end
         function computeArStar(obj)
             % evaluates state matrix for intermediate r-velocity comp.
@@ -857,6 +865,25 @@ classdef FFD < handle
             
             % prescribed boundary point for controling matrix rank
             obj.DStar(end-1) = NaN; %1;
+        end
+        
+        function computepressure(obj)
+            obj.p = [obj.ApStar]\[obj.DStar]*[obj.Ustar];
+    
+        end
+        
+        function computeAustar(obj)
+            
+            Pi1 = -1*obj.dtau/(2*obj.drbar); Pi2 = -1*obj.dtau/(2*obj.dzbar); 
+            Pi3 = 1*obj.dtau/(2*obj.drbar); Pi4 = 1*obj.dtau/(2*obj.dzbar);
+            
+            obj.Austar = spdiags([Pi2*ones(nm, 1), Pi1*ones(nm, 1)], [Pi3*ones(nm, 1), Pi4*ones(nm, 1)],...
+                              [m, -m], nm, nm);
+        end
+        
+        function computeu(obj)
+            obj.u = [obj.Ustar]-[obj.Austar]*[obj.p];
+    
         end
        
     end

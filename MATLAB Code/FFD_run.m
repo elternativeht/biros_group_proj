@@ -25,6 +25,7 @@ rbar_new2 = FFD_test.rbar; zbar_new2 = FFD_test.zbar;
 % updated. e.g. rbar and zbar in this case
 
 % testing iterateUrStar method in FFD
+
 UstarTest1 = FFD_test.Ustar;
 FFD_test.computeUStar;
 UstarTest2 = FFD_test.Ustar;
@@ -34,3 +35,11 @@ NrTest = reshape(FFD_test.Nr, length(FFD_test.rbar), ...
 AzStarTest = full(FFD_test.AzStar);
 NzTest = reshape(FFD_test.Nz, length(FFD_test.rbar), ...
           length(FFD_test.zbar))';
+
+
+      
+      
+      
+      
+      
+      
