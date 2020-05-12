@@ -178,7 +178,9 @@ classdef FFD < handle
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
             % an implicit-explicit technique.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+            n = length(obj.zbar); m = length(obj.rbar);
+            n_m = (n+1)*m;
+            m_n = (m+1)*n;
             
             % compute intermediate state matrices
             computeArStar(obj);
@@ -187,14 +189,9 @@ classdef FFD < handle
             % compute intermediate advection operators
             computeNr(obj);
             computeNz(obj);
-            
             % compute intermediate r-velocity
-            obj.Ustar = [obj.ArStar, zeros(nm); zeros(nm), obj.AzStar] ...
-                        \[obj.Nr; obj.Nz];
-                    
-            % set boundary conditions
-            applyUrBoundaries(obj);
-            applyUzBoundaries(obj);                       
+            obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
+                         obj.AzStar] \[obj.Nr; obj.Nz];                      
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
@@ -593,57 +590,6 @@ classdef FFD < handle
        %            - ones(nm, 1)./obj.Fr^2;                                 
        % end
         
-        function applyUrBoundaries(obj)
-            % sets boundary conditions for r-velocity at intermediate
-            % computation step.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-            ur = obj.Ustar(1:nm);
-
-            % boundary 1 at z = 1 (free surface)
-            ur(1:m-1) = 0;
-            
-            % boundary 2 at r = 0 (centerline)
-            ur(1:m:end-m) = 0;
-            
-            % boundary 3 at z = 0 (bin opening)
-            [~, ia] = min(abs(obj.a0 - obj.rbar));
-            ur(end-m:end-m+ia) = ur(end-2*m:end-2*m+ia);
-            
-            % boundary 4 at z = 0 (bottom wall)
-            ur(end-m+ia+1:end) = 0;
-            
-            % boundary 5 at r = b (outer radius wall)
-            ur(m:m:end) = 0;
-            
-            % reasign velocity
-            obj.Ustar(1:nm) = ur;                      
-        end
-        
-        function applyUzBoundaries(obj)
-            % sets boundary conditions for r-velocity at intermediate
-            % computation step.
-            n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-            uz = obj.Ustar(nm+1:end);
-            
-            % boundary 1 at z = 1 (free surface)
-            uz(1:m-1) = obj.Uinf;
-            
-            % boundary 2 at r = 0 (centerline)
-            uz(1:m:end-m) = uz(2:m:end-m+1);
-            
-            % boundary 3 at z = 0 (bin opening)
-            [~, ia] = min(abs(obj.a0 - obj.rbar));
-            uz(end-m:end-m+ia) = uz(end-2*m:end-2*m+ia);
-            
-            % boundary 4 at z = 0 (bottom wall)
-            uz(end-m+ia+1:end) = 0;
-            
-            % boundary 5 at r = b (outer radius wall)
-            uz(m:m:end) = 0;
-
-            % reasign velocity
-            obj.Ustar(nm+1:end) = uz;                      
-        end
         
         function [ur, uz, p] = matchCells(obj, base_variable)
             % matches the cells for primitive variables to that of the base
