@@ -918,7 +918,7 @@ classdef FFD < handle
         function computepressure(obj)
             n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
             
-            obj.Pbar = [obj.ApStar]\[obj.DStar]*[obj.Ustar];
+            obj.Pbar = [obj.ApStar].\[obj.DStar].*[obj.Ustar];
     
         end
         
