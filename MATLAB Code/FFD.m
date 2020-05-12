@@ -866,12 +866,12 @@ classdef FFD < handle
                 pause(rr);
                 % save plot if on save time-step
                 if mod(ii, snapK)
-                    captureDimensionalTemp(obj, ii);
+                    captureSpeed(obj, ii);
                 end
             end            
         end
         
-        function captureDimensionalSpeed(obj, k)
+        function captureSpeed(obj, k)
             % plots the dimensional temperature profile over the entire
             % domain at the indicated time step, k
             % compute velocity magnitudes and time that will be ploted                                    
