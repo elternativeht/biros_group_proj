@@ -633,6 +633,7 @@ classdef FFD < handle
             % compute averaging matrices
             [Zr, Zp] = averageUz(obj);
             [Rz, Rp] = averageUr(obj);
+            [Pr, Pz] = averageP(obj);
             
             % shift and align to grid for base primitive variable
             switch base_variable
@@ -641,13 +642,15 @@ classdef FFD < handle
                     ur = obj.Urbar;
                     uz = reshape(Zr*reshape(obj.Uzbar', [], 1), mz, nz)';
                     uz = [NaN*ones(1, mr); uz(:, 2:end)];
-                    p = NaN;
+                    p = reshape(Pr*reshape(obj.Pbar', [], 1), mz, nr)';
+                    p = p(:, 2:end);
                 case 'uz'
                     % snap ur to uz grid
                     ur = reshape(Rz*reshape(obj.Urbar', [], 1), mr, nr)';
                     ur = [NaN*ones(nz, 1), ur(2:end, :)];
                     uz = obj.Uzbar;
-                    p = NaN;
+                    p = reshape(Pz*reshape(obj.Pbar', [], 1), mz, nr)';
+                    p = p(2:end, :);
                 case 'p'
                     % snap ur and uz to p grid
                     ur = reshape(Rp*reshape(obj.Ustar(1:nmr)', [], 1), ...
@@ -708,6 +711,17 @@ classdef FFD < handle
             Rz(nmr*(2*mr-1)+mr:(nmr+1)*mr:end) = 0.5;                        
             Rp(mr:mr:end, :) = 0;            
             Rp((nmr+1)*(mr-1)+1:(nmr+1)*mr:end) = 1;           
+        end
+        
+        function [Pr, Pz] = averageP(obj)
+            % computes averaging matrix for uz and p nodes
+            n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
+            
+            % averaging matrix for 4 p nodes surrounding ur
+            Pr = spdiags(0.5*ones(nm, 2), [0, -1], nm, nm); 
+            
+            % averaging matrix for 4 p nodes surrounding uz
+            Pz = spdiags(0.5*ones(nm, 2), [0, -m], nm, nm);                                
         end
        
         function AzStar = SetApBoundaries(obj,Omegas,np,mp)
