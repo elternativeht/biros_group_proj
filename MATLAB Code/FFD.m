@@ -24,6 +24,8 @@ classdef FFD < handle
         v               % z velocity for all time steps
         
         testAr
+        Dr
+        Dz
         
         % Staggered grid real node number:
         % pressure data is (zMaxIndex-1)-by-(rMaxIndex-1)
@@ -74,8 +76,7 @@ classdef FFD < handle
         ApStar
         DStar
         Austar              % intermediate operator for the velocity correction
-        Dr
-        Dz
+        
         
         % nondimensional terms
         Re                  % Reynolds number w.r.t. Uinf
@@ -201,11 +202,7 @@ classdef FFD < handle
             n = length(obj.zbar); m = length(obj.rbar);
             n_m = (n+1)*m;
             m_n = (m+1)*n;
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 1ef7aea84f42c6c8cb95de36e2a57f3b0bb8202e
             % compute intermediate state matrices
             computeArStar(obj);
             computeAzStar(obj);
@@ -215,15 +212,14 @@ classdef FFD < handle
             computeNz(obj);
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
-<<<<<<< HEAD
-            obj.AzStar] \[obj.Nr; obj.Nz];
+obj.AzStar] \[obj.Nr; obj.Nz];
 
             % set boundary conditions
-            applyUrBoundaries(obj);
-            applyUzBoundaries(obj);
-=======
-                         obj.AzStar] \[obj.Nr; obj.Nz];                                            
->>>>>>> 1ef7aea84f42c6c8cb95de36e2a57f3b0bb8202e
+%             applyUrBoundaries(obj);
+%             applyUzBoundaries(obj);
+% 
+%                    obj.AzStar] \[obj.Nr; obj.Nz];                                            
+
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
@@ -895,7 +891,7 @@ classdef FFD < handle
         function computepressure(obj)
            n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
             
-            obj.Pbar = [obj.ApStar].\[obj.DStar]*[obj.Ustar];
+            obj.Pbar = [obj.ApStar].\[obj.DStar];
     
         end
         
@@ -912,6 +908,9 @@ classdef FFD < handle
 %         end
         
         function computeu(obj)
+           
+           %n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
+           
            n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
             
             computeApStar(obj);
@@ -921,12 +920,13 @@ classdef FFD < handle
             
             computepressure(obj);
             %computeAustar(obj);
-            
-            Dr = obj.diffR(n,m);
-            Dz = obj.diffZ(n,m);
+            D = diffR(obj, n, m);
+            Dr = D;
+            D = diffZ(obj, n, m);
+            Dz = D;
     
-            obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
-            obj.Uzbar = [obj.Ustar(nm+1:2^nm)]-Dz*[obj.Pbar];
+            obj.Urbar = [obj.Ustar(1:nm)]+Dr.*[obj.Pbar];
+            obj.Uzbar = [obj.Ustar(nm+1:2*nm)]+Dz.*[obj.Pbar];
             
         end
         
