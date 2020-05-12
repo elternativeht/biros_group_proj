@@ -919,10 +919,8 @@ obj.AzStar] \[obj.Nr; obj.Nz];
             
             computepressure(obj);
           
-            D = diffR(obj, n, m);
-            Dr = D;
-            D = diffZ(obj, n, m);
-            Dz = D;
+            Dr = diffR(obj, n, m);
+            Dz = diffZ(obj, n, m);
     
             obj.Urbar = [obj.Ustar(1:nm)]+Dr.*[obj.Pbar];
             obj.Uzbar = [obj.Ustar(nm+1:2*nm)]+Dz.*[obj.Pbar];
