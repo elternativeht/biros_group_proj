@@ -20,6 +20,8 @@ classdef FFD < handle
         Ubar            % full velocity vector (KP-04/25)
         Ustar           % intermediate velocity vector (KP-04/25)
         Pbar            % pressure storage 
+        u               % r velocity for all time steps
+        v               % z velocity for all time steps
         
         testAr
         
@@ -120,6 +122,15 @@ classdef FFD < handle
             obj.nu = obj.mu/obj.rhoLoose;  
             obj.Re = obj.H*obj.Uinf/obj.nu;              
             obj.Fr = obj.Uinf/sqrt(obj.g*obj.H);
+            
+            % matrices that contain velocity values at every time step for
+            % all non-ghost points
+            obj.u = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
+            obj.v = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
         end
         function reInitObj(obj)
             % recomputes static variables. should be ran if any of the
@@ -146,6 +157,15 @@ classdef FFD < handle
             obj.nu = obj.mu/obj.rhoLoose;  
             obj.Re = obj.H*obj.Uinf/obj.nu;              
             obj.Fr = obj.Uinf/sqrt(obj.g*obj.H);
+            
+            % matrices that contain velocity values at every time step for
+            % all non-ghost points
+            obj.u = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
+            obj.v = sparse(kron(eye(length(obj.tau)), ... 
+                             ones(length(obj.zbar), ...
+                             length(obj.rbar))));
         end 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % add any additional functions here
@@ -720,6 +740,29 @@ classdef FFD < handle
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % conversions
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function patchVelocity(obj, k_)
+            % combines thetaS, thetaT and thetaC for time step k_
+            n = length(obj.zbar); m = length(obj.rbar);
+            % overlay current r-velocity
+            obj.u(n*(k_-1)+1:n*k_, m*(k_-1)+1:m*k_) ...
+                = obj.Urbar(2:end, :);
+            % overlay current r-velocity
+            obj.v(n*(k_-1)+1:n*k_, m*(k_-1)+1:m*k_) ...
+                = obj.Uzbar(:, 2:end);
+        end
+        
+        function x = uk(obj, k)
+            % returns the r-velocity at every point in the mesh for time k
+            n = length(obj.zbar) - 1; m = length(obj.rbar);
+            x = obj.u(n*(k-1)+1:n*k, m*(k-1)+1:m*k);                       
+        end
+        
+        function x = vk(obj, k)
+            % returns the z-velocity at every point in the mesh for time k
+            n = length(obj.zbar) - 1; m = length(obj.rbar);
+            x = obj.v(n*(k-1)+1:n*k, m*(k-1)+1:m*k);                       
+        end
+        
         function u = uMag(obj, ur, uz)
             % computes the velocity magnitude for input vectors of the same
             % size (ghost points need to be removed prior)
@@ -788,6 +831,76 @@ classdef FFD < handle
             % set backward differencing for bottom boundary
             D(end-(m-1)*(nm+1):nm+1:end) = 1/obj.dzbar;
             D(end-2*m*nm-m:nm+1:end-m*nm) = -1/obj.dzbar;               
+        end
+            
+       
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % plotting
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function animateUMag(obj, plot_filename, rr, snapK)
+            % generates gif that displays velocity magnitude at every time
+            % step
+            if nargin < 4
+                snapK = 1e10;
+            end
+            if nargin < 3
+                rr = 0.5;
+            end
+            if nargin < 2
+                plot_filename = 'uMagPlot.gif';
+            end
+            figure('Units', 'normalized', ...
+            'Position', [0 0 0.4*obj.b 0.4], 'Visible', 'off');            
+            [~, tfigs] = plotZRTemp(obj, thetak(obj, 1), true);
+            ylabel(colorbar, '$\vert u/U_\infty\vert$', 'interpreter', 'latex', ...
+                'FontSize', 18); 
+            caxis([0, 1]);
+            gif(plot_filename, 'frame', gcf);
+            % update sequentially
+            for ii = 1:length(obj.tau)                                      
+                gif;
+                t = obj.tau2t(obj.tau(ii));
+                tfigs.ZData = obj.uMag(obj.uk(k), obj.vk(k)); 
+                title(sprintf('$t$ = %1.0f s', t), 'interpreter', 'latex', ...
+                'FontSize', 14);
+                pause(rr);
+                % save plot if on save time-step
+                if mod(ii, snapK)
+                    captureDimensionalTemp(obj, ii);
+                end
+            end            
+        end
+        
+        function captureDimensionalSpeed(obj, k)
+            % plots the dimensional temperature profile over the entire
+            % domain at the indicated time step, k
+            % compute velocity magnitudes and time that will be ploted                                    
+            u_ = obj.uMag(obj.uk(k), obj.vk(k));
+            t = obj.tau2t(obj.tau(k));
+            [R, Z] = meshgrid(obj.rbar, obj.zbar); 
+            % plot contour
+            fzri = figure('Units', 'normalized', ...
+                'Position', [0 0 0.4*obj.b 0.4], 'Visible', 'off');
+            pzri = surf(R, Z, u_);         
+            xlim([0, max(R(:))])
+            ylim([min(Z(:)), max(Z(:))])
+            pbaspect([obj.b, 1, 1]);  % figure sized proportional to aspect ratio
+            view(0, 90);
+            caxis([0, 1]);
+            colormap(flipud(winter));
+            cb = colorbar;
+            cb.Ruler.MinorTick = 'on';
+            set(pzri, 'linestyle', 'none');
+            ylabel(cb, '$\vert u/U_\infty\vert$', 'interpreter', 'latex', 'FontSize', 18);
+            xlabel('$\overline{r}$', 'interpreter', 'latex', 'FontSize', 24);
+            ylabel('$\overline{z}$', 'interpreter', 'latex', 'FontSize', 24);
+            title(sprintf('$t$ = %1.0f s', t), 'interpreter', 'latex', ...
+                'FontSize', 14);
+            if nargin > 2 && ShowPlot
+                fzri.Visible = 'on';
+            end      
+            % save figure
+            saveas(pzri, sprintf('uMag_%1.0d.png', k));
         end
                
     end
