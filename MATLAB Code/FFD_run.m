@@ -24,14 +24,44 @@ rbar_new2 = FFD_test.rbar; zbar_new2 = FFD_test.zbar;
 % for operations. in an operation, all associated properties will be
 % updated. e.g. rbar and zbar in this case
 
-% testing computeNr and computeNz
-computeNr(FFD_test);
-computeNz(FFD_test);
+% testing stress computation
+n = length(FFD_test.zbar);
+m = length(FFD_test.rbar);
+nm = n*m;
+ur = logspace(0, 1, nm)';
+uz = ones(nm, 1);
+[Srr, Szz, tauR, tauZ] = FFD_test.stress(ur, uz);
 
-test1 = reshape(FFD_test.Nr, size(FFD_test.Urbar, 2), ...
-                         size(FFD_test.Urbar, 1))';
-test2 = reshape(FFD_test.Nz, size(FFD_test.Uzbar, 2), ...
-               size(FFD_test.Uzbar, 1))';
+% testing patchVelocity
+% FFD_test.Urbar = 0.5*ones(FFD_test.zMaxIndex+1, FFD_test.rMaxIndex);
+% FFD_test.patchVelocity(2);
+uTest = full(FFD_test.u);
+vTest = full(FFD_test.v);
+
+% testing captureSpeed and captureStress
+FFD_test.captureSpeed(2);
+FFD_test.captureStress(2);
+
+% testing animateSpeed and animateStress
+FFD_test.animateSpeed();
+FFD_test.animateStress();
+
+% testing animateuMag
+% FFD_test.animateUMag();
+
+% testing computeNr and computeNz
+% computeNr(FFD_test);
+% computeNz(FFD_test);
+% 
+% test1 = reshape(FFD_test.Nr, size(FFD_test.Urbar, 2), ...
+%                          size(FFD_test.Urbar, 1))';
+% test2 = reshape(FFD_test.Nz, size(FFD_test.Uzbar, 2), ...
+%                size(FFD_test.Uzbar, 1))';
+           
+% testing computeDstar
+% computeDstar(FFD_test);
+% test3 = reshape(FFD_test.Dstar, size(FFD_test.Pbar, 2), ...
+%                          size(FFD_test.Pbar, 1))';
 
 % testing iterateUrStar method in FFD
 % UstarTest1 = FFD_test.Ustar;
