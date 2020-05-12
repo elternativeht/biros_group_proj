@@ -116,8 +116,7 @@ classdef FFD < handle
             obj.Ubar = [reshape(obj.Urbar', [], 1); ...
                         reshape(obj.Uzbar', [], 1)];
             obj.Pbar  = zeros(obj.zMaxIndex+1,obj.rMaxIndex+1);
-            
-            
+
             
             obj.tau = 0:obj.dtau:obj.tauEnd;         
             obj.dt = obj.dtau*obj.H/obj.Uinf;
@@ -917,22 +916,37 @@ classdef FFD < handle
         end
         
         function computepressure(obj)
+            n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
+            
             obj.Pbar = [obj.ApStar]\[obj.DStar]*[obj.Ustar];
     
         end
         
         function computeAustar(obj)
+            n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
             
             Pi1 = -1*obj.dtau/(2*obj.drbar); Pi2 = -1*obj.dtau/(2*obj.dzbar); 
             Pi3 = 1*obj.dtau/(2*obj.drbar); Pi4 = 1*obj.dtau/(2*obj.dzbar);
             
             obj.Austar = spdiags([Pi2*ones(nm, 1), Pi1*ones(nm, 1)], [Pi3*ones(nm, 1), Pi4*ones(nm, 1)],...
-                              [m, -m], nm, nm);
+                              [0, -mr, -mr+1, 1], nm, nm);
         end
         
         function computeu(obj)
-            obj.Ubar = [obj.Ustar]-[obj.Austar]*[obj.Pbar];
+            n = length(obj.zbar); m = length(obj.rbar);
+            n_m = (n+1)*m;
+            m_n = (m+1)*n;
+            
+            computeApStar(obj);
+            computeDstar(obj);
+            setDstarBoundaries(obj);
+            
+            computepressure(obj);
+            computeAustar(obj);
     
+            obj.Ubar = [obj.Ustar]-[obj.Austar]*[obj.Pbar];
+            
+            
         end
        
     end
