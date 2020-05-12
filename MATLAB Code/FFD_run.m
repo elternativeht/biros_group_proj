@@ -2,7 +2,7 @@
 % script for testing FFD and methods
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear, clc
-
+delete all
 % % instantiate a new FFD object using
 % FFD_test = FFD();
 % % this will initialize FFD_test with all properties and methods defined in
@@ -37,7 +37,8 @@ clear, clc
 %           length(FFD_test.zbar))';
 
 
-FFD_test = FFD(); FFD_test.computeUStar();c=FFD_test.Ustar;d = FFD_test.Austar; FFD_test.computeu();
+FFD_test = FFD(); FFD_test.computeUStar();
+FFD_test.computeu();
 
 
       

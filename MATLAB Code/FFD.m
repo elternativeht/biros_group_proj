@@ -72,7 +72,8 @@ classdef FFD < handle
         ApStar
         DStar
         Austar              % intermediate operator for the velocity correction
-        
+        Dr
+        Dz
         
         % nondimensional terms
         Re                  % Reynolds number w.r.t. Uinf
@@ -916,39 +917,86 @@ classdef FFD < handle
         end
         
         function computepressure(obj)
-            n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
+           n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
             
-            obj.Pbar = [obj.ApStar].\[obj.DStar].*[obj.Ustar];
+            obj.Pbar = [obj.ApStar].\[obj.DStar]*[obj.Ustar];
     
         end
         
-        function computeAustar(obj)
-            n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
-            
-            Pi1 = -1*obj.dtau/(2*obj.drbar); Pi2 = -1*obj.dtau/(2*obj.dzbar); 
-            Pi3 = 1*obj.dtau/(2*obj.drbar); Pi4 = 1*obj.dtau/(2*obj.dzbar);
-            
-            obj.Austar = spdiags([Pi2*ones(nm, 1), Pi1*ones(nm, 1)], [Pi3*ones(nm, 1), Pi4*ones(nm, 1)],...
-                              [0, -mr, -mr+1, 1], nm, nm);
-                          
-            %obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], [m, -m], nm, nm); 
-        end
+%         function computeAustar(obj)
+%             n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
+%             
+%             Pi1 = -1*obj.dtau/(2*obj.drbar); Pi2 = -1*obj.dtau/(2*obj.dzbar); 
+%             Pi3 = 1*obj.dtau/(2*obj.drbar); Pi4 = 1*obj.dtau/(2*obj.dzbar);
+%             
+%             obj.Austar = spdiags([Pi2*ones(nm, 1), Pi1*ones(nm, 1)], [Pi3*ones(nm, 1), Pi4*ones(nm, 1)],...
+%                               [0, -mr, -mr+1, 1], nm, nm);
+%                           
+%             %obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], [m, -m], nm, nm); 
+%         end
         
         function computeu(obj)
-            n = length(obj.zbar); m = length(obj.rbar);
-            n_m = (n+1)*m;
-            m_n = (m+1)*n;
+           n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
             
             computeApStar(obj);
             computeDstar(obj);
+            %SetApBoundaries(obj);
             setDstarBoundaries(obj);
             
             computepressure(obj);
-            computeAustar(obj);
+            %computeAustar(obj);
+            
+            Dr = obj.diffR(n,m);
+            Dz = obj.diffZ(n,m);
     
-            obj.Ubar = [obj.Ustar]-[obj.Austar]*[obj.Pbar];
+            obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
+            obj.Uzbar = [obj.Ustar(nm+1:2^nm)]-Dz*[obj.Pbar];
             
+        end
+        function D = diffR(obj, n, m)
+            % creates a differential operator for first derivative in r 
+            % dimension with central differencing at internal points 
+            % and forward/backward differencing at boundaries
+            nm = n*m;
             
+            % set central differencing for center points
+            D = spdiags([ones(nm, 1), -ones(nm, 1)], [1, -1], nm, nm);
+            D = D./(2*obj.drbar);
+            
+            % delete boundary entries
+            D(m:m:end, :) = 0;      % r = 0
+            D(m+1:m:end, :) = 0;    % r = b
+            
+            % set forward differencing for left boundary
+            D(1:m*(nm+1):end) = -1/obj.drbar;
+            D(nm+1:m*(nm+1):end) = 1/obj.drbar;
+            
+            % set backward differencing for right boundary
+            D((m-1)*(nm+1)+1:m*(nm+1):end) = 1/obj.drbar;
+            D((m-2)*(nm+1)+2:m*(nm+1):end) = -1/obj.drbar; 
+        end
+        
+        function D = diffZ(obj, n, m)
+            % creates a differential operator for first derivative in z 
+            % dimension with central differencing at internal points 
+            % and forward/backward differencing at boundaries
+            nm = n*m;
+            
+            % set central differencing for center points
+            D = spdiags([ones(nm, 1), -ones(nm, 1)], [m, -m], nm, nm);
+            D = D./(2*obj.dzbar);
+            
+            % delete boundary entries
+            D(1:m, :) = 0;          % z = 0
+            D(end-m+1:end, :) = 0;    % z = 1
+            
+            % set forward differencing for top boundary
+            D(1:nm+1:m*(nm+1)) = -1/obj.dzbar;
+            D(m*nm+1:nm+1:2*m*nm+1) = 1/obj.dzbar;
+            
+            % set backward differencing for bottom boundary
+            D(end-(m-1)*(nm+1):nm+1:end) = 1/obj.dzbar;
+            D(end-2*m*nm-m:nm+1:end-m*nm) = -1/obj.dzbar;               
         end
        
     end
