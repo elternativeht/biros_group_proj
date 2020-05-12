@@ -196,7 +196,7 @@ classdef FFD < handle
 
             % set boundary conditions
             applyUrBoundaries(obj);
-             applyUzBoundaries(obj);
+            applyUzBoundaries(obj);
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
