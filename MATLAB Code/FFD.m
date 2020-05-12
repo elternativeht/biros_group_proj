@@ -72,9 +72,6 @@ classdef FFD < handle
         ApStar
         DStar
         Austar              % intermediate operator for the velocity correction
-        p                   % pressure for the velocity correction
-        u
-        
         
         
         % nondimensional terms
@@ -918,7 +915,7 @@ classdef FFD < handle
         end
         
         function computepressure(obj)
-            obj.p = [obj.ApStar]\[obj.DStar]*[obj.Ustar];
+            obj.Pbar = [obj.ApStar]\[obj.DStar]*[obj.Ustar];
     
         end
         
@@ -932,7 +929,7 @@ classdef FFD < handle
         end
         
         function computeu(obj)
-            obj.u = [obj.Ustar]-[obj.Austar]*[obj.p];
+            obj.Ubar = [obj.Ustar]-[obj.Austar]*[obj.Pbar];
     
         end
        
