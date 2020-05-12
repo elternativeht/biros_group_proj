@@ -717,6 +717,78 @@ classdef FFD < handle
             Rp((nmr+1)*(mr-1)+1:(nmr+1)*mr:end) = 1;           
         end
        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % conversions
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function u = uMag(obj, ur, uz)
+            % computes the velocity magnitude for input vectors of the same
+            % size (ghost points need to be removed prior)
+            u = sqrt(ur.^2 + uz.^2);           
+        end
+        
+        function [Srr, Szz, tauR, tauZ] = stress(obj, ur, uz)
+            % computes strain rates and viscous stress at every point in
+            % given velocity vectors
+            n = length(obj.zbar); m = length(obj.rbar);
+            
+            % compute derivative operators
+            Dr = obj.diffR(n, m);
+            Dz = obj.diffZ(n, m);
+            
+            % compute strain rate with differential operators
+            Srr = Dr*ur;
+            Szz = Dz*uz;
+            
+            % compute viscous stress
+            tauR = 2*obj.mu*Srr;
+            tauZ = 2*obj.mu*Szz;                                          
+        end
+            
+        function D = diffR(obj, n, m)
+            % creates a differential operator for first derivative in r 
+            % dimension with central differencing at internal points 
+            % and forward/backward differencing at boundaries
+            nm = n*m;
+            
+            % set central differencing for center points
+            D = spdiags([ones(nm, 1), -ones(nm, 1)], [1, -1], nm, nm);
+            D = D./(2*obj.drbar);
+            
+            % delete boundary entries
+            D(m:m:end, :) = 0;      % r = 0
+            D(m+1:m:end, :) = 0;    % r = b
+            
+            % set forward differencing for left boundary
+            D(1:m*(nm+1):end) = -1/obj.drbar;
+            D(nm+1:m*(nm+1):end) = 1/obj.drbar;
+            
+            % set backward differencing for right boundary
+            D((m-1)*(nm+1)+1:m*(nm+1):end) = 1/obj.drbar;
+            D((m-2)*(nm+1)+2:m*(nm+1):end) = -1/obj.drbar; 
+        end
+        
+        function D = diffZ(obj, n, m)
+            % creates a differential operator for first derivative in z 
+            % dimension with central differencing at internal points 
+            % and forward/backward differencing at boundaries
+            nm = n*m;
+            
+            % set central differencing for center points
+            D = spdiags([ones(nm, 1), -ones(nm, 1)], [m, -m], nm, nm);
+            D = D./(2*obj.dzbar);
+            
+            % delete boundary entries
+            D(1:m, :) = 0;          % z = 0
+            D(end-m+1:end, :) = 0;    % z = 1
+            
+            % set forward differencing for top boundary
+            D(1:nm+1:m*(nm+1)) = -1/obj.dzbar;
+            D(m*nm+1:nm+1:2*m*nm+1) = 1/obj.dzbar;
+            
+            % set backward differencing for bottom boundary
+            D(end-(m-1)*(nm+1):nm+1:end) = 1/obj.dzbar;
+            D(end-2*m*nm-m:nm+1:end-m*nm) = -1/obj.dzbar;               
+        end
                
     end
              
