@@ -37,7 +37,8 @@ clear, clc
 %           length(FFD_test.zbar))';
 
 
-FFD_test = FFD(); FFD_test.computeUStar();c=FFD_test.Ustar;
+FFD_test = FFD(); FFD_test.computeUStar();c=FFD_test.Ustar;d = FFD_test.Austar; FFD_test.computeu();
+
 
       
       
