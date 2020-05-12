@@ -194,11 +194,7 @@ classdef FFD < handle
             computeNz(obj);
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
-                         obj.AzStar] \[obj.Nr; obj.Nz];                      
-                    
-            % set boundary conditions
-            applyUrBoundaries(obj);
-            applyUzBoundaries(obj);                       
+                         obj.AzStar] \[obj.Nr; obj.Nz];                                            
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
