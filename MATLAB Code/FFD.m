@@ -893,40 +893,31 @@ classdef FFD < handle
         
         function computeu(obj)
             
-            %  computeApStar(obj);
+            n = size(obj.Urbar, 1); m = size(obj.Uzbar, 2); nm = n*m;
+            
+            computeApStar(obj);
             computeDstar(obj);
             setDstarBoundaries(obj);
             
-            computepressure(obj);
+            obj.Pbar = [obj.ApStar]\[obj.DStar]; 
             %computeAustar(obj);
+            
+            p = obj.Pbar; 
+            
+            % match urstar and uzstar cells with p
+            
+            p = reshape(p', [], 1)
+            
+            [~, ~, pr] = obj.matchCells('ur');
+            [~, ~, pz] = obj.matchCells('uz');
+          
             
             Dr = obj.diffR(n,m);
             Dz = obj.diffZ(n,m);
     
             obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
             obj.Uzbar = [obj.Ustar(nm+1:end)]-Dz*[obj.Pbar];
-            
-          obj.Pbar = [obj.ApStar]\[obj.DStar]; 
-          
-          p = obj.Pbar; 
-           
-          [~, ~, pr] = obj.matchCells('ur');
-          [~, ~, pz] = obj.matchCells('uz');
-          
-           
-          % match urstar and uzstar cells with p
-            
-          p = reshape(p', [], 1)
-          zz=length(p)
-          %pz = reshape(p', [], 1);
-%           n = 5; m = 11; nm = n*m;
-%           Dr = diffR(obj, n, m)
-%           obj.Urbar = [obj.Ustar(1:nm)]-Dr.*[obj.Pbar];
-%           
-%           n = 5; m = 11; nm = n*m;
-%           Dz = diffZ(obj, n, m)
-%           obj.Uzbar = [obj.Ustar(nm+1:2*nm)]-Dz*[obj.Pbar];
-%             
+ 
         end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
