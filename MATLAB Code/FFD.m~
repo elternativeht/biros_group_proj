@@ -849,31 +849,29 @@ classdef FFD < handle
             m = size(obj.Pbar, 2);           
             
             % boundary 1 at z = 1 (free surface)
-            obj.DStar(1:m-1) = 0;%1; %0; (updated JH 05-13)
+            obj.DStar(1:m-1) = 1; %0;
             
             % boundary 2 at r = 0 (centerline)
-            obj.DStar(1:m:end-m) = 0;%2; %0;
+            obj.DStar(1:m:end-m) = 2; %0;
             
             % boundary 3 at z = 0 (bin opening)
             [~, ia] = min(abs(obj.a0 - obj.rbar));
-            obj.DStar(end-m:end-m+ia) = 0;%3; %0;
+            obj.DStar(end-m:end-m+ia) = 3; %0;
             
             % boundary 4 at z = 0 (bottom wall)
-            obj.DStar(end-m+ia+1:end) = 0;%4 %0;
+            obj.DStar(end-m+ia+1:end) = 4; %0;
             
             % boundary 5 at r = b (outer radius wall)
-            obj.DStar(m:m:end) = 0; %5;      
+            obj.DStar(m:m:end) = 5; %0;      
             
             % prescribed boundary point for controling matrix rank
-            obj.DStar(end-1) = 0; %6;
+            obj.DStar(end-1) = NaN; %1;
         end
         
         function computepressure(obj)
            n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
-            c= full(obj.ApStar);
-            d = obj.DStar;
-            obj.Pbar = obj.ApStar\obj.DStar;
-            e = obj.Pbar;
+            
+            obj.Pbar = [obj.ApStar].\[obj.DStar]*[obj.Ustar];
     
         end
         
@@ -903,7 +901,7 @@ classdef FFD < handle
             Dz = obj.diffZ(n,m);
     
             obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
-            obj.Uzbar = [obj.Ustar(nm+1:end)]-Dz*[obj.Pbar];
+            obj.Uzbar = [obj.Ustar(nm+1:2^nm)]-Dz*[obj.Pbar];
             
         end
         
@@ -1189,15 +1187,11 @@ classdef FFD < handle
             computeAzStar(obj);
             computeApStar(obj);
             for iter_index = 1:size(obj.tau,2)
-                cur_tau = obj.tau(iter_index); cur_t = obj.tau2t(cur_tau);
+                cur_tau = obj.tau(iter_index); cur_t = tau2t(cur_tau);
                 computeUStar(obj);
                 computeu(obj);
-                patchVelocity(obj,iter_index);
             end
-            captureSpeed(obj,size(obj.tau,2));
-            captureSpeed(obj,size(obj.tau,2));
-            animateSpeed(obj, 'plotSpeed.gif', 1, 1e10);
-            animateStress(obj, 'plotSpeed.gif', 1, 1e10);
+            
         end
     end
              

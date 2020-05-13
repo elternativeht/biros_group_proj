@@ -262,7 +262,7 @@ $$
 
 
 $$
-A_r^*= 
+A_r^*=
 $$
 
   \begin{array}{ccccc}
