@@ -74,8 +74,8 @@ classdef FFD < handle
         ApStar
         DStar
         Austar              % intermediate operator for the velocity correction
-        Dr
-        Dz
+        %Dr
+        %Dz
         
         % nondimensional terms
         Re                  % Reynolds number w.r.t. Uinf
@@ -201,11 +201,7 @@ classdef FFD < handle
             n = length(obj.zbar); m = length(obj.rbar);
             n_m = (n+1)*m;
             m_n = (m+1)*n;
-<<<<<<< HEAD
-
-=======
             
->>>>>>> 1ef7aea84f42c6c8cb95de36e2a57f3b0bb8202e
             % compute intermediate state matrices
             computeArStar(obj);
             computeAzStar(obj);
@@ -215,15 +211,7 @@ classdef FFD < handle
             computeNz(obj);
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
-<<<<<<< HEAD
             obj.AzStar] \[obj.Nr; obj.Nz];
-
-            % set boundary conditions
-            applyUrBoundaries(obj);
-            applyUzBoundaries(obj);
-=======
-                         obj.AzStar] \[obj.Nr; obj.Nz];                                            
->>>>>>> 1ef7aea84f42c6c8cb95de36e2a57f3b0bb8202e
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
             if rowflag ==true
