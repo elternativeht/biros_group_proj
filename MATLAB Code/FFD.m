@@ -894,6 +894,8 @@ classdef FFD < handle
         function computeu(obj)
             
             n = size(obj.Urbar, 1); m = size(obj.Uzbar, 2); nm = n*m;
+            n_1m = (n-1)*m;
+            m_1n = (m-1)*n;
             
             computeApStar(obj);
             computeDstar(obj);
@@ -906,17 +908,20 @@ classdef FFD < handle
             
             % match urstar and uzstar cells with p
             
-            p = reshape(p', [], 1)
+            p = reshape(p', [], 1);
             
             [~, ~, pr] = obj.matchCells('ur');
             [~, ~, pz] = obj.matchCells('uz');
-          
             
-            Dr = obj.diffR(n,m);
-            Dz = obj.diffZ(n,m);
-    
-            obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
-            obj.Uzbar = [obj.Ustar(nm+1:end)]-Dz*[obj.Pbar];
+            pr_ = reshape(pr', [], 1);
+            pz_ = reshape(pz', [], 1);
+            
+            Dr = obj.diffR(n,m-1);
+            Dz = obj.diffZ(n-1,m);
+            
+            c = obj.Ustar(1:m_1n)-Dr*pr_;
+            obj.Urbar = (reshape(obj.Ustar(1:m_1n)-Dr*pr_,m-1,n))';
+            obj.Uzbar = (reshape(obj.Ustar(m_1n+1:end)-Dz*pz_,m,n-1))';
  
         end
         
