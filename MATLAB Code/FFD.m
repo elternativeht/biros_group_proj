@@ -212,7 +212,7 @@ classdef FFD < handle
             computeNz(obj);
             % compute intermediate r-velocity
             obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
-obj.AzStar] \[obj.Nr; obj.Nz];
+            obj.AzStar] \[obj.Nr; obj.Nz];
 
             % set boundary conditions
 %             applyUrBoundaries(obj);
@@ -902,12 +902,6 @@ obj.AzStar] \[obj.Nr; obj.Nz];
             obj.DStar(end-1) = NaN; %1;
         end
         
-        function computepressure(obj)
-           n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
-            
-            obj.Pbar = [obj.ApStar].\[obj.DStar];
-    
-        end
         
 %         function computeAustar(obj)
 %             n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
@@ -922,23 +916,35 @@ obj.AzStar] \[obj.Nr; obj.Nz];
 %         end
         
         function computeu(obj)
-           
-           %n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-           
-           n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
             
-            computeApStar(obj);
-            computeDstar(obj);
-            setDstarBoundaries(obj);
-            
-            computepressure(obj);
+          %n = size(obj.Urbar, 1); m = size(obj.Uzbar, 2); nm = n*m;
+          %n = size(obj.Urbar, 1); m = size(obj.Uzbar, 2); nm = n*m;
           
-            Dr = diffR(obj, n, m);
-            Dz = diffZ(obj, n, m);
-    
-            obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
-            obj.Uzbar = [obj.Ustar(nm+1:2*nm)]-Dz*[obj.Pbar];
+          computeApStar(obj);
+          computeDstar(obj);
+          setDstarBoundaries(obj);
             
+          obj.Pbar = [obj.ApStar]\[obj.DStar]; 
+          
+          p = obj.Pbar; 
+           
+          [~, ~, pr] = obj.matchCells('ur');
+          [~, ~, pz] = obj.matchCells('uz');
+          
+           
+          % match urstar and uzstar cells with p
+            
+          p = reshape(p', [], 1)
+          zz=length(p)
+          %pz = reshape(p', [], 1);
+%           n = 5; m = 11; nm = n*m;
+%           Dr = diffR(obj, n, m)
+%           obj.Urbar = [obj.Ustar(1:nm)]-Dr.*[obj.Pbar];
+%           
+%           n = 5; m = 11; nm = n*m;
+%           Dz = diffZ(obj, n, m)
+%           obj.Uzbar = [obj.Ustar(nm+1:2*nm)]-Dz*[obj.Pbar];
+%             
         end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
