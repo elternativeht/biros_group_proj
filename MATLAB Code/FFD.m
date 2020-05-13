@@ -194,7 +194,7 @@ classdef FFD < handle
         % then it should instead be defined as a property.
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-         function computeUStar(obj)
+        function computeUStar(obj)
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
             % an implicit-explicit technique.
@@ -203,8 +203,8 @@ classdef FFD < handle
             m_n = (m+1)*n;
 
             % compute intermediate state matrices
-            computeArStar(obj);
-            computeAzStar(obj);
+            %   computeArStar(obj);
+            %   computeAzStar(obj);
 
             % compute intermediate advection operators
             computeNr(obj);
@@ -339,32 +339,6 @@ classdef FFD < handle
             
         end
         
-        %function computeNr(obj)
-        %    % computes advection operator for intermediate
-        %    % non-divergence-free r-momentum equation
-        %    n = length(obj.zbar); m = length(obj.rbar); nm = n*m;
-        %    
-        %    OutletNodeNum = sum((obj.rbar)<=obj.a0);
-        %    
-        %    TotalNum = m*(n+1);
-        %    n_1m = m*(n-1);
-        %    % compute diagonal elements of state matrices
-        %    Lambda1 = 1/(2*obj.drbar); Lambda2 = -1/(2*obj.drbar);
-        %    Pi1 = 1/(2*obj.dzbar); Pi2 = -1/(2*obj.dzbar); 
-        %    
-        %    % compile sparse diagonal state matrices
-        %    obj.ArN = spdiags([Lambda1*ones(nm, 1), ...
-        %                       Lambda2*ones(nm, 1)], [1, -1], nm, nm);              
-        %    obj.BrN = spdiags([Pi1*ones(nm, 1), Pi2*ones(nm, 1)], ...
-        %                      [m, -m], nm, nm);             
-        %    Z = spdiags(0.25*ones(nm, 4), [0, m, m-1, -1], nm, nm);
-
-        %    % compute advection operator
-        %    ur = obj.Ubar(1:nm);
-        %    uz = obj.Ubar(nm+1:end);
-        %    obj.Nr = diag(ur)*(obj.ArN*ur - ones(nm, 1)./obj.dtau) ...
-        %        + diag(Z*uz)*obj.BrN*ur;                                 
-        %    end
         
         function AzStar = SetAzBoundaries(obj,Omegas,nz,mz)
             omega1 = Omegas{1};
@@ -877,25 +851,33 @@ classdef FFD < handle
             m = size(obj.Pbar, 2);           
             
             % boundary 1 at z = 1 (free surface)
-            obj.DStar(1:m-1) = 1; %0;
+            obj.DStar(1:m-1) = 0;%1; %0; (updated JH 05-13)
             
             % boundary 2 at r = 0 (centerline)
-            obj.DStar(1:m:end-m) = 2; %0;
+            obj.DStar(1:m:end-m) = 0;%2; %0;
             
             % boundary 3 at z = 0 (bin opening)
             [~, ia] = min(abs(obj.a0 - obj.rbar));
-            obj.DStar(end-m:end-m+ia) = 3; %0;
+            obj.DStar(end-m:end-m+ia) = 0;%3; %0;
             
             % boundary 4 at z = 0 (bottom wall)
-            obj.DStar(end-m+ia+1:end) = 4; %0;
+            obj.DStar(end-m+ia+1:end) = 0;%4 %0;
             
             % boundary 5 at r = b (outer radius wall)
-            obj.DStar(m:m:end) = 5; %0;      
+            obj.DStar(m:m:end) = 0; %5;      
             
             % prescribed boundary point for controling matrix rank
-            obj.DStar(end-1) = NaN; %1;
+            obj.DStar(end-1) = 0; %6;
         end
         
+        function computepressure(obj)
+           n = size(obj.Pbar, 1); m = size(obj.Pbar, 2); nm = n*m;
+            c= full(obj.ApStar);
+            d = obj.DStar;
+            obj.Pbar = obj.ApStar\obj.DStar;
+            e = obj.Pbar;
+    
+        end
         
 %         function computeAustar(obj)
 %             n = length(obj.zbar); m = length(obj.rbar); nm = (n-1)*(m-1);
@@ -911,12 +893,18 @@ classdef FFD < handle
         
         function computeu(obj)
             
-          %n = size(obj.Urbar, 1); m = size(obj.Uzbar, 2); nm = n*m;
-          %n = size(obj.Urbar, 1); m = size(obj.Uzbar, 2); nm = n*m;
-          
-          computeApStar(obj);
-          computeDstar(obj);
-          setDstarBoundaries(obj);
+            %  computeApStar(obj);
+            computeDstar(obj);
+            setDstarBoundaries(obj);
+            
+            computepressure(obj);
+            %computeAustar(obj);
+            
+            Dr = obj.diffR(n,m);
+            Dz = obj.diffZ(n,m);
+    
+            obj.Urbar = [obj.Ustar(1:nm)]-Dr*[obj.Pbar];
+            obj.Uzbar = [obj.Ustar(nm+1:end)]-Dz*[obj.Pbar];
             
           obj.Pbar = [obj.ApStar]\[obj.DStar]; 
           
@@ -1218,7 +1206,21 @@ classdef FFD < handle
             % save figure
             saveas(pzri, sprintf('stress_%1.0d.png', k));
         end
-       
+        function Main(obj)
+            computeArStar(obj);
+            computeAzStar(obj);
+            computeApStar(obj);
+            for iter_index = 1:size(obj.tau,2)
+                cur_tau = obj.tau(iter_index); cur_t = obj.tau2t(cur_tau);
+                computeUStar(obj);
+                computeu(obj);
+                patchVelocity(obj,iter_index);
+            end
+            captureSpeed(obj,size(obj.tau,2));
+            captureSpeed(obj,size(obj.tau,2));
+            animateSpeed(obj, 'plotSpeed.gif', 1, 1e10);
+            animateStress(obj, 'plotSpeed.gif', 1, 1e10);
+        end
     end
              
 end
