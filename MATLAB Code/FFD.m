@@ -77,7 +77,6 @@ classdef FFD < handle
         DStar
         Austar              % intermediate operator for the velocity correction
         
-        
         % nondimensional terms
         Re                  % Reynolds number w.r.t. Uinf
         Fr                  % Freud number w.r.t Uinf
@@ -214,11 +213,6 @@ classdef FFD < handle
             obj.Ustar = [obj.ArStar, zeros(n_m,m_n); zeros(m_n,n_m),...
             obj.AzStar] \[obj.Nr; obj.Nz];
 
-            % set boundary conditions
-%             applyUrBoundaries(obj);
-%             applyUzBoundaries(obj);
-% 
-%                    obj.AzStar] \[obj.Nr; obj.Nz];                                            
 
         end
         function R = Fill(obj,vec,ncol,value,rowflag,locator,begin_i,stop_i)
