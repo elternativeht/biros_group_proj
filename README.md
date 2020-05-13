@@ -178,7 +178,7 @@ where
 <p align="center"><img src="/tex/1f80ff94ba3536bd1f442bad550ebbcc.svg?invert_in_darkmode&sanitize=true" align=middle width=102.76844655pt height=16.438356pt/></p>
 
 
-<p align="center"><img src="/tex/4b6a890e99567c8b950bdb557619276b.svg?invert_in_darkmode&sanitize=true" align=middle width=37.23741945pt height=16.204986599999998pt/></p>
+<p align="center"><img src="/tex/a7868389e36a601b5ae060b80ff14e58.svg?invert_in_darkmode&sanitize=true" align=middle width=37.23741945pt height=16.204986599999998pt/></p>
 
   <p align="center"><img src="/tex/ab47822fb54cc6808e805fd389e2f511.svg?invert_in_darkmode&sanitize=true" align=middle width=169.03200765pt height=94.2171384pt/></p>
 
