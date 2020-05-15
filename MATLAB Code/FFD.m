@@ -24,8 +24,6 @@ classdef FFD < handle
         v               % z velocity for all time steps
         
         testAr
-        Dr
-        Dz
         
         % Staggered grid real node number:
         % pressure data is (zMaxIndex-1)-by-(rMaxIndex-1)
