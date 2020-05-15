@@ -175,13 +175,14 @@ classdef FFD < handle
                 cur_tau = obj.tau(iter_index); cur_t = obj.tau2t(cur_tau);
                 computeUStar(obj);
                 computeu(obj);
-                patchVelocity(obj,iter_index);
+                patchVelocity(obj,iter_index, 'save', 1);
             end
             captureSpeed(obj,size(obj.tau,2));
             captureSpeed(obj,size(obj.tau,2));
             animateSpeed(obj, 'plotSpeed.gif', 1, 1e10);
             animateStress(obj, 'plotSpeed.gif', 1, 1e10);
         end         
+        
         function computeUStar(obj)
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
@@ -949,7 +950,7 @@ classdef FFD < handle
             t = tau*obj.H/obj.Uinf;
         end
         
-        function patchVelocity(obj, k_)
+        function patchVelocity(obj, k_, save)
             % combines thetaS, thetaT and thetaC for time step k_
             n = length(obj.zbar); m = length(obj.rbar);
             % overlay current r-velocity
@@ -958,6 +959,10 @@ classdef FFD < handle
             % overlay current r-velocity
             obj.v(n*(k_-1)+1:n*k_, m*(k_-1)+1:m*k_) ...
                 = obj.Uzbar(:, 2:end);
+            if save
+                save('u.mat', obj.u);
+                save('v.mat', obj.v);
+            end
         end
         
         function x = uk(obj, k)
