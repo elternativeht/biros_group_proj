@@ -169,31 +169,21 @@ classdef FFD < handle
                              ones(length(obj.zbar), ...
                              length(obj.rbar))));
         end 
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % add any additional functions here
-        % as a general rule, try to keep the number of operations for 
-        % each method at a minimum. if a function is more than ~10 lines
-        % then it should probably be split into multiple methods.
-        % in general, the methods can be treated as a typical matlab
-        % function with the acception of the method for passing in
-        % properties. the general form for functions that have an output is
-        function x = exampleFunction(obj, input1, input2)
-            x = input1*obj.Re + input2*obj.Fr;
-        end
-        % and the general form for operations is
-        function exampleOperation(obj, input1, input2)
-            % updates meshed domain
-            obj.rbar = 1e-6:obj.drbar:input1;
-            obj.zbar = 0:obj.dzbar:input2;
-            reInitObj(obj);
-        end
-        % where the inputs are just arbitrary variables that aren't defined
-        % as properties. it is typically a good practice to limit the usage
-        % of these and instead just operate with class properties. if a
-        % non-property variable is being passed into multiple functions 
-        % then it should instead be defined as a property.
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        function Main(obj)
+            computeArStar(obj);
+            computeAzStar(obj);
+            computeApStar(obj);
+            for iter_index = 1:size(obj.tau,2)
+                cur_tau = obj.tau(iter_index); cur_t = obj.tau2t(cur_tau);
+                computeUStar(obj);
+                computeu(obj);
+                patchVelocity(obj,iter_index);
+            end
+            captureSpeed(obj,size(obj.tau,2));
+            captureSpeed(obj,size(obj.tau,2));
+            animateSpeed(obj, 'plotSpeed.gif', 1, 1e10);
+            animateStress(obj, 'plotSpeed.gif', 1, 1e10);
+        end         
         function computeUStar(obj)
             % computes the intermediate non-divergence free r velocity
             % component by solving the decoupled r-momentum equation with
@@ -1181,21 +1171,7 @@ classdef FFD < handle
             % save figure
             saveas(pzri, sprintf('stress_%1.0d.png', k));
         end
-        function Main(obj)
-            computeArStar(obj);
-            computeAzStar(obj);
-            computeApStar(obj);
-            for iter_index = 1:size(obj.tau,2)
-                cur_tau = obj.tau(iter_index); cur_t = obj.tau2t(cur_tau);
-                computeUStar(obj);
-                computeu(obj);
-                patchVelocity(obj,iter_index);
-            end
-            captureSpeed(obj,size(obj.tau,2));
-            captureSpeed(obj,size(obj.tau,2));
-            animateSpeed(obj, 'plotSpeed.gif', 1, 1e10);
-            animateStress(obj, 'plotSpeed.gif', 1, 1e10);
-        end
+        
     end
              
 end
