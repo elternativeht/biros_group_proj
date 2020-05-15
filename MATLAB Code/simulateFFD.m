@@ -29,6 +29,18 @@ binFFD.dzbar = 0.05;        % non-dimensional z mesh length
 binFFD.dtau = 1e-7;         % non-dimensional simulation time step
 binFFD.tauEnd = 1e-6;       % non-dimensional simulation end time
 
-
+% reinitialize binFFD to account for variable changes
+reInitObj(binFFD);
 
 % run funnel flow discharge simulation
+simulateFFD(binFFD);
+
+
+
+
+
+
+
+
+
+
