@@ -167,7 +167,7 @@ classdef FFD < handle
                              ones(length(obj.zbar), ...
                              length(obj.rbar))));
         end 
-        function Main(obj)
+        function simulateFFD(obj)
             computeArStar(obj);
             computeAzStar(obj);
             computeApStar(obj);
