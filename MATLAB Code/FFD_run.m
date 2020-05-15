@@ -37,8 +37,7 @@ delete all
 %           length(FFD_test.zbar))';
 
 
-FFD_test = FFD(); FFD_test.computeUStar();
-FFD_test.computeu();
+FFD_test=FFD();FFD_test.Main();
 
 
       
