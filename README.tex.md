@@ -535,8 +535,7 @@ K. F. Zhang and  J. Y. OOi (1998) investigated the kinematic constant, B, as a f
 ## Kaden's presentation equations
 velocity purterbations:
 
-$$\hat{u}_r^k = u_r^k + \epsilon_r^k$$
-$$\hat{u}_r^* = u_r^* + \epsilon_r^*$$
+$$\hat{u}_r^k = u_r^k + \epsilon_r^k$$ $$\hat{u}_r^* = u_r^* + \epsilon_r^*$$
 
 wanting to solve for condition that satisfies
 
@@ -560,7 +559,7 @@ $$a_r = \frac{h}{2\Delta r}$$
 
 $$a_z = \frac{h}{2\Delta z}$$
 
-$$d_{r1} = frac{h}{2Re\:r_{ij}\Delta r}$$
+$$d_{r1} = \frac{h}{2Re\:r_{ij}\Delta r}$$
 
 $$d_{r2} = \frac{h}{Re(\Delta r)^2}$$
 
