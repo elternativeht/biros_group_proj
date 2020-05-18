@@ -178,10 +178,10 @@ where
 <p align="center"><img src="/tex/1f80ff94ba3536bd1f442bad550ebbcc.svg?invert_in_darkmode&sanitize=true" align=middle width=102.76844655pt height=16.438356pt/></p>
 
 
-   $$A_r^*=$$
-   
-  <p align="center"><img src="/tex/ca2734ad8d4b0eb5efe5550fbb32edba.svg?invert_in_darkmode&sanitize=true" align=middle width=131.77355565pt height=188.4931719pt/></p>
+<p align="center"><img src="/tex/4b6a890e99567c8b950bdb557619276b.svg?invert_in_darkmode&sanitize=true" align=middle width=37.23741945pt height=16.204986599999998pt/></p>
 
+  <p align="center"><img src="/tex/eefd9d38c4ac20bfabf21863ccc355ca.svg?invert_in_darkmode&sanitize=true" align=middle width=169.03200765pt height=94.2171384pt/></p>
+  
 
 
 
@@ -200,6 +200,18 @@ Like radial, axial momentum equation discretization is shown below:
 
 
 <p align="center"><img src="/tex/367c48c6b0933d14354735ee9dc78818.svg?invert_in_darkmode&sanitize=true" align=middle width=309.64548614999995pt height=37.1774601pt/></p>
+
+
+<p align="center"><img src="/tex/de8ab136d31a42813bc82f0c7e793334.svg?invert_in_darkmode&sanitize=true" align=middle width=421.9259055pt height=39.8302311pt/></p>
+
+<p align="center"><img src="/tex/4901b351c36504d34724265b78f0a753.svg?invert_in_darkmode&sanitize=true" align=middle width=524.2081696500001pt height=55.9874799pt/></p>
+
+<p align="center"><img src="/tex/948260ab6f92cb8397a91b0602178826.svg?invert_in_darkmode&sanitize=true" align=middle width=417.15232184999996pt height=39.8302311pt/></p>
+
+<p align="center"><img src="/tex/09c041205d15e51546ad04e7fa294567.svg?invert_in_darkmode&sanitize=true" align=middle width=483.47846415pt height=43.9398201pt/></p>
+
+
+<p align="center"><img src="/tex/a8c7eb7c20a9657f030bc08ce698ef59.svg?invert_in_darkmode&sanitize=true" align=middle width=335.76136275pt height=39.8144505pt/></p>
 
 
 
@@ -361,3 +373,23 @@ The results of our numerical scheme are compard to the results of K. F. Zhang an
 K. F. Zhang and  J. Y. OOi (1998) investigated the kinematic constant, B, as a function of various particle parameters. Has been shown to most closely related to particle size. The kinematic eqn they use is identical to the 1D unsteady heat conduction equation. 
 
 [1]:	https://www.overleaf.com/read/hzzczmvjnnht
+
+## Kaden's presentation equations
+velocity purterbations:
+
+<p align="center"><img src="/tex/17d1c3e98466abfef386292dcfc3d1cc.svg?invert_in_darkmode&sanitize=true" align=middle width=90.9436704pt height=18.84197535pt/></p>
+<p align="center"><img src="/tex/9d5f3fb79dd3f4455ba83878d65f9650.svg?invert_in_darkmode&sanitize=true" align=middle width=89.35112505pt height=16.204986599999998pt/></p>
+
+wanting to solve for condition that satisfies
+
+<p align="center"><img src="/tex/c968f24d9714c59f6b9b82e6e7963ec9.svg?invert_in_darkmode&sanitize=true" align=middle width=103.7759712pt height=39.452455349999994pt/></p>
+
+Step 1: solve for discrete perturbation equation in the form of
+
+<p align="center"><img src="/tex/fa7cd0203fd142539edd2d956df7ed5a.svg?invert_in_darkmode&sanitize=true" align=middle width=251.34905895pt height=18.88772655pt/></p>
+
+Step 2: plug in the general solution of the form
+
+<p align="center"><img src="/tex/d5704547ac09b566ab743e239324936d.svg?invert_in_darkmode&sanitize=true" align=middle width=393.95759369999996pt height=48.2027964pt/></p>\left\vert G\right\vert^2 = \left\vert \frac{V^*}{V^k}\right\vert^2 = \frac{1 + 4(a_r\sin{\phi_r} + a_z\sin{\phi_z})}{(2d_{dr1}\sin{\phi_r})^2 + (1 - 2d_{r2}(1-\cos{\phi_r}) - 2d_z(1 - cos{\phi_z}))^2}<p align="center"><img src="/tex/b2f9ca370ea44423733af26ac509699b.svg?invert_in_darkmode&sanitize=true" align=middle width=42.05492115pt height=11.4155283pt/></p>a_r = \frac{h}{2\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>a_z = \frac{h}{2\Delta z}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r1} = frac{h}{2Re\:r_{ij}\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r2} = \frac{h}{Re(\Delta r)^2}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{z} = \frac{h}{Re(\Delta z)^2}$$
+
+
