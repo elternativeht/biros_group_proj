@@ -531,3 +531,39 @@ The results of our numerical scheme are compard to the results of K. F. Zhang an
 K. F. Zhang and  J. Y. OOi (1998) investigated the kinematic constant, B, as a function of various particle parameters. Has been shown to most closely related to particle size. The kinematic eqn they use is identical to the 1D unsteady heat conduction equation. 
 
 [1]:	https://www.overleaf.com/read/hzzczmvjnnht
+
+## Kaden's presentation equations
+velocity purterbations:
+
+$$\hat{u}_r^k = u_r^k + \epsilon_r^k$$
+$$\hat{u}_r^* = u_r^* + \epsilon_r^*$$
+
+wanting to solve for condition that satisfies
+
+$$\left\vert\frac{\epsilon_r^*}{\epsilon_r^k}\right\vert = \left\vert G\right\vert \leq 1$$
+
+Step 1: solve for discrete perturbation equation in the form of
+
+$$f(\epsilon_r^*, h, \Delta z, \Delta r) = N(\epsilon_r^k, h, \Delta z, \Delta r)$$
+
+Step 2: plug in the general solution of the form
+
+$$\epsilon_{r,ij} = Ve^{I(\phi_zi + \phi_rj)}
+
+Step 3: solve for expression representing the gain
+
+$$\left\vert G\right\vert^2 = \left\vert \frac{V^*}{V^k}\right\vert^2 = \frac{1 + 4(a_r\sin{\phi_r} + a_z\sin{\phi_z})}{(2d_{dr1}\sin{\phi_r})^2 + (1 - 2d_{r2}(1-\cos{\phi_r}) - 2d_z(1 - cos{\phi_z}))^2}$$
+
+where
+
+$$a_r = \frac{h}{2\Delta r}$$
+
+$$a_z = \frac{h}{2\Delta z}$$
+
+$$d_{r1} = frac{h}{2Re\:r_{ij}\Delta r}$$
+
+$$d_{r2} = \frac{h}{Re(\Delta r)^2}$$
+
+$$d_{z} = \frac{h}{Re(\Delta z)^2}$$
+
+
