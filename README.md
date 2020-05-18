@@ -389,7 +389,7 @@ Step 1: solve for discrete perturbation equation in the form of
 
 Step 2: plug in the general solution of the form
 
-<p align="center"><img src="/tex/3de9fa35e4185a91a8bc16e290a0231e.svg?invert_in_darkmode&sanitize=true" align=middle width=137.778069pt height=20.1205785pt/></p>
+<p align="center"><img src="/tex/212d7382a9255dae1154a8c6b662959f.svg?invert_in_darkmode&sanitize=true" align=middle width=137.778069pt height=20.1205785pt/></p>
 
 Step 3: solve for expression representing the gain
 
