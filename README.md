@@ -389,6 +389,22 @@ Step 1: solve for discrete perturbation equation in the form of
 
 Step 2: plug in the general solution of the form
 
-<p align="center"><img src="/tex/d5704547ac09b566ab743e239324936d.svg?invert_in_darkmode&sanitize=true" align=middle width=393.95759369999996pt height=48.2027964pt/></p>\left\vert G\right\vert^2 = \left\vert \frac{V^*}{V^k}\right\vert^2 = \frac{1 + 4(a_r\sin{\phi_r} + a_z\sin{\phi_z})}{(2d_{dr1}\sin{\phi_r})^2 + (1 - 2d_{r2}(1-\cos{\phi_r}) - 2d_z(1 - cos{\phi_z}))^2}<p align="center"><img src="/tex/b2f9ca370ea44423733af26ac509699b.svg?invert_in_darkmode&sanitize=true" align=middle width=42.05492115pt height=11.4155283pt/></p>a_r = \frac{h}{2\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>a_z = \frac{h}{2\Delta z}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r1} = \frac{h}{2Re\:r_{ij}\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r2} = \frac{h}{Re(\Delta r)^2}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{z} = \frac{h}{Re(\Delta z)^2}$$
+<p align="center"><img src="/tex/3de9fa35e4185a91a8bc16e290a0231e.svg?invert_in_darkmode&sanitize=true" align=middle width=137.778069pt height=20.1205785pt/></p>
+
+Step 3: solve for expression representing the gain
+
+<p align="center"><img src="/tex/8e7eb8501bdc23d55761b0d3c6c3d5f1.svg?invert_in_darkmode&sanitize=true" align=middle width=526.973238pt height=42.80409375pt/></p>
+
+where
+
+<p align="center"><img src="/tex/e7d80853711396632a004ec994905f2b.svg?invert_in_darkmode&sanitize=true" align=middle width=69.64953929999999pt height=33.81208709999999pt/></p>
+
+<p align="center"><img src="/tex/17affaee87d94e6a6af4ef676267c895.svg?invert_in_darkmode&sanitize=true" align=middle width=70.4391567pt height=33.81208709999999pt/></p>
+
+<p align="center"><img src="/tex/38c99eed7e95cd1e4d27af473d6bc081.svg?invert_in_darkmode&sanitize=true" align=middle width=118.97798055pt height=38.5152603pt/></p>
+
+<p align="center"><img src="/tex/cb54a838fd16f49988cdc2da6071942e.svg?invert_in_darkmode&sanitize=true" align=middle width=108.2721486pt height=37.9216761pt/></p>
+
+<p align="center"><img src="/tex/4f154538c8bd9cffcf89265a7b03e561.svg?invert_in_darkmode&sanitize=true" align=middle width=102.50924144999999pt height=37.9216761pt/></p>
 
 
