@@ -547,7 +547,7 @@ $$f(\epsilon_r^*, h, \Delta z, \Delta r) = N(\epsilon_r^k, h, \Delta z, \Delta r
 
 Step 2: plug in the general solution of the form
 
-$$\epsilon_{r,ij} = Ve^{I(\phi_zi + \phi_rj)}$$
+$$\epsilon_{r,ij} = Ve^{I(\phi_z i + \phi_r j)}$$
 
 Step 3: solve for expression representing the gain
 
