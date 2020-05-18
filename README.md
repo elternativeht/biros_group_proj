@@ -377,8 +377,7 @@ K. F. Zhang and  J. Y. OOi (1998) investigated the kinematic constant, B, as a f
 ## Kaden's presentation equations
 velocity purterbations:
 
-<p align="center"><img src="/tex/17d1c3e98466abfef386292dcfc3d1cc.svg?invert_in_darkmode&sanitize=true" align=middle width=90.9436704pt height=18.84197535pt/></p>
-<p align="center"><img src="/tex/9d5f3fb79dd3f4455ba83878d65f9650.svg?invert_in_darkmode&sanitize=true" align=middle width=89.35112505pt height=16.204986599999998pt/></p>
+<p align="center"><img src="/tex/17d1c3e98466abfef386292dcfc3d1cc.svg?invert_in_darkmode&sanitize=true" align=middle width=90.9436704pt height=18.84197535pt/></p> <p align="center"><img src="/tex/9d5f3fb79dd3f4455ba83878d65f9650.svg?invert_in_darkmode&sanitize=true" align=middle width=89.35112505pt height=16.204986599999998pt/></p>
 
 wanting to solve for condition that satisfies
 
@@ -390,6 +389,6 @@ Step 1: solve for discrete perturbation equation in the form of
 
 Step 2: plug in the general solution of the form
 
-<p align="center"><img src="/tex/d5704547ac09b566ab743e239324936d.svg?invert_in_darkmode&sanitize=true" align=middle width=393.95759369999996pt height=48.2027964pt/></p>\left\vert G\right\vert^2 = \left\vert \frac{V^*}{V^k}\right\vert^2 = \frac{1 + 4(a_r\sin{\phi_r} + a_z\sin{\phi_z})}{(2d_{dr1}\sin{\phi_r})^2 + (1 - 2d_{r2}(1-\cos{\phi_r}) - 2d_z(1 - cos{\phi_z}))^2}<p align="center"><img src="/tex/b2f9ca370ea44423733af26ac509699b.svg?invert_in_darkmode&sanitize=true" align=middle width=42.05492115pt height=11.4155283pt/></p>a_r = \frac{h}{2\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>a_z = \frac{h}{2\Delta z}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r1} = frac{h}{2Re\:r_{ij}\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r2} = \frac{h}{Re(\Delta r)^2}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{z} = \frac{h}{Re(\Delta z)^2}$$
+<p align="center"><img src="/tex/d5704547ac09b566ab743e239324936d.svg?invert_in_darkmode&sanitize=true" align=middle width=393.95759369999996pt height=48.2027964pt/></p>\left\vert G\right\vert^2 = \left\vert \frac{V^*}{V^k}\right\vert^2 = \frac{1 + 4(a_r\sin{\phi_r} + a_z\sin{\phi_z})}{(2d_{dr1}\sin{\phi_r})^2 + (1 - 2d_{r2}(1-\cos{\phi_r}) - 2d_z(1 - cos{\phi_z}))^2}<p align="center"><img src="/tex/b2f9ca370ea44423733af26ac509699b.svg?invert_in_darkmode&sanitize=true" align=middle width=42.05492115pt height=11.4155283pt/></p>a_r = \frac{h}{2\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>a_z = \frac{h}{2\Delta z}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r1} = \frac{h}{2Re\:r_{ij}\Delta r}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{r2} = \frac{h}{Re(\Delta r)^2}<p align="center"><img src="/tex/e7e1fce898b1583cb28cc71db94ffdd5.svg?invert_in_darkmode&sanitize=true" align=middle width=0.0pt height=0.0pt/></p>d_{z} = \frac{h}{Re(\Delta z)^2}$$
 
 
